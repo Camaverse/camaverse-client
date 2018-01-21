@@ -2,7 +2,7 @@
   <div>
     <ul class="message-list" v-if="currentRoom">
       <li v-for="msg in currentRoom.messages" :key="msg._id" :class="{tip: (msg.msgType === 'tip')}">
-        <b>{{msg.from.username}}:</b>
+        <b v-if="msg.from">{{displayName(msg.from.username)}}:</b>
         <span v-if="msg.msgType === 'tip'">
           Tipped {{msg.amount}}
         </span>
@@ -12,8 +12,13 @@
       </li>
     </ul>
     <form action="#" @submit.prevent="sendMessage">
-      <input v-model="message" name="content"/>
-      <button class="btn btn-dark" id="btn-send-msg" :disabled="!hasMsg">Send</button>
+      <b-input-group>
+        <b-form-input v-model="message" name="content"></b-form-input>
+        <b-input-group-button slot="right">
+          <b-btn variant="dark" id="btn-send-msg" type="submit">Send</b-btn>
+        </b-input-group-button>
+      </b-input-group>
+
       <b-popover target="btn-send-msg"
                  placement="top"
                  title="Ooops!"
@@ -29,9 +34,13 @@
         </p>
       </b-popover>
     </form>
-    <ul>
 
-    </ul>
+    <audio ref="xsTip" :src="assetBase + 'tip-xs.mp3'"></audio>
+    <audio ref="smTip" :src="assetBase + 'tip-sm.mp3'"></audio>
+    <audio ref="medTip" :src="assetBase + 'tip-med.mp3'"></audio>
+    <audio ref="largeTip" :src="assetBase + 'tip-large.mp3'"></audio>
+    <audio ref="xlTip" :src="assetBase + 'tip-xl.mp3'"></audio>
+
   </div>
 </template>
 
@@ -59,10 +68,12 @@
     },
     data () {
       return {
+        assetBase: 'http://cwl-asset-bucket.s3-website-us-east-1.amazonaws.com/',
         message: '',
         guestLimit: 5,
         showSendMsgDisabled: true,
-        showSendMsgWarning: false
+        showSendMsgWarning: false,
+        tipSounds: ['xs', 'sm', 'med', 'large', 'xl']
       }
     },
     sockets: {
@@ -70,10 +81,22 @@
         this.$store.commit('updateMessages', msg)
       },
       transmitTip (msg) {
-        this.$store.commit('rcvTip', msg)
+        let tip = msg.tip
+        this.$store.commit('rcvTip', tip)
+        this.playTipSound(tip.amount)
       }
     },
     methods: {
+      playTipSound (amount) {
+        if (amount >= 1000) this.$refs.xlTip.play()
+        else if (amount > 499) this.$refs.largeTip.play()
+        else if (amount > 99) this.$refs.medTip.play()
+        else if (amount > 4) this.$refs.smTip.play()
+        else this.$refs.xsTip.play()
+      },
+      displayName (username) {
+        return (username === this.user.username) ? 'You' : username
+      },
       closeSendMsgWarning () {
         this.showSendMsgDisabled = true
         this.showSendMsgWarning = false

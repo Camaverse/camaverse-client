@@ -18,8 +18,8 @@
     data () {
       return {
         login: {
-          password: '',
-          username: ''
+          password: 'royalties',
+          username: 'userx'
         }
       }
     },
@@ -29,12 +29,17 @@
         let url = api.getURL() + '/signin'
         this.$http.post(url, this.login).then((res) => {
           if (res.data.success) {
-            this.$store.commit('setUser', res.data.user)
-            this.$localStorage.set('user', JSON.stringify(res.data.user))
+            this.setUser(res.data.user)
+            this.$root.$emit('bv::hide::modal', 'loginModal')
             this.login.username = ''
             this.login.password = ''
           }
         })
+      },
+      setUser (user) {
+        let userString = JSON.stringify(user)
+        this.$store.commit('setUser', user)
+        this.$localStorage.set('user', userString)
       }
     },
     computed: {

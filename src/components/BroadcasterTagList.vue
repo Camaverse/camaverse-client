@@ -1,22 +1,17 @@
 <template>
   <p class="broadcaster-tags">
-    <a class="broadcaster-tag" href="#" @click.prevent="loadTag(tag)" v-for="tag in currentRoom.tags" :key="tag">#{{tag}}</a>
+    <a class="broadcaster-tag" href="#" @click.prevent="loadTag(tag)" v-for="tag in tags" :key="tag">#{{tag}}</a>
   </p>
 </template>
 <script>
-  import {mapGetters} from 'vuex'
   export default {
-    computed: {
-      ...mapGetters([
-        'currentRoom'
-      ])
-    },
-    name: 'broadcaster-tag-list',
     methods: {
       loadTag (tag) {
         this.$emit('loadTag', tag)
       }
     },
+    name: 'broadcaster-tag-list',
+    props: ['tags'],
     sockets: {
       updateTags (tags) {
         this.$store.commit('updateTags', tags)

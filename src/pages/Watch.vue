@@ -3,7 +3,10 @@
     <div class="flex">
       <div>
         <div class="video-box"></div>
-        <tip-box></tip-box>
+        <div class="flex">
+          <tip-box></tip-box>
+          <get-more-coins></get-more-coins>
+        </div>
       </div>
       <div>
         <h1>{{broadcaster.username}}</h1>
@@ -12,7 +15,7 @@
         </div>
         <div v-else-if="broadcasterPublic">
           <p>{{currentRoom.topic}}</p>
-          <broadcaster-tag-list></broadcaster-tag-list>
+          <broadcaster-tag-list :tags="currentRoom.tags"></broadcaster-tag-list>
           <chat-box></chat-box>
         </div>
       </div>
@@ -25,6 +28,7 @@
   import BroadcasterTagList from '../components/BroadcasterTagList.vue'
   import ChatBox from '../components/ChatBox/ChatBox.vue'
   import TipBox from '../components/TipBox.vue'
+  import GetMoreCoins from '../components/GetMoreCoins'
   import { mapGetters } from 'vuex'
   import {api} from '../config'
 
@@ -38,6 +42,7 @@
       BroadcasterGrid,
       BroadcasterTagList,
       ChatBox,
+      GetMoreCoins,
       TipBox
     },
     created () {
@@ -54,7 +59,6 @@
     },
     sockets: {
       showChange (chatrooms) {
-        console.log('show change', chatrooms)
         this.$store.commit('removeChatRooms')
         this.$store.commit('setChatRooms', chatrooms)
       },
@@ -76,18 +80,19 @@
         'brodcasterPrivate',
         'broadcasterPublic',
         'broadcasterAway',
+        'disableOfflineWarning',
         'user',
-        'viewers'
+        'viewers',
+        'app'
       ])
     },
     methods: {
       leaveRoom () {
-        console.log('leave room')
-        if (this.currentRoom) {
+        if (this.currentRoom && this.user && this.user.slug) {
           let room = this.currentRoom._id
           let user = this.user.slug
-          console.log('leave room emit')
-          this.$socket.emit('leaveRoom', {room, user})
+          let data = {room, user}
+          this.$socket.emit('leaveRoom', data)
         }
       },
       getSlugFromRoute () {
@@ -104,9 +109,9 @@
         req.then(this.updateBroadcasterSuccess)
         return req
       },
-      updateChatRoom (room = this.$store.state.broadcaster.room) {
+      updateChatRoom (room = this.broadcaster.room) {
         let url = api.getURL() + '/chatrooms/' + room
-        let user = this.$store.state.user
+        let user = this.user
         user = { slug: user.slug, username: user.username }
         let req = this.$http.post(url, {user})
         req.then(this.updateChatRoomSuccess)
@@ -128,9 +133,9 @@
           broadcaster: slug
         }
         this.$socket.emit('watcherInit', watch, (data) => {
-          this.$store.commit('setBroadcaster', data.broadcaster)
+          if (data.broadcaster) this.$store.commit('setBroadcaster', data.broadcaster)
           this.$store.commit('removeChatRooms')
-          this.$store.commit('setChatRooms', data.chatrooms)
+          if (data.chatrooms) this.$store.commit('setChatRooms', data.chatrooms)
         })
       }
     }

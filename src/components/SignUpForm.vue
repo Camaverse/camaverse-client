@@ -36,7 +36,6 @@
         this.$http.get(url).then((res) => {
           if (res.data.success) {
             this.$store.commit('resetUser')
-            this.$localStorage.remove('user')
             this.$router.push('/')
           }
         })
@@ -46,7 +45,7 @@
         this.$http.post(url, this.login).then((res) => {
           if (res.data.success) {
             this.$store.commit('setUser', res.data.user)
-            this.$localStorage.set('user', JSON.stringify(res.data.user))
+            this.$root.$emit('bv::hide::modal', 'signupModal')
             this.login.username = ''
             this.login.password = ''
           }

@@ -1,5 +1,5 @@
 <template>
-  <div class="broadcaster-grid-item" :class="'status-' + item.status">
+  <div class="broadcaster-grid-item">
       <img class="broadcaster-thumb" :src="item.images.broadcasterGrid" alt="" />
       <div class="broadcaster-name">
         <small><sub>
@@ -18,14 +18,13 @@
       </div>
       <div class="broadcaster-details outer">
         <p class="broadcaster-quote">{{item.topic}}</p>
-        <broadcaster-tag-list v-on:loadTag="loadTag"></broadcaster-tag-list>
+        <broadcaster-tag-list :tags="item.tags" v-on:loadTag="loadTag"></broadcaster-tag-list>
       </div>
   </div>
 </template>
 <script>
   import BroadcasterTagList from './BroadcasterTagList.vue'
   export default {
-    props: ['item', 'index'],
     components: { BroadcasterTagList },
     filters: {
       pretty: function (value) {
@@ -36,7 +35,8 @@
       loadTag (tag) {
         this.$emit('loadTag', tag)
       }
-    }
+    },
+    props: ['item', 'index']
   }
 </script>
 <style>
@@ -123,6 +123,7 @@
     -o-object-fit: cover;
     object-fit: cover;
   }
+
   .broadcaster-details.inner {
     position: absolute;
     bottom: 0;

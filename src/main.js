@@ -8,12 +8,15 @@ import VueLocalStorage from 'vue-localstorage'
 import {api} from './config'
 import {store} from './store'
 import VueSocketio from 'vue-socket.io'
+import 'vue-awesome/icons'
+import Icon from 'vue-awesome/components/Icon'
 
 Vue.config.productionTip = false
 
 Vue.use(VueResource)
 Vue.use(VueSocketio, api.getSocketURL())
 Vue.use(VueLocalStorage)
+Vue.component('icon', Icon)
 
 /* eslint-disable no-new */
 new Vue({
@@ -23,22 +26,22 @@ new Vue({
   template: '<App/>',
   components: { App },
   created () {
-    let usr = this.$localStorage.get('user')
-    if (usr) {
-      usr = JSON.parse(usr)
-      this.$store.commit('setUser', usr)
-    } else {
-      this.$socket.emit('connect-guest', (err, guest) => {
-        if (err) {
-          console.log(err)
-        } else {
-          this.$store.commit('setUser', guest)
-          this.$localStorage.set('user', JSON.stringify(guest))
-        }
-      })
-    }
+    this.init()
   },
-  sockets: {
-    connect () {}
+  methods: {
+    handleConnectGuest (err, guest) {
+      if (err) console.log(err)
+      else this.setUser(guest)
+    },
+    init () {
+      let usr = this.$localStorage.get('user')
+      if (usr) this.setUser(JSON.parse(usr))
+      else this.$socket.emit('connect-guest', this.handleConnectGuest)
+    },
+    setUser (user) {
+      let userString = JSON.stringify(user)
+      this.$store.commit('setUser', user)
+      this.$localStorage.set('user', userString)
+    }
   }
 })

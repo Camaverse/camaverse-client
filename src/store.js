@@ -6,16 +6,25 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     isLoggedIn: false,
-    user: {},
+    user: {
+      coins: {
+        balance: 0
+      },
+      disableOfflineWarning: false,
+      xp: 0
+    },
     broadcaster: {},
-    broadcasterLists: {},
     chat: {
       selected: null,
       roomsList: [],
       rooms: {}
+    },
+    app: {
+      showMainCoinsForm: false
     }
   },
   getters: {
+    app: state => state.app,
     chat: (state) => state.chat,
     chatRooms: (state) => state.chat.rooms,
     currentMessages: (state) => state.chat.rooms[state.chat.selected].messages,
@@ -29,6 +38,7 @@ export const store = new Vuex.Store({
     currentStatus: (state, getters) => {
       return (!getters.selectedRoom) ? 'offline' : (getters.currentRoom.isAway) ? 'Away' : getters.currentRoom.show
     },
+    disableOfflineWarning: (state) => state.user.disableOfflineWarning,
     viewers: (state, getters) => (getters.currentRoom) ? getters.currentRoom.users.length : 0,
     broadcaster: state => state.broadcaster,
     getBroadcasterList: (state, id) => state.broadcasterLists[id],
@@ -39,9 +49,19 @@ export const store = new Vuex.Store({
     broadcasterOffline: (state) => !state.chat.selected,
     broadcasterPublic: (state, getters) => (getters.currentRoom) ? getters.currentRoom.show === 'public' : false,
     brodcasterPrivate: (state, getters) => (getters.currentRoom) ? getters.currentRoom.show === 'private' : false,
-    broadcasterAway: (state, getters) => (getters.currentRoom) ? getters.currentRoom.isAway : false
+    broadcasterAway: (state, getters) => (getters.currentRoom) ? getters.currentRoom.isAway : false,
+    showMainCoinsForm: state => state.app.showMainCoinsForm
   },
   mutations: {
+    updateShowMainCoinsForm: (state, value) => {
+      Vue.set(state.app, 'showMainCoinsForm', value)
+    },
+    updateOfflineWarning: (state, value) => {
+      Vue.set(state.user, 'disableOfflineWarning', value)
+    },
+    updateCoins: (state, data) => {
+      Vue.set(state.user.coins, 'balance', data.coins.balance)
+    },
     resetUser: (state) => {
       Vue.set(state, 'isLoggedIn', false)
       Vue.set(state, 'user', {})
@@ -74,7 +94,7 @@ export const store = new Vuex.Store({
         let msgCount = room.messages.length
         Vue.set(room.messages, msgCount, msg)
       }
-      console.log('rcvTip', msg)
+      console.log(room.messages)
     },
     removeChatRooms: (state, rooms) => {
       Vue.set(state, 'chat', {
@@ -86,10 +106,12 @@ export const store = new Vuex.Store({
     setChatRooms: (state, rooms) => {
       for (let r in rooms) {
         let room = rooms[r]
-        let count = state.chat.roomsList.length
-        Vue.set(state.chat.rooms, room._id, room)
-        if (state.chat.roomsList.indexOf(room._id) === -1) Vue.set(state.chat.roomsList, count, room._id)
-        if (state.chat.roomsList.length === 1) Vue.set(state.chat, 'selected', room._id)
+        if (room.isOnline) {
+          let count = state.chat.roomsList.length
+          Vue.set(state.chat.rooms, room._id, room)
+          if (state.chat.roomsList.indexOf(room._id) === -1) Vue.set(state.chat.roomsList, count, room._id)
+          if (state.chat.roomsList.length === 1) Vue.set(state.chat, 'selected', room._id)
+        }
       }
     },
     setChatRoom: (state, room) => {
