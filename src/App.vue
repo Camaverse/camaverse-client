@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <notifications group="foo" />
     <header-global id="header-global"></header-global>
     <main id="main">
 

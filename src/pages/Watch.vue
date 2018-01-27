@@ -61,6 +61,9 @@
       showChange (chatrooms) {
         this.$store.commit('removeChatRooms')
         this.$store.commit('setChatRooms', chatrooms)
+        if (this.currentroom) {
+          this.$socket.emit('addUserToRoom', this.currentRoom._id, this.user)
+        }
       },
       setOffline (rooms) {
         this.$store.commit('removeChatRooms')

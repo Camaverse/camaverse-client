@@ -10,9 +10,11 @@ import {store} from './store'
 import VueSocketio from 'vue-socket.io'
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
+import Notification from 'vue-notification'
 
 Vue.config.productionTip = false
 
+Vue.use(Notification)
 Vue.use(VueResource)
 Vue.use(VueSocketio, api.getSocketURL())
 Vue.use(VueLocalStorage)
