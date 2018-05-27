@@ -14,7 +14,7 @@
     props: ['tags'],
     sockets: {
       updateTags (tags) {
-        this.$store.commit('updateTags', tags)
+        this.$store.commit('chat/updateTags', tags)
       }
     }
   }

@@ -1,6 +1,7 @@
 <template>
   <div class="broadcaster-grid-item">
-      <img class="broadcaster-thumb" :src="item.images.broadcasterGrid" alt="" />
+      <img class="broadcaster-thumb" :src="item.images.broadcasterGrid" alt="" v-if="loadImgs" />
+      <div class="broadcaster-thumb" v-if="!loadImgs" />
       <div class="broadcaster-name">
         <small><sub>
           <span v-if="!item.isAway">{{item.status}}</span>
@@ -23,8 +24,14 @@
   </div>
 </template>
 <script>
+  import {mapGetters} from 'vuex'
   import BroadcasterTagList from './BroadcasterTagList.vue'
   export default {
+    computed: {
+      ...mapGetters({
+        loadImgs: 'dev/loadImgs'
+      })
+    },
     components: { BroadcasterTagList },
     filters: {
       pretty: function (value) {
@@ -105,7 +112,6 @@
     opacity: 0;
   }
 
-
   .broadcaster-username {
     margin: 0;
   }
@@ -122,6 +128,11 @@
     height: 140.625px;
     -o-object-fit: cover;
     object-fit: cover;
+    background: #000;
+  }
+
+  .broadcaster-grid-item:hover .broadcaster-thumb {
+    background: #fff;
   }
 
   .broadcaster-details.inner {
