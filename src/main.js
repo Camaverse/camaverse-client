@@ -5,7 +5,6 @@ import VueResource from 'vue-resource'
 import App from './App'
 import router from './router'
 import VueLocalStorage from 'vue-localstorage'
-import {api} from './config'
 import {store} from './store'
 import VueSocketio from 'vue-socket.io'
 import 'vue-awesome/icons'
@@ -16,7 +15,7 @@ Vue.config.productionTip = false
 
 Vue.use(Notification)
 Vue.use(VueResource)
-Vue.use(VueSocketio, api.getSocketURL())
+Vue.use(VueSocketio, process.env.SOCKET_PATH)
 Vue.use(VueLocalStorage)
 Vue.component('icon', Icon)
 
