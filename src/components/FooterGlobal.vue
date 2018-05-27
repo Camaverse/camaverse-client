@@ -1,7 +1,17 @@
 <template>
   <footer class="footer-main">
-    <router-link to="/privacy">Privacy Policy</router-link>
-    <router-link to="/terms">Terms Of Use</router-link>
-    &copy; 2017 ComeWatchLive.com
+    <a :href="assets + 'privacy.html'">Privacy Policy</a>
+    <a :href="assets + 'terms-of-service.html'">Terms Of Use</a>
+    &copy; {{year}} ComeWatchLive.com
   </footer>
 </template>
+<script>
+  export default {
+    data () {
+      return {
+        assets: process.env.ASSETS_PATH,
+        year: (new Date()).getFullYear()
+      }
+    }
+  }
+</script>
