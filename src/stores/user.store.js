@@ -45,18 +45,18 @@ export const user = {
         .catch(this.rejectLogin)
     },
     */
-    logout ({commit, state, rootGetters}) {
+    logout ({commit, state, rootGetters, dispatch}) {
       const logoutURL = process.env.API_PATH + 'users/logout?username=' + state.username
       this._vm.$http.get(logoutURL).then((res) => {
         if (res.ok) {
           commit('reset')
-          this._vm.$localStorage.remove('user')
           if (rootGetters.currentRoom) {
             let room = rootGetters.currentRoom._id
             let user = state.slug
             const socketData = {room, user}
             this._vm.$socket.emit('leaveRoom', socketData)
           }
+          dispatch('initGuest')
           router.push('/')
         }
       })
@@ -64,7 +64,12 @@ export const user = {
     initGuest ({commit, state}) {
       this._vm.$socket.emit('connect-guest', (err, guest) => {
         if (err) console.log(err)
-        else commit('set', guest)
+        else {
+          let userString = JSON.stringify(guest)
+          commit('set', guest)
+          this._vm.$localStorage.remove('user')
+          this._vm.$localStorage.set('user', userString)
+        }
       })
     }
   }
