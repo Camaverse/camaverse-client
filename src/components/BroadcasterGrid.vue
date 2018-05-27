@@ -156,6 +156,7 @@
   }
   .broadcaster-grid-inner {
     font-size: 0;
+    height: 160px;
     margin: 15px 0;
     padding-bottom: 10px;
     position: relative;
