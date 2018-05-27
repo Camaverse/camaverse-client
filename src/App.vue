@@ -5,14 +5,14 @@
     <main id="main">
 
       <!-- Join Modal -->
-      <b-modal id="signupModal" title="Join Now To Tip!" :hide-footer="true">
+      <b-modal id="signupModal" ref="signupModal" title="Join Now To Tip!" :hide-footer="true">
         <div class="flex">
           <sign-up-form></sign-up-form>
         </div>
       </b-modal>
 
       <!-- login modal -->
-      <b-modal id="loginModal" title="Welcome Back!" :hide-footer="true">
+      <b-modal id="loginModal" ref="loginModal" title="Welcome Back!" :hide-footer="true">
         <div class="flex">
           <login-form></login-form>
         </div>
