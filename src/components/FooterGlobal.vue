@@ -1,7 +1,7 @@
 <template>
   <footer class="footer-main">
-    <a :href="assets + 'privacy.html'">Privacy Policy</a>
-    <a :href="assets + 'terms-of-service.html'">Terms Of Use</a>
+    <a :href="assets + 'privacy.html'" target="_blank">Privacy Policy</a>
+    <a :href="assets + 'terms-of-service.html'" target="_blank">Terms Of Use</a>
     &copy; {{year}} ComeWatchLive.com
   </footer>
 </template>
