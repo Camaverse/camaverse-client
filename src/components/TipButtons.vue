@@ -35,22 +35,22 @@
   export default {
     components: {PopOver},
     computed: {
-      ...mapGetters([
-        'broadcaster',
-        'broadcasterOffline',
-        'currentRoom',
-        'user'
-      ]),
+      ...mapGetters({
+        brodcaster: 'broadcaster',
+        currentRoom: 'chat/currentRoom',
+        offline: 'chat/offline',
+        user: 'user'
+      }),
       disableOfflineWarning: {
         get () {
           return this.user.disableOfflineWarning
         },
         set (value) {
-          this.$store.commit('updateOfflineWarning', value)
+          this.$store.commit('user/updateOfflineWarning', value)
         }
       },
       allowShowOfflineMsg () {
-        return !this.disableOfflineWarning && this.broadcasterOffline
+        return !this.disableOfflineWarning && this.offline
       }
     },
     data () {
@@ -80,10 +80,11 @@
         }
       },
       getMoreTokens () {
-        this.$store.commit('updateShowMainCoinsForm', false)
-        this.$store.commit('updateShowMainCoinsForm', true)
+        this.$store.commit('app/updateShowMainCoinsForm', false)
+        this.$store.commit('app/updateShowMainCoinsForm', true)
       },
       handleSendTip (d) {
+        console.log('handleSendTip', d)
         this.selectedTipAmount = null
         this.close()
         if (d.errors) {
@@ -92,14 +93,8 @@
             this.showNotEnoughTokens = true
           }
         } else {
-          let coins = {
-            coins: {
-              balance: d.balance
-            }
-          }
-          this.$store.commit('updateCoins', coins)
-          this.$store.commit('rcvTip', d.tip)
-          this.setUser(this.user)
+          this.$store.commit('coins/updateCoins', d.balance)
+          this.$store.commit('chat/rcvTip', d.tip)
         }
       },
       sendOfflineTip () {
@@ -107,6 +102,7 @@
       },
       emitTip (amount) {
         let tip = this.createTip(amount)
+        console.log(tip)
         this.$socket.emit('sendTip', tip, this.handleSendTip)
       },
       sendTip (amount) {
@@ -119,7 +115,7 @@
       },
       setUser (user) {
         let userString = JSON.stringify(user)
-        this.$store.commit('setUser', user)
+        this.$store.commit('user/set', user)
         this.$localStorage.set('user', userString)
       }
     },

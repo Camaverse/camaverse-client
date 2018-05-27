@@ -22,13 +22,13 @@ export default {
         return this.$store.state.app.showMainCoinsForm
       },
       set (value) {
-        this.$store.commit('updateShowMainCoinsForm', value)
+        this.$store.commit('app/updateShowMainCoinsForm', value)
       }
     }
   },
   methods: {
     onClose () {
-      this.$store.commit('updateShowMainCoinsForm', false)
+      this.$store.commit('app/updateShowMainCoinsForm', false)
     }
   },
   components: {

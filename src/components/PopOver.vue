@@ -21,9 +21,9 @@ export default {
     BuyCoinsForm
   },
   computed: {
-    ...mapGetters([
-      'isLoggedIn'
-    ])
+    ...mapGetters({
+      isLoggedIn: 'user/isLoggedIn'
+    })
   },
   mixins: [PopOver],
   name: 'cwl-popover',

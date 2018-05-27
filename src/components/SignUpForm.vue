@@ -6,7 +6,7 @@
       <p><input type="password" name="password" placeholder="Password" value="royalties" v-model="signup.password"></p>
       <p><button :disabled="!isSignupValid" class="btn-success btn">Join For Free!</button></p>
       <p>
-        <a href="#" v-b-modal.loginModal>Already A Member? Login</a>
+        <a href="#" v-b-modal.loginModal @click.prevent>Already A Member? Login</a>
       </p>
     </div>
   </form>
@@ -65,10 +65,10 @@
       }
     },
     computed: {
-      ...mapGetters([
-        'isLoggedIn',
-        'user'
-      ]),
+      ...mapGetters({
+        isLoggedIn: 'user/isLoggedIn',
+        user: 'user'
+      }),
       isLoginValid: function () {
         return this.login.password !== '' && this.login.username !== ''
       },

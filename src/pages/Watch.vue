@@ -9,11 +9,14 @@
         </div>
       </div>
       <div>
-        <h1>{{broadcaster.username}}</h1>
-        <div v-if="broadcasterOffline">
-          <h3>Offline</h3>
+        <h1>{{broadcaster}}</h1>
+        <div v-if="offline">
+          <h3 class="text-danger">Offline</h3>
         </div>
-        <div v-else-if="broadcasterPublic">
+        <div v-else-if="public">
+          <div v-if="away">
+            <h3 class="text-warning">Away</h3>
+          </div>
           <p>{{currentRoom.topic}}</p>
           <broadcaster-tag-list :tags="currentRoom.tags"></broadcaster-tag-list>
           <chat-box></chat-box>
@@ -29,7 +32,7 @@
   import ChatBox from '../components/ChatBox/ChatBox.vue'
   import TipBox from '../components/TipBox.vue'
   import GetMoreCoins from '../components/GetMoreCoins'
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapMutations } from 'vuex'
 
   export default {
     filters: {
@@ -58,37 +61,38 @@
     },
     sockets: {
       showChange (chatrooms) {
-        this.$store.commit('removeChatRooms')
-        this.$store.commit('setChatRooms', chatrooms)
+        this.$store.commit('chat/removeChatRooms')
+        this.$store.commit('chat/setChatRooms', chatrooms)
         if (this.currentroom) {
           this.$socket.emit('addUserToRoom', this.currentRoom._id, this.user)
         }
       },
       setOffline (rooms) {
-        this.$store.commit('removeChatRooms')
+        this.$store.commit('chat/removeChatRooms')
       },
       updateTopic (topic) {
         this.$store.commit('updateTopic', topic)
       }
     },
     computed: {
-      ...mapGetters([
-        'chat',
-        'currentRoom',
-        'currentStatus',
-        'broadcaster',
-        'broadcasterStatus',
-        'broadcasterOffline',
-        'brodcasterPrivate',
-        'broadcasterPublic',
-        'broadcasterAway',
-        'disableOfflineWarning',
-        'user',
-        'viewers',
-        'app'
-      ])
+      ...mapGetters({
+        broadcaster: 'broadcaster/username',
+        chat: 'chat',
+        currentRoom: 'chat/currentRoom',
+        currentStatus: 'chat/currentStatus',
+        isLoggedIn: 'user/isLoggedIn',
+        offline: 'chat/offline',
+        public: 'chat/public',
+        away: 'chat/away',
+        user: 'user'
+      })
     },
     methods: {
+      ...mapMutations({
+        removeChatRooms: 'chat/removeChatRooms',
+        setBroadcaster: 'broadcaster/set',
+        setChatrooms: 'chat/setChatRooms'
+      }),
       leaveRoom () {
         if (this.currentRoom && this.user && this.user.slug) {
           let room = this.currentRoom._id
@@ -102,7 +106,7 @@
       },
       updateBroadcasterSuccess (res) {
         let broadcaster = res.data.data
-        this.$store.commit('setBroadcaster', broadcaster)
+        this.$store.commit('broadcaster/set', broadcaster)
         this.updateChatRoom(broadcaster.room)
       },
       updateBroadcaster (slug = this.$route.params.slug) {
@@ -122,22 +126,21 @@
       updateChatRoomSuccess (res) {
         let room = res.data.data.room
         room.messages = res.data.data.messages
-        this.$store.commit('setChatRoom', room)
+        this.$store.commit('chat/setChatRoom', room)
       },
       initPage (to) {
         let slug = (to && to.params && to.params.slug) ? to.params.slug : this.getSlugFromRoute()
         let watch = {
           user: {
-            isLoggedIn: this.user.isLoggedIn,
+            isLoggedIn: this.isLoggedIn,
             slug: this.user.slug,
             username: this.user.username
           },
-          broadcaster: slug
+          qry: {slug}
         }
-        this.$socket.emit('watcherInit', watch, (data) => {
-          if (data.broadcaster) this.$store.commit('setBroadcaster', data.broadcaster)
-          this.$store.commit('removeChatRooms')
-          if (data.chatrooms) this.$store.commit('setChatRooms', data.chatrooms)
+        this.$socket.emit('watchInit', watch, (data) => {
+          if (data.broadcaster) this.setBroadcaster(data.broadcaster)
+          if (data.chatrooms.length) this.setChatrooms(data.chatrooms)
         })
       }
     }

@@ -1,6 +1,6 @@
 <template>
   <div class="tip-box">
-    <div class="flex" v-if="user.isLoggedIn">
+    <div class="flex" v-if="isLoggedIn">
       <div>
         <b-button-group class="mx-1">
           <b-btn @click.prevent variant="warning" class="mr-1">TIP:</b-btn>
@@ -23,7 +23,7 @@
                    placement="left"
                    title="More Tips!"
         @show="close()">
-          <p v-if="broadcasterOffline">
+          <p v-if="offline">
             <strong>{{broadcaster.username}}</strong>
             is offline but will still receive your tip.</p>
           <label><input type="checkbox" v-model="isTipPrivate"> Tip Privately</label>
@@ -53,7 +53,7 @@
       </div>
     </div>
     <div v-else>
-      <a href="#" class="btn btn-warning mr-1" v-b-modal.signupModal>Tip:</a>
+      <a href="#" class="btn btn-warning mr-1" v-b-modal.signupModal @click.prevent>Tip:</a>
       <b-btn v-b-modal.signupModal v-for="tip in tipAmountsGuest" v-text="tip" :key="tip" variant="warning" class="mr-1"></b-btn>
     </div>
   </div>
@@ -71,12 +71,13 @@
       TipBtn
     },
     computed: {
-      ...mapGetters([
-        'broadcaster',
-        'broadcasterOffline',
-        'user',
-        'currentRoom'
-      ]),
+      ...mapGetters({
+        broadcaster: 'broadcaster',
+        currentRoom: 'chat/currentRoom',
+        isLoggedIn: 'user/isLoggedIn',
+        offline: 'chat/offline',
+        user: 'user'
+      }),
       enableCustom () {
         return this.customTipAmount > 0
       }
@@ -111,14 +112,8 @@
             this.showNotEnoughTokens = true
           }
         } else {
-          let data = {
-            coins: {
-              balance: d.balance
-            }
-          }
-          this.$store.commit('updateCoins', data)
+          this.$store.commit('coins/updateCoins', d.balance)
           this.$store.commit('rcvTip', d.tip)
-          this.setUser(this.user)
         }
       },
       sendTip (amount) {
@@ -131,11 +126,6 @@
       },
       setTipAmount (amount) {
         this.customTipAmount = amount
-      },
-      setUser (user) {
-        let userString = JSON.stringify(user)
-        this.$store.commit('setUser', user)
-        this.$localStorage.set('user', userString)
       }
     },
     mixins: [PopOverMixins],
