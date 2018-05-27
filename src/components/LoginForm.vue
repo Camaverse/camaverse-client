@@ -41,8 +41,8 @@
         this.$localStorage.set('user', JSON.stringify(usr))
       },
       handleLogin (res) {
-        if (res.data.success) {
-          this.commitUser(res.data.user)
+        if (res.ok) {
+          this.commitUser(res.data.data.user)
           this.$root.$emit('bv::hide::modal', 'loginModal')
           this.clearLogin()
         }
