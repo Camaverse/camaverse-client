@@ -18,13 +18,12 @@
   </div>
 </template>
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
   export default {
     computed: {
-      ...mapGetters([
-        'broadcaster',
-        'user'
-      ])
+      ...mapGetters({
+        'balance': 'coins/balance'
+      })
     },
     data () {
       return {
@@ -38,38 +37,14 @@
       }
     },
     methods: {
-      buyCoins (coins) {
-        let purchase = this.createPurchase(coins)
-        this.$socket.emit('buyCoins', purchase, this.handleBuyCoins)
-      },
-      createPurchase (coins) {
-        return {
-          units: coins,
-          from: {
-            slug: this.user.slug,
-            username: this.user.username
-          },
-          clientTime: Date.now()
-        }
-      },
-      handleBuyCoins (data) {
-        if (data.errors) {
-          console.log('errors: ', data.errors)
-        } else {
-          this.$store.commit('updateCoins', data)
-          this.setUser(this.user)
-        }
-      },
+      ...mapActions({
+        buyCoins: 'coins/buyCoins'
+      }),
       savings (coins, cost) {
         const fullPricePerCoin = 12.99 / 100
         const regularPriceOfPurchase = coins * fullPricePerCoin
         const savings = (cost * 100) / regularPriceOfPurchase
         return 100 - Math.ceil(savings)
-      },
-      setUser (user) {
-        let userString = JSON.stringify(user)
-        this.$store.commit('setUser', user)
-        this.$localStorage.set('user', userString)
       }
     },
     name: 'buy-coins-form'

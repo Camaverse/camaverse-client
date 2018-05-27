@@ -48,19 +48,20 @@
   import { mapGetters } from 'vuex'
   export default {
     computed: {
-      ...mapGetters([
-        'chatRooms',
-        'currentMessages',
-        'currentRoom',
-        'broadcaster',
-        'user',
-        'selectedRoom'
-      ]),
+      ...mapGetters({
+        broadcaster: 'broadcaster',
+        chatRooms: 'chat/chatRooms',
+        currentMessages: 'chat/currentMessages',
+        currentRoom: 'chat/currentRoom',
+        isLoggedIn: 'user/isLoggedIn',
+        selectedRoom: 'chat/selectedRoom',
+        user: 'user'
+      }),
       hasMsg () {
         return this.message.length
       },
       isAllowed () {
-        return (!this.user.isLoggedIn && this.guestLimit) || this.user.isLoggedIn
+        return (!this.isLoggedIn && this.guestLimit) || this.isLoggedIn
       }
     },
     updated () {
@@ -78,11 +79,11 @@
     },
     sockets: {
       transmitMsg (msg) {
-        this.$store.commit('updateMessages', msg)
+        this.$store.commit('chat/updateMessages', msg)
       },
       transmitTip (msg) {
         let tip = msg.tip
-        this.$store.commit('rcvTip', tip)
+        this.$store.commit('chat/rcvTip', tip)
         this.playTipSound(tip.amount)
       }
     },
@@ -128,7 +129,7 @@
           this.$socket.emit('sendMessage', this.createMsg(), (err) => {
             if (!err) {
               this.resetMsg()
-              if (!this.user.isLoggedIn) this.decreaseLimit()
+              if (!this.isLoggedIn) this.decreaseLimit()
             }
           })
         } else if (!this.guestLimit) {

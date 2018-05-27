@@ -3,9 +3,15 @@
     <div class="login-form-inner">
       <p><input type="username" name="username" placeholder="Username" value="lsharpe" v-model="login.username"></p>
       <p><input type="password" name="password" placeholder="Password" value="royalties" v-model="login.password"></p>
-      <p><button :disabled="!isLoginValid" class="btn btn-primary">Login</button></p>
       <p>
-        <a href="#" v-b-modal.signupModal>Not A Member? Join For Absolutely Free!</a>
+        <button :disabled="!isLoginValid" class="btn btn-primary" id="login-btn">Login</button>
+        <b-popover target="login-btn" placement="bottom" title="Login Failed" :disabled="!showLoginFail"
+                   :show.sync="showLoginFail">
+          Please check you password and username.
+        </b-popover>
+      </p>
+      <p>
+        <a href="#" v-b-modal.signupModal @click.prevent>Not A Member? Join For Absolutely Free!</a>
       </p>
     </div>
   </form>
@@ -16,36 +22,46 @@
   export default {
     data () {
       return {
+        showLoginFail: false,
         login: {
           password: 'royalties',
-          username: 'userx'
+          username: 'user 1'
         }
       }
     },
     name: 'login-form',
     methods: {
-      sendLogin: function () {
-        let url = process.env.API_PATH + '/signin'
-        this.$http.post(url, this.login).then((res) => {
-          if (res.data.success) {
-            this.setUser(res.data.user)
-            this.$root.$emit('bv::hide::modal', 'loginModal')
-            this.login.username = ''
-            this.login.password = ''
-          }
-        })
+      clearLogin () {
+        this.login.username = ''
+        this.login.password = ''
       },
-      setUser (user) {
-        let userString = JSON.stringify(user)
-        this.$store.commit('setUser', user)
-        this.$localStorage.set('user', userString)
+      commitUser (usr) {
+        this.$store.commit('user/set', usr)
+        this.$store.commit('coins/updateCoins', usr.coins)
+        this.$localStorage.set('user', JSON.stringify(usr))
+      },
+      handleLogin (res) {
+        if (res.data.success) {
+          this.commitUser(res.data.user)
+          this.$root.$emit('bv::hide::modal', 'loginModal')
+          this.clearLogin()
+        }
+      },
+      rejectLogin (res) {
+        console.log('REJECT LOGIN', res)
+        this.showLoginFail = true
+      },
+      sendLogin () {
+        let url = process.env.API_PATH + '/users/login'
+        this.$http.post(url, this.login)
+        .then(this.handleLogin)
+        .catch(this.rejectLogin)
       }
     },
     computed: {
-      ...mapGetters([
-        'isLoggedIn',
-        'user'
-      ]),
+      ...mapGetters({
+        isLoggedIn: 'user/isLoggedIn'
+      }),
       isLoginValid: function () {
         return this.login.password !== '' && this.login.username !== ''
       }
