@@ -1,7 +1,7 @@
 export const dev = {
   namespaced: true,
   state: {
-    loadImgs: false
+    loadImgs: true
   },
   getters: {
     loadImgs: state => state.loadImgs

@@ -52,7 +52,7 @@
         this.showLoginFail = true
       },
       sendLogin () {
-        let url = process.env.API_PATH + '/users/login'
+        let url = process.env.API_PATH + 'users/login'
         this.$http.post(url, this.login)
         .then(this.handleLogin)
         .catch(this.rejectLogin)

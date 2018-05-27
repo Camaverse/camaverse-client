@@ -110,13 +110,13 @@
         this.updateChatRoom(broadcaster.room)
       },
       updateBroadcaster (slug = this.$route.params.slug) {
-        let url = process.env.API_PATH + '/broadcasters/' + slug
+        let url = process.env.API_PATH + 'broadcasters/' + slug
         let req = this.$http.get(url)
         req.then(this.updateBroadcasterSuccess)
         return req
       },
       updateChatRoom (room = this.broadcaster.room) {
-        let url = process.env.API_PATH + '/chatrooms/' + room
+        let url = process.env.API_PATH + 'chatrooms/' + room
         let user = this.user
         user = { slug: user.slug, username: user.username }
         let req = this.$http.post(url, {user})

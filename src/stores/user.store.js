@@ -39,14 +39,14 @@ export const user = {
     // todo: make login more global
     /*
     login: function ({commit, state}, params) {
-      const url = process.env.API_PATH + '/users/login'
+      const url = process.env.API_PATH + 'users/login'
       this._vm.$http.post(url, this.params)
         .then(this.handleLogin)
         .catch(this.rejectLogin)
     },
     */
     logout ({commit, state, rootGetters}) {
-      const logoutURL = process.env.API_PATH + '/users/logout?username=' + state.username
+      const logoutURL = process.env.API_PATH + 'users/logout?username=' + state.username
       this._vm.$http.get(logoutURL).then((res) => {
         if (res.data.success) {
           commit('reset')
