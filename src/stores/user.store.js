@@ -48,7 +48,7 @@ export const user = {
     logout ({commit, state, rootGetters}) {
       const logoutURL = process.env.API_PATH + 'users/logout?username=' + state.username
       this._vm.$http.get(logoutURL).then((res) => {
-        if (res.data.success) {
+        if (res.ok) {
           commit('reset')
           this._vm.$localStorage.remove('user')
           if (rootGetters.currentRoom) {
@@ -59,6 +59,12 @@ export const user = {
           }
           router.push('/')
         }
+      })
+    },
+    initGuest ({commit, state}) {
+      this._vm.$socket.emit('connect-guest', (err, guest) => {
+        if (err) console.log(err)
+        else commit('set', guest)
       })
     }
   }

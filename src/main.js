@@ -30,14 +30,10 @@ new Vue({
     this.init()
   },
   methods: {
-    handleConnectGuest (err, guest) {
-      if (err) console.log(err)
-      else this.setUser(guest)
-    },
     init () {
       let usr = this.$localStorage.get('user')
       if (usr) this.setUser(JSON.parse(usr))
-      else this.$socket.emit('connect-guest', this.handleConnectGuest)
+      else this.$store.dispatch('user/initGuest')
     },
     setUser (user) {
       let userString = JSON.stringify(user)
