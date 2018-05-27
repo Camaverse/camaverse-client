@@ -13,7 +13,6 @@
 </template>
 <script>
   import { mapGetters } from 'vuex'
-  import {api} from '../config'
 
   export default {
     data () {
@@ -32,7 +31,7 @@
     name: 'sign-up-form',
     methods: {
       logout: function () {
-        let url = api.getURL() + '/' + this.user.username
+        let url = process.env.API_PATH + '/' + this.user.username
         this.$http.get(url).then((res) => {
           if (res.data.success) {
             this.$store.commit('resetUser')
@@ -41,7 +40,7 @@
         })
       },
       sendLogin: function () {
-        let url = api.getURL() + '/signin'
+        let url = process.env.API_PATH + '/signin'
         this.$http.post(url, this.login).then((res) => {
           if (res.data.success) {
             this.$store.commit('setUser', res.data.user)
@@ -52,7 +51,7 @@
         })
       },
       sendSignup: function () {
-        let url = api.getURL() + '/signup'
+        let url = process.env.API_PATH + '/signup'
         this.$http.post(url, this.signup).then((res) => {
           if (res.data.success) {
             this.login.username = this.signup.username

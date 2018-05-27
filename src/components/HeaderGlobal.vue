@@ -52,7 +52,6 @@
 </style>
 <script>
   import {mapGetters} from 'vuex'
-  import {api} from '../config'
   import PopOver from './MainCoins.popover'
 
   export default {
@@ -72,7 +71,7 @@
         }
       },
       logout: function () {
-        let url = api.getURL() + '/logout/' + this.user.username
+        let url = process.env.API_PATH + '/logout/' + this.user.username
         this.$http.get(url).then((res) => {
           if (res.data.success) {
             this.leaveRoom()

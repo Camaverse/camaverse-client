@@ -30,7 +30,6 @@
   import TipBox from '../components/TipBox.vue'
   import GetMoreCoins from '../components/GetMoreCoins'
   import { mapGetters } from 'vuex'
-  import {api} from '../config'
 
   export default {
     filters: {
@@ -107,13 +106,13 @@
         this.updateChatRoom(broadcaster.room)
       },
       updateBroadcaster (slug = this.$route.params.slug) {
-        let url = api.getURL() + '/broadcasters/' + slug
+        let url = process.env.API_PATH + '/broadcasters/' + slug
         let req = this.$http.get(url)
         req.then(this.updateBroadcasterSuccess)
         return req
       },
       updateChatRoom (room = this.broadcaster.room) {
-        let url = api.getURL() + '/chatrooms/' + room
+        let url = process.env.API_PATH + '/chatrooms/' + room
         let user = this.user
         user = { slug: user.slug, username: user.username }
         let req = this.$http.post(url, {user})

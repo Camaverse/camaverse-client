@@ -12,7 +12,6 @@
 </template>
 <script>
   import { mapGetters } from 'vuex'
-  import {api} from '../config'
 
   export default {
     data () {
@@ -26,7 +25,7 @@
     name: 'login-form',
     methods: {
       sendLogin: function () {
-        let url = api.getURL() + '/signin'
+        let url = process.env.API_PATH + '/signin'
         this.$http.post(url, this.login).then((res) => {
           if (res.data.success) {
             this.setUser(res.data.user)
