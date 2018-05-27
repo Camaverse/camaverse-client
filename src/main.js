@@ -5,7 +5,7 @@ import VueResource from 'vue-resource'
 import App from './App'
 import router from './router'
 import VueLocalStorage from 'vue-localstorage'
-import {store} from './store'
+import {store} from './stores'
 import VueSocketio from 'vue-socket.io'
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
@@ -41,7 +41,8 @@ new Vue({
     },
     setUser (user) {
       let userString = JSON.stringify(user)
-      this.$store.commit('setUser', user)
+      this.$store.commit('user/set', user)
+      if (user.isLoggedIn) this.$store.dispatch('coins/loadCoins')
       this.$localStorage.set('user', userString)
     }
   }
