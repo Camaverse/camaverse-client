@@ -31,13 +31,14 @@ new Vue({
   },
   methods: {
     init () {
-      let usr = this.$localStorage.get('user')
+      const usr = this.$localStorage.get('user')
       if (usr) this.setUser(JSON.parse(usr))
       else this.$store.dispatch('user/initGuest')
     },
     setUser (user) {
-      let userString = JSON.stringify(user)
+      const userString = JSON.stringify(user)
       this.$store.commit('user/set', user)
+      this.$store.commit('coins/updateCoins', user.coins)
       if (user.isLoggedIn) this.$store.dispatch('coins/loadCoins')
       this.$localStorage.set('user', userString)
     }
