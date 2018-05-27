@@ -1,0 +1,24 @@
+import Vue from 'vue'
+
+const defaultVals = {
+  slug: null,
+  username: null
+}
+
+export const broadcaster = {
+  namespaced: true,
+  state: {
+    username: null
+  },
+  getters: {
+    username: state => state.username
+  },
+  mutations: {
+    reset: (state) => {
+      for (let k in defaultVals) Vue.set(state, k, defaultVals[k])
+    },
+    set: (state, obj) => {
+      for (let k in defaultVals) if (obj[k]) Vue.set(state, k, obj[k])
+    }
+  }
+}
