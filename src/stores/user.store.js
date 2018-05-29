@@ -51,9 +51,9 @@ export const user = {
         if (res.ok) {
           commit('reset')
           if (rootGetters.currentRoom) {
-            let room = rootGetters.currentRoom._id
+            let _id = rootGetters.currentRoom._id
             let user = state.slug
-            const socketData = {room, user}
+            const socketData = {_id, user}
             this._vm.$socket.emit('leaveRoom', socketData)
           }
           dispatch('initGuest')
@@ -62,7 +62,7 @@ export const user = {
       })
     },
     initGuest ({commit, state}) {
-      this._vm.$socket.emit('connect-guest', (err, guest) => {
+      this._vm.$socket.emit('guest/init', (err, guest) => {
         if (err) console.log(err)
         else {
           let userString = JSON.stringify(guest)
