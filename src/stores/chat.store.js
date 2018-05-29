@@ -15,7 +15,9 @@ export const chat = {
   },
   getters: {
     chatRooms: (state) => state.rooms,
-    currentMessages: (state) => state.rooms[state.selected].messages,
+    currentMessages: (state) => {
+      return (state.selected) ? state.rooms[state.selected].messages : null
+    },
     currentRoom: (state) => {
       if (state.rooms && state.selected) {
         return state.rooms[state.selected]
@@ -23,13 +25,13 @@ export const chat = {
         return null
       }
     },
-    currentRoomID: (state, getters) => getters.currentRoom._id,
+    currentRoomID: (state, getters) => (getters.currentRoom) ? getters.currentRoom._id : null,
     currentStatus: (state, getters) => {
       return (!getters.selectedRoom) ? 'offline' : (getters.currentRoom.isAway) ? 'Away' : getters.currentRoom.show
     },
     viewers: (state, getters) => (getters.currentRoom && getters.currentRoom.users) ? getters.currentRoom.users.length : 0,
     isInShow: (state, getters) => (getters.currentRoom && getters.currentRoom.isOnline),
-    topic: (state, getters) => getters.currentRoom.topic || null,
+    topic: (state, getters) => (getters.currentRoom && getters.currentRoom.topic) ? getters.currentRoom.topic : null,
     selectedRoom: state => state.selected,
     offline: (state) => !state.selected,
     public: (state, getters) => (getters.currentRoom) ? getters.currentRoom.show === 'public' : false,
@@ -74,7 +76,6 @@ export const chat = {
       Vue.set(state, 'rooms', {})
     },
     setChatRooms: (state, rooms) => {
-      console.log('setChatRooms', rooms)
       for (let r in rooms) {
         let room = rooms[r]
         let count = state.roomsList.length
