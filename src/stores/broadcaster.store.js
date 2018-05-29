@@ -8,9 +8,11 @@ const defaultVals = {
 export const broadcaster = {
   namespaced: true,
   state: {
+    slug: null,
     username: null
   },
   getters: {
+    slug: state => state.slug,
     username: state => state.username
   },
   mutations: {
