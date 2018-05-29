@@ -9,7 +9,7 @@
         </div>
       </div>
       <div>
-        <h1>{{broadcaster}}</h1>
+        <h1 v-if="currentRoom && currentRoom.username">{{currentRoom.username}}</h1>
         <div v-if="offline">
           <h3 class="text-danger">Offline</h3>
         </div>
@@ -95,9 +95,9 @@
       }),
       leaveRoom () {
         if (this.currentRoom && this.user && this.user.slug) {
-          let room = this.currentRoom._id
+          let _id = this.currentRoom._id
           let user = this.user.slug
-          let data = {room, user}
+          let data = {_id, user}
           this.$socket.emit('leaveRoom', data)
         }
       },
@@ -136,11 +136,10 @@
             slug: this.user.slug,
             username: this.user.username
           },
-          qry: {slug}
+          broadcaster: slug
         }
         this.$socket.emit('watchInit', watch, (data) => {
-          if (data.broadcaster) this.setBroadcaster(data.broadcaster)
-          if (data.chatrooms.length) this.setChatrooms(data.chatrooms)
+          if (data.length) this.setChatrooms(data)
         })
       }
     }
