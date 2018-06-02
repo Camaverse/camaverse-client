@@ -2,34 +2,31 @@
   <b-popover :target="target"
              :placement="placement"
              :title="title"
-             :show.sync="showMainCoinsForm"
-             @show="onShow()"
+             :show="mainCoinsFormShowing"
+             @show="showMainCoinsForm"
   >
     <buy-coins-form></buy-coins-form>
 
     <p>
-      <button class="btn btn-danger mt-2" @click="onClose()">Close</button>
+      <button class="btn btn-danger mt-2" @click="hideMainCoinsForm()">Close</button>
     </p>
   </b-popover>
 </template>
 <script>
 import BuyCoinsForm from './BuyCoinsForm'
 import PopOver from '../mixins/poper.mixins'
+import {mapGetters, mapMutations} from 'vuex'
 export default {
   computed: {
-    showMainCoinsForm: {
-      get () {
-        return this.$store.state.app.showMainCoinsForm
-      },
-      set (value) {
-        this.$store.commit('app/updateShowMainCoinsForm', value)
-      }
-    }
+    ...mapGetters({
+      mainCoinsFormShowing: 'app/showMainCoinsForm'
+    })
   },
   methods: {
-    onClose () {
-      this.$store.commit('app/updateShowMainCoinsForm', false)
-    }
+    ...mapMutations({
+      hideMainCoinsForm: 'app/hideMainCoinsForm',
+      showMainCoinsForm: 'app/showMainCoinsForm'
+    })
   },
   components: {
     BuyCoinsForm
