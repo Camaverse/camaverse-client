@@ -12,7 +12,7 @@
   </form>
 </template>
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
 
   export default {
     data () {
@@ -30,38 +30,28 @@
     },
     name: 'sign-up-form',
     methods: {
-      logout: function () {
-        let url = process.env.API_PATH + '' + this.user.username
-        this.$http.get(url).then((res) => {
-          if (res.data.success) {
-            this.$store.commit('resetUser')
-            this.$router.push('/')
-          }
-        })
+      ...mapActions({
+        'loginAction': 'user/login',
+        'register': 'user/register'
+      }),
+      loginUser () {
+        this.login.username = this.signup.username
+        this.login.password = this.signup.password
+        this.loginAction(this.login)
       },
-      sendLogin: function () {
-        let url = process.env.API_PATH + 'signin'
-        this.$http.post(url, this.login).then((res) => {
-          if (res.data.success) {
-            this.$store.commit('setUser', res.data.user)
-            this.$root.$emit('bv::hide::modal', 'signupModal')
-            this.login.username = ''
-            this.login.password = ''
-          }
-        })
+      handleSignup () {
+        this.$root.$emit('bv::hide::modal', 'signupModal')
+        this.signup.username = ''
+        this.signup.password = ''
+        this.signup.email = ''
       },
       sendSignup: function () {
-        let url = process.env.API_PATH + 'signup'
-        this.$http.post(url, this.signup).then((res) => {
-          if (res.data.success) {
-            this.login.username = this.signup.username
-            this.login.password = this.signup.password
-            this.sendLogin()
-            this.signup.username = ''
-            this.signup.password = ''
-            this.signup.email = ''
-          }
-        })
+        this.register(this.signup)
+          .then(() => {
+            this.loginUser()
+            this.handleSignup()
+          })
+          .catch(console.log)
       }
     },
     computed: {
@@ -69,9 +59,6 @@
         isLoggedIn: 'user/isLoggedIn',
         user: 'user'
       }),
-      isLoginValid: function () {
-        return this.login.password !== '' && this.login.username !== ''
-      },
       isSignupValid: function () {
         return this.signup.password !== '' && this.signup.username !== '' && this.signup.email !== ''
       }

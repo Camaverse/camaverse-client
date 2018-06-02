@@ -17,7 +17,7 @@
   </form>
 </template>
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
 
   export default {
     data () {
@@ -31,29 +31,23 @@
     },
     name: 'login-form',
     methods: {
+      ...mapActions({
+        'loginAction': 'user/login'
+      }),
       clearLogin () {
         this.login.username = ''
         this.login.password = ''
       },
-      commitUser (usr) {
-        this.$store.commit('user/set', usr)
-        this.$store.commit('coins/updateCoins', usr.coins)
-        this.$localStorage.set('user', JSON.stringify(usr))
-      },
       handleLogin (res) {
-        if (res.ok) {
-          this.commitUser(res.data.data.user)
-          this.$root.$emit('bv::hide::modal', 'loginModal')
-          this.clearLogin()
-        }
+        this.$root.$emit('bv::hide::modal', 'loginModal')
+        this.clearLogin()
       },
       rejectLogin (res) {
         console.log('REJECT LOGIN', res)
         this.showLoginFail = true
       },
       sendLogin () {
-        let url = process.env.API_PATH + 'users/login'
-        this.$http.post(url, this.login)
+        this.loginAction(this.login)
         .then(this.handleLogin)
         .catch(this.rejectLogin)
       }
