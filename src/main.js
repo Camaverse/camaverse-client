@@ -27,20 +27,6 @@ new Vue({
   template: '<App/>',
   components: { App },
   created () {
-    this.init()
-  },
-  methods: {
-    init () {
-      const usr = this.$localStorage.get('user')
-      if (usr) this.setUser(JSON.parse(usr))
-      else this.$store.dispatch('user/initGuest')
-    },
-    setUser (user) {
-      const userString = JSON.stringify(user)
-      this.$store.commit('user/set', user)
-      this.$store.commit('coins/updateCoins', user.coins)
-      if (user.isLoggedIn) this.$store.dispatch('coins/loadCoins')
-      this.$localStorage.set('user', userString)
-    }
+    this.$store.dispatch('user/initClient')
   }
 })
