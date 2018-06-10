@@ -54,7 +54,7 @@ export const user = {
       const url = process.env.API_PATH + 'users/login'
       return new Promise((resolve, reject) => {
         this._vm.$http.post(url, params)
-        .then((user) => dispatch('handleUserInit', {err: null, user: user.body.data.user}))
+        .then((user, err) => dispatch('handleUserInit', {err: null, user: user.body.data.user}))
         .then(resolve)
         .catch(reject)
       })
@@ -82,9 +82,13 @@ export const user = {
       const user = vue.$localStorage.get('user')
 
       if (!guest && !user) {
-        vue.$socket.emit('/guests/init', (err, guest) => dispatch('handleGuestInit', {err, guest}))
+        vue.$socket.emit('/guests/init', (err, guest) => {
+          return dispatch('handleGuestInit', {err, guest})
+        })
       } else if (user) {
-        vue.$socket.emit('/users/init', JSON.parse(user), (err, user) => dispatch('handleUserInit', {err, user}))
+        vue.$socket.emit('/users/init', JSON.parse(user), (err, user) => {
+          return dispatch('handleUserInit', {err, user: user.data})
+        })
       } else if (guest) {
         dispatch('handleGuestInit', {err: null, guest: JSON.parse(guest)})
       }
@@ -100,14 +104,11 @@ export const user = {
       }
     },
     handleUserInit ({commit, state, dispatch}, {err, user}) {
-      if (err) console.log(err)
-      else {
-        let userString = JSON.stringify(user)
-        this._vm.$localStorage.remove('user')
-        this._vm.$localStorage.set('user', userString)
-        commit('userIsLoaded')
-        dispatch('setUser')
-      }
+      let userString = JSON.stringify(user)
+      this._vm.$localStorage.remove('user')
+      this._vm.$localStorage.set('user', userString)
+      commit('userIsLoaded')
+      dispatch('setUser')
     },
     setUser ({commit, state}) {
       let user
