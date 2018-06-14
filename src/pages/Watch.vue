@@ -76,7 +76,6 @@
     },
     computed: {
       ...mapGetters({
-        broadcaster: 'broadcaster/username',
         chat: 'chat',
         currentRoom: 'chat/currentRoom',
         currentStatus: 'chat/currentStatus',
@@ -90,7 +89,6 @@
     methods: {
       ...mapMutations({
         removeChatRooms: 'chat/removeChatRooms',
-        setBroadcaster: 'broadcaster/set',
         setChatrooms: 'chat/setChatRooms'
       }),
       leaveRoom () {
