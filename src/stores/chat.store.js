@@ -25,6 +25,7 @@ export const chat = {
         return null
       }
     },
+    currentShow: (state, getters) => (getters.currentRoom) ? getters.currentRoom.show : null,
     currentRoomID: (state, getters) => (getters.currentRoom) ? getters.currentRoom._id : null,
     currentStatus: (state, getters) => {
       return (!getters.selectedRoom) ? 'offline' : (getters.currentRoom.isAway) ? 'Away' : getters.currentRoom.show
