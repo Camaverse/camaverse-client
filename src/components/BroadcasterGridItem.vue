@@ -1,7 +1,8 @@
 <template>
   <div class="broadcaster-grid-item">
-      <img class="broadcaster-thumb" :src="item.images.broadcasterGrid" alt="" v-if="loadImgs" />
-      <div class="broadcaster-thumb" v-if="!loadImgs" />
+      <div class="broadcaster-thumb-container">
+        <img class="broadcaster-thumb" :src="item.images.broadcasterGrid" alt="" v-if="loadImgs" />
+      </div>
       <div class="broadcaster-name">
         <small><sub>
           <span v-if="!item.isAway">{{item.status}}</span>
@@ -123,6 +124,7 @@
     padding-right: 10px;
   }
 
+  .broadcaster-thumb-container,
   .broadcaster-thumb {
     width: 250px;
     height: 140.625px;
@@ -131,6 +133,7 @@
     background: #000;
   }
 
+  .broadcaster-grid-item:hover .broadcaster-thumb-container,
   .broadcaster-grid-item:hover .broadcaster-thumb {
     background: #fff;
   }
