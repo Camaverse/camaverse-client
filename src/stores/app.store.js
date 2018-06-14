@@ -13,6 +13,7 @@ export const app = {
       Vue.set(state, 'showMainCoinsForm', false)
     },
     showMainCoinsForm: (state, value) => {
+      Vue.set(state, 'showMainCoinsForm', false)
       Vue.set(state, 'showMainCoinsForm', true)
     }
   }
