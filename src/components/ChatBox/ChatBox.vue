@@ -49,7 +49,6 @@
   export default {
     computed: {
       ...mapGetters({
-        broadcaster: 'broadcaster',
         chatRooms: 'chat/chatRooms',
         currentMessages: 'chat/currentMessages',
         currentRoom: 'chat/currentRoom',
