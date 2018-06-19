@@ -49,6 +49,10 @@
     },
     created () {
       this.initPage()
+      window.onbeforeunload = this.leaveRoom
+    },
+    beforeDestroy () {
+      window.onbeforeunload = function () {}
     },
     beforeRouteLeave (to, from, next) {
       this.leaveRoom()
@@ -92,6 +96,7 @@
         setChatrooms: 'chat/setChatRooms'
       }),
       leaveRoom () {
+        console.log('leave room')
         if (this.currentRoom && this.user && this.user.slug) {
           let _id = this.currentRoom._id
           let user = this.user.slug
