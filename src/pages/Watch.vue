@@ -32,7 +32,7 @@
   import ChatBox from '../components/ChatBox/ChatBox.vue'
   import TipBox from '../components/TipBox.vue'
   import GetMoreCoins from '../components/GetMoreCoins'
-  import { mapGetters, mapMutations } from 'vuex'
+  import { mapGetters, mapMutations, mapState } from 'vuex'
 
   export default {
     filters: {
@@ -79,15 +79,15 @@
       }
     },
     computed: {
+      ...mapState({
+        user: 'user'
+      }),
       ...mapGetters({
-        chat: 'chat',
         currentRoom: 'chat/currentRoom',
         currentStatus: 'chat/currentStatus',
-        isLoggedIn: 'user/isLoggedIn',
         offline: 'chat/offline',
         public: 'chat/public',
-        away: 'chat/away',
-        user: 'user'
+        away: 'chat/away'
       })
     },
     methods: {
