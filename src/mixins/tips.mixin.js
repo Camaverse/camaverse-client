@@ -42,6 +42,9 @@ export default {
       this.showNotEnoughTokens = false
       this.showMainCoinsForm()
     },
+    setTipAmount (amount) {
+      this.tip = amount
+    },
     sendTip () {
       if (this.allowShowOfflineMsg) {
         this.showOfflinePopup = true
