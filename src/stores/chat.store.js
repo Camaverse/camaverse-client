@@ -14,7 +14,6 @@ export const chat = {
     rooms: defaultVals.rooms
   },
   getters: {
-    chatRooms: (state) => state.rooms,
     currentMessages: (state) => {
       return (state.selected) ? state.rooms[state.selected].messages : null
     },
@@ -33,12 +32,10 @@ export const chat = {
     viewers: (state, getters) => (getters.currentRoom && getters.currentRoom.users) ? getters.currentRoom.users.length : 0,
     isInShow: (state, getters) => (getters.currentRoom && getters.currentRoom.isOnline),
     topic: (state, getters) => (getters.currentRoom && getters.currentRoom.topic) ? getters.currentRoom.topic : null,
-    selectedRoom: state => state.selected,
     offline: (state) => !state.selected,
     public: (state, getters) => (getters.currentRoom) ? getters.currentRoom.show === 'public' : false,
     away: (state, getters) => (getters.currentRoom) ? getters.currentRoom.isAway : false
   },
-
   mutations: {
     rcvMsg: (state, msg) => {
       let chat = state.chat

@@ -9,12 +9,12 @@
   </div>
 </template>
 <script>
-  import {mapGetters, mapMutations} from 'vuex'
+  import {mapState, mapMutations} from 'vuex'
 
   export default {
     computed: {
-      ...mapGetters({
-        isLoggedIn: 'user/isLoggedIn'
+      ...mapState({
+        isLoggedIn: state => state.user.isLoggedIn
       }),
       ...mapMutations({
         showMainCoinsForm: 'app/showMainCoinsForm'

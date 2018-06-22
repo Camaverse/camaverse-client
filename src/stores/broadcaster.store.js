@@ -11,10 +11,6 @@ export const broadcaster = {
     slug: null,
     username: null
   },
-  getters: {
-    slug: state => state.slug,
-    username: state => state.username
-  },
   mutations: {
     reset: (state) => {
       for (let k in defaultVals) Vue.set(state, k, defaultVals[k])

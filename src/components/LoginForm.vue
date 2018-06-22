@@ -2,7 +2,7 @@
   <form action="#" method="post" @submit.prevent="sendLogin" class="login-form">
     <div class="login-form-inner">
       <p><input type="username" name="username" placeholder="Username" value="lsharpe" v-model="login.username"></p>
-      <p><input type="password" name="password" placeholder="Password" value="royalties" v-model="login.password"></p>
+      <p><input type="password" name="password" placeholder="Password" value="royalties" autocomplete="complete-password" v-model="login.password"></p>
       <p>
         <button :disabled="!isLoginValid" class="btn btn-primary" id="login-btn">Login</button>
         <b-popover target="login-btn" placement="bottom" title="Login Failed" :disabled="!showLoginFail"
@@ -17,7 +17,7 @@
   </form>
 </template>
 <script>
-  import { mapGetters, mapActions } from 'vuex'
+  import { mapState, mapActions } from 'vuex'
 
   export default {
     data () {
@@ -53,8 +53,8 @@
       }
     },
     computed: {
-      ...mapGetters({
-        isLoggedIn: 'user/isLoggedIn'
+      ...mapState({
+        isLoggedIn: state => state.user.isLoggedIn
       }),
       isLoginValid: function () {
         return this.login.password !== '' && this.login.username !== ''

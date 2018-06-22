@@ -1,9 +1,9 @@
 <template>
   <form action="#" method="post" @submit.prevent="sendSignup" class="join-form">
     <div class="join-form-inner">
-      <p><input type="email" name="email" placeholder="Email" value="larry.l.sharpe@gmail.com" v-model="signup.email"></p>
+      <p><input type="email" name="email" placeholder="Email" value="larry.l.sharpe@gmail.com" v-model="signup.email" autocomplete="email"></p>
       <p><input type="username" name="username" placeholder="Username" value="lsharpe" v-model="signup.username"></p>
-      <p><input type="password" name="password" placeholder="Password" value="royalties" v-model="signup.password"></p>
+      <p><input type="password" name="password" placeholder="Password" autocomplete="new-password" value="royalties" v-model="signup.password"></p>
       <p><button :disabled="!isSignupValid" class="btn-success btn">Join For Free!</button></p>
       <p>
         <a href="#" v-b-modal.loginModal @click.prevent>Already A Member? Login</a>
@@ -12,7 +12,7 @@
   </form>
 </template>
 <script>
-  import { mapActions, mapGetters } from 'vuex'
+  import { mapActions, mapState } from 'vuex'
 
   export default {
     data () {
@@ -55,9 +55,9 @@
       }
     },
     computed: {
-      ...mapGetters({
-        isLoggedIn: 'user/isLoggedIn',
-        user: 'user'
+      ...mapState({
+        isLoggedIn: state => state.user.isLoggedIn,
+        user: state => state.user
       }),
       isSignupValid: function () {
         return this.signup.password !== '' && this.signup.username !== '' && this.signup.email !== ''

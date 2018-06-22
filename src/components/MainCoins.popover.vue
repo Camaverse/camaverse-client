@@ -15,11 +15,11 @@
 <script>
 import BuyCoinsForm from './BuyCoinsForm'
 import PopOver from '../mixins/poper.mixins'
-import {mapGetters, mapMutations} from 'vuex'
+import {mapState, mapMutations} from 'vuex'
 export default {
   computed: {
-    ...mapGetters({
-      mainCoinsFormShowing: 'app/showMainCoinsForm'
+    ...mapState({
+      mainCoinsFormShowing: state => state.app.showMainCoinsForm
     })
   },
   methods: {

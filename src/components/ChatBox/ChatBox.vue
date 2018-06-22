@@ -45,16 +45,18 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapState } from 'vuex'
   export default {
     computed: {
+      ...mapState({
+        chatRooms: state => state.chat.rooms,
+        isLoggedIn: state => state.user.isLoggedIn,
+        user: state => state.user,
+        selectedRoom: state => state.chat.selected
+      }),
       ...mapGetters({
-        chatRooms: 'chat/chatRooms',
         currentMessages: 'chat/currentMessages',
-        currentRoom: 'chat/currentRoom',
-        isLoggedIn: 'user/isLoggedIn',
-        selectedRoom: 'chat/selectedRoom',
-        user: 'user'
+        currentRoom: 'chat/currentRoom'
       }),
       hasMsg () {
         return this.message.length

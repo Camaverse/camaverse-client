@@ -11,9 +11,6 @@ export const coins = {
       }
     }
   },
-  getters: {
-    balance: state => state.balance
-  },
   mutations: {
     updateCoins (state, amt) {
       Vue.set(state, 'balance', amt)
@@ -21,32 +18,40 @@ export const coins = {
   },
   actions: {
     loadCoins ({commit, rootState}) {
-      const qry = {
-        slug: rootState.user.slug
-      }
-      this._vm.$socket.emit('users:get:coins', qry, (data) => {
-        if (data.errors) {
-          console.log('errors: ', data.errors)
-        } else {
-          commit('updateCoins', data.data.coins.balance)
+      return new Promise((resolve, reject) => {
+        const qry = {
+          slug: rootState.user.slug
         }
+        this._vm.$socket.emit('users:get:coins', qry, (data) => {
+          if (data.errors) {
+            console.log('errors: ', data.errors)
+            reject(new Error(data.errors))
+          } else {
+            commit('updateCoins', data.data.coins.balance)
+            resolve()
+          }
+        })
       })
     },
     buyCoins ({commit, rootState}, coins) {
-      let purchase = {
-        units: coins,
-        from: {
-          slug: rootState.user.slug,
-          username: rootState.user.username
-        },
-        clientTime: Date.now()
-      }
-      this._vm.$socket.emit('buyCoins', purchase, (data) => {
-        if (data.errors) {
-          console.log('errors: ', data.errors)
-        } else {
-          commit('updateCoins', data.coins.balance)
+      return new Promise((resolve, reject) => {
+        let purchase = {
+          units: coins,
+          from: {
+            slug: rootState.user.slug,
+            username: rootState.user.username
+          },
+          clientTime: Date.now()
         }
+        this._vm.$socket.emit('buyCoins', purchase, (data) => {
+          if (data.errors) {
+            console.log('errors: ', data.errors)
+            reject(new Error(data.errors))
+          } else {
+            commit('updateCoins', data.coins.balance)
+            resolve()
+          }
+        })
       })
     },
     sendTip ({commit, dispatch}, amount) {

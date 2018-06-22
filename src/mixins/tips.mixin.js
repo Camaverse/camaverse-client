@@ -1,5 +1,5 @@
 
-import {mapGetters, mapActions, mapMutations} from 'vuex'
+import {mapGetters, mapActions, mapMutations, mapState} from 'vuex'
 import PopOver from '@/components/PopOver'
 import PopOverMixin from '@/mixins/poper.mixins'
 
@@ -7,10 +7,12 @@ export default {
   components: {PopOver},
   mixins: [PopOverMixin],
   computed: {
+    ...mapState({
+      user: state => state.user
+    }),
     ...mapGetters({
       currentRoom: 'chat/currentRoom',
-      offline: 'chat/offline',
-      user: 'user'
+      offline: 'chat/offline'
     }),
     disableOfflineWarning: {
       get () {

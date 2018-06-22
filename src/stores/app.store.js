@@ -5,9 +5,6 @@ export const app = {
   state: {
     showMainCoinsForm: false
   },
-  getters: {
-    showMainCoinsForm: state => state.showMainCoinsForm
-  },
   mutations: {
     hideMainCoinsForm: (state, value) => {
       Vue.set(state, 'showMainCoinsForm', false)

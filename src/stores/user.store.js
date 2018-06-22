@@ -22,13 +22,6 @@ export const user = {
     guestLoaded: defaultVals.guestLoaded,
     userLoaded: defaultVals.userLoaded
   },
-  getters: {
-    isLoggedIn: state => state.isLoggedIn,
-    disableOfflineWarning: state => state.disableOfflineWarning,
-    roles: state => state.roles,
-    slug: state => state.slug,
-    username: state => state.username
-  },
   mutations: {
     reset: (state) => {
       for (let k in defaultVals) Vue.set(state, k, defaultVals[k])
@@ -60,62 +53,88 @@ export const user = {
       })
     },
     logout ({commit, state, rootGetters, dispatch}) {
-      const logoutURL = process.env.API_PATH + 'users/logout/' + state.username
-      this._vm.$http.get(logoutURL).then((res) => {
-        if (res.ok) {
-          if (rootGetters.currentRoom) {
-            let _id = rootGetters.currentRoom._id
-            let user = state.slug
-            const socketData = {_id, user}
-            this._vm.$socket.emit('leaveRoom', socketData)
+      return new Promise((resolve, reject) => {
+        const logoutURL = process.env.API_PATH + 'users/logout/' + state.username
+        this._vm.$http.get(logoutURL).then((res) => {
+          if (res.ok) {
+            if (rootGetters.currentRoom) {
+              let _id = rootGetters.currentRoom._id
+              let user = state.slug
+              const socketData = {_id, user}
+              this._vm.$socket.emit('leaveRoom', socketData)
+            }
+            commit('reset')
+            this._vm.$localStorage.remove('user')
+            dispatch('initClient')
+            resolve()
+            router.push('/')
+          } else {
+            reject(new Error('Error Logging Out'))
           }
-          commit('reset')
-          this._vm.$localStorage.remove('user')
-          dispatch('initClient')
-          router.push('/')
-        }
+        })
       })
     },
     initClient ({commit, state, dispatch}) {
-      const vue = this._vm
-      const guest = vue.$localStorage.get('guest')
-      const user = vue.$localStorage.get('user')
+      return new Promise((resolve, reject) => {
+        const vue = this._vm
+        const guest = vue.$localStorage.get('guest')
+        const user = vue.$localStorage.get('user')
 
-      if (!guest && !user) {
-        vue.$socket.emit('/guests/init', (err, guest) => {
-          return dispatch('handleGuestInit', {err, guest})
-        })
-      } else if (user) {
-        vue.$socket.emit('/users/init', JSON.parse(user), (err, user) => {
-          return dispatch('handleUserInit', {err, user: user.data})
-        })
-      } else if (guest) {
-        dispatch('handleGuestInit', {err: null, guest: JSON.parse(guest)})
-      }
+        if (!guest && !user) {
+          vue.$socket.emit('/guests/init', (err, guest) => {
+            dispatch('handleGuestInit', {err, guest})
+            .then(resolve)
+            .catch(reject)
+          })
+        } else if (user) {
+          vue.$socket.emit('/users/init', JSON.parse(user), (err, user) => {
+            dispatch('handleUserInit', {err, user: user.data})
+            .then(resolve)
+            .catch(reject)
+          })
+        } else if (guest) {
+          dispatch('handleGuestInit', {err: null, guest: JSON.parse(guest)})
+            .then(resolve)
+            .catch(reject)
+        }
+      })
     },
     handleGuestInit ({commit, state, dispatch}, {err, guest}) {
-      if (err) console.log(err)
-      else {
-        let userString = JSON.stringify(guest)
-        this._vm.$localStorage.remove('guest')
-        this._vm.$localStorage.set('guest', userString)
-        commit('guestIsLoaded')
-        dispatch('setUser')
-      }
+      return new Promise((resolve, reject) => {
+        if (err) {
+          console.log(err)
+          reject(new Error(err))
+        } else {
+          let userString = JSON.stringify(guest)
+          this._vm.$localStorage.remove('guest')
+          this._vm.$localStorage.set('guest', userString)
+          commit('guestIsLoaded')
+          dispatch('setUser')
+            .then(resolve)
+            .catch(reject)
+        }
+      })
     },
     handleUserInit ({commit, state, dispatch}, {err, user}) {
-      let userString = JSON.stringify(user)
-      this._vm.$localStorage.remove('user')
-      this._vm.$localStorage.set('user', userString)
-      commit('userIsLoaded')
-      dispatch('setUser')
+      return new Promise((resolve, reject) => {
+        let userString = JSON.stringify(user)
+        this._vm.$localStorage.remove('user')
+        this._vm.$localStorage.set('user', userString)
+        commit('userIsLoaded')
+        dispatch('setUser')
+          .then(resolve)
+          .catch(reject)
+      })
     },
     setUser ({commit, state}) {
-      let user
-      if (state.userLoaded) user = JSON.parse(this._vm.$localStorage.get('user'))
-      else if (state.guestLoaded) user = JSON.parse(this._vm.$localStorage.get('guest'))
-      commit('set', user)
-      if (user && (user.coins || user.coins === 0)) commit('coins/updateCoins', user.coins, {root: true})
+      return new Promise((resolve, reject) => {
+        let user
+        if (state.userLoaded) user = JSON.parse(this._vm.$localStorage.get('user'))
+        else if (state.guestLoaded) user = JSON.parse(this._vm.$localStorage.get('guest'))
+        commit('set', user)
+        if (user && (user.coins || user.coins === 0)) commit('coins/updateCoins', user.coins, {root: true})
+        resolve()
+      })
     }
   }
 }

@@ -5,11 +5,11 @@
   </div>
 </template>
 <script>
-  import {mapGetters} from 'vuex'
+  import {mapState} from 'vuex'
   export default {
     computed: {
-      ...mapGetters({
-        isLoggedIn: 'user/isLoggedIn'
+      ...mapState({
+        isLoggedIn: state => state.user.isLoggedIn
       })
     },
     name: 'guest-header-links'

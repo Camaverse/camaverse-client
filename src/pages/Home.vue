@@ -7,7 +7,7 @@
   </div>
 </template>
 <script>
-  import BroadcasterGrid from '../components/BroadcasterGrid.vue'
+  import BroadcasterGrid from '../components/BroadcasterGrid/BroadcasterGrid.vue'
 
   export default {
     components: {

@@ -13,17 +13,17 @@
   </div>
 </template>
 <script>
-  import {mapGetters} from 'vuex'
-  import PopOver from './MainCoins.popover'
+  import {mapState} from 'vuex'
+  import PopOver from '../MainCoins.popover'
   export default {
     components: {
       PopOver
     },
     computed: {
-      ...mapGetters({
-        coins: 'coins/balance',
-        isLoggedIn: 'user/isLoggedIn',
-        username: 'user/username'
+      ...mapState({
+        coins: state => state.coins.balance,
+        isLoggedIn: state => state.user.isLoggedIn,
+        username: state => state.user.username
       })
     },
     name: 'header-info-user'

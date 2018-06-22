@@ -9,12 +9,12 @@
   </div>
 </template>
 <script>
-  import {mapGetters} from 'vuex'
+  import {mapState} from 'vuex'
   export default {
     computed: {
-      ...mapGetters({
-        isLoggedIn: 'user/isLoggedIn',
-        username: 'user/username'
+      ...mapState({
+        isLoggedIn: state => state.user.isLoggedIn,
+        username: state => state.user.username
       })
     },
     name: 'header-info-guest'

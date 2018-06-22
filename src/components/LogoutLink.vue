@@ -4,11 +4,11 @@
   </div>
 </template>
 <script>
-  import {mapActions, mapGetters} from 'vuex'
+  import {mapActions, mapState} from 'vuex'
   export default {
     computed: {
-      ...mapGetters({
-        isLoggedIn: 'user/isLoggedIn'
+      ...mapState({
+        isLoggedIn: state => state.user.isLoggedIn
       })
     },
     methods: {

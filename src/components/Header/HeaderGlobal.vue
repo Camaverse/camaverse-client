@@ -27,7 +27,7 @@
   import GuestHeaderLinks from './GuestHeaderLinks'
   import HeaderInfoGuest from './HeaderInfoGuest'
   import HeaderInfoUser from './HeaderInfoUser'
-  import LogoutLink from './LogoutLink'
+  import LogoutLink from '../LogoutLink'
 
   export default {
     components: {

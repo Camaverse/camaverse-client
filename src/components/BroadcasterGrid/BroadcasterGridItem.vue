@@ -25,12 +25,12 @@
   </div>
 </template>
 <script>
-  import {mapGetters} from 'vuex'
+  import {mapState} from 'vuex'
   import BroadcasterTagList from './BroadcasterTagList.vue'
   export default {
     computed: {
-      ...mapGetters({
-        loadImgs: 'dev/loadImgs'
+      ...mapState({
+        loadImgs: state => state.dev.loadImgs
       })
     },
     components: { BroadcasterTagList },

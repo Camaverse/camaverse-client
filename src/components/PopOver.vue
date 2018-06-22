@@ -14,15 +14,15 @@
 </template>
 <script>
 import BuyCoinsForm from './BuyCoinsForm'
-import {mapGetters} from 'vuex'
+import {mapState} from 'vuex'
 import PopOver from '../mixins/poper.mixins'
 export default {
   components: {
     BuyCoinsForm
   },
   computed: {
-    ...mapGetters({
-      isLoggedIn: 'user/isLoggedIn'
+    ...mapState({
+      isLoggedIn: state => state.user.isLoggedIn
     })
   },
   mixins: [PopOver],

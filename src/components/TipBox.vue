@@ -15,7 +15,7 @@
                    :show.sync="showNotEnoughTokens"
                    @show="onShow()"
                    title="You need More Tokens!">
-          <b-btn class="btn btn-success" @click="getMoreTokens()">Get More Tokens</b-btn>
+          <b-btn class="btn btn-success" @click="openCoinsForm()">Get More Tokens</b-btn>
           <b-btn class="btn btn-danger" @click="close()">Cancel</b-btn>
         </b-popover>
 
@@ -24,7 +24,7 @@
                    title="More Tips!"
         @show="close()">
           <p v-if="offline">
-            <strong>{{broadcaster.username}}</strong>
+            <strong v-if="currentRoom">{{currentRoom.username}}</strong>
             is offline but will still receive your tip.</p>
           <label><input type="checkbox" v-model="isTipPrivate"> Tip Privately</label>
           <hr>
@@ -39,11 +39,11 @@
             <strong>
               Custom Amount:
             </strong>
-            <input type="number" min="0" class="custom-tip-input form-control ml-3" placeholder="0" v-model="customTipAmount">
+            <input type="number" min="0" class="custom-tip-input form-control ml-3" placeholder="0" v-model="tip">
           </div>
           <textarea class="form-control" v-model="tipMessage"></textarea>
           <p>
-            <button class="btn btn-primary btn-sm" @click="sendTip(customTipAmount)" :disabled="!enableCustom" >Send</button>
+            <button class="btn btn-primary btn-sm" @click="sendTip(tip)" :disabled="!enableCustom" >Send</button>
             <label><input type="checkbox" v-model="isTipMsgPrivate"> Message Privately</label>
           </p>
           <p>
@@ -60,79 +60,31 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import PopOver from './PopOver'
-  import PopOverMixins from '../mixins/poper.mixins'
+  import { mapGetters, mapState } from 'vuex'
+  import TipsMixin from '../mixins/tips.mixin'
   import TipBtn from './TipButtons'
 
   export default {
     components: {
-      PopOver,
       TipBtn
     },
     computed: {
+      ...mapState({
+        isLoggedIn: state => state.user.isLoggedIn,
+        user: state => state.user
+      }),
       ...mapGetters({
-        broadcaster: 'broadcaster',
         currentRoom: 'chat/currentRoom',
-        isLoggedIn: 'user/isLoggedIn',
-        offline: 'chat/offline',
-        user: 'user'
+        offline: 'chat/offline'
       }),
       enableCustom () {
-        return this.customTipAmount > 0
+        return this.tip > 0
       }
     },
-    methods: {
-      createTip (amount) {
-        return {
-          amount,
-          isOffline: (!this.currentRoom),
-          isPrivate: this.isTipPrivate,
-          from: {
-            slug: this.user.slug,
-            username: this.user.username
-          },
-          to: {
-            id: this.broadcaster._id,
-            show: (this.currentRoom) ? this.currentRoom.show : null,
-            slug: this.broadcaster.slug,
-            room: (this.currentRoom) ? this.currentRoom._id : null
-          },
-          message: {
-            isPrivate: this.isTipMsgPrivate,
-            content: this.tipMessage
-          },
-          clientTime: Date.now()
-        }
-      },
-      handleSendTip (d) {
-        if (d.errors) {
-          console.log(d.errors)
-          if (d.errors === 'Declined. Not Enough Tokens.') {
-            this.showNotEnoughTokens = true
-          }
-        } else {
-          this.$store.commit('coins/updateCoins', d.balance)
-          this.$store.commit('rcvTip', d.tip)
-        }
-      },
-      sendTip (amount) {
-        let tip = this.createTip(amount)
-        this.$socket.emit('sendTip', tip, this.handleSendTip)
-      },
-      getMoreTokens () {
-        this.$store.commit('updateShowMainCoinsForm', false)
-        this.$store.commit('updateShowMainCoinsForm', true)
-      },
-      setTipAmount (amount) {
-        this.customTipAmount = amount
-      }
-    },
-    mixins: [PopOverMixins],
+    mixins: [TipsMixin],
     data () {
       return {
-        customTipAmount: 0,
-        showNotEnoughTokens: false,
+        tip: 0,
         tipAmountsGuest: [1, 5, 10, 25, 50, 100, 250, 500],
         tipAmountsMore: [250, 500, 1000],
         tipAmountsUser: [5, 10, 25, 50, 100],

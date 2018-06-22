@@ -27,8 +27,8 @@
   </div>
 </template>
 <script>
-  import BroadcasterGrid from '../components/BroadcasterGrid.vue'
-  import BroadcasterTagList from '../components/BroadcasterTagList.vue'
+  import BroadcasterGrid from '../components/BroadcasterGrid/BroadcasterGrid.vue'
+  import BroadcasterTagList from '../components/BroadcasterGrid/BroadcasterTagList.vue'
   import ChatBox from '../components/ChatBox/ChatBox.vue'
   import TipBox from '../components/TipBox.vue'
   import GetMoreCoins from '../components/GetMoreCoins'
@@ -80,7 +80,7 @@
     },
     computed: {
       ...mapState({
-        user: 'user'
+        user: state => state.user
       }),
       ...mapGetters({
         currentRoom: 'chat/currentRoom',
