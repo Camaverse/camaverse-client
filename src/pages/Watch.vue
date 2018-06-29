@@ -96,7 +96,6 @@
         setChatrooms: 'chat/setChatRooms'
       }),
       leaveRoom () {
-        console.log('leave room')
         if (this.currentRoom && this.user && this.user.slug) {
           let _id = this.currentRoom._id
           let user = this.user.slug
