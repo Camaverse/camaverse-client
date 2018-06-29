@@ -65,6 +65,9 @@
         return (!this.isLoggedIn && this.guestLimit) || this.isLoggedIn
       }
     },
+    mounted () {
+      this.scrollToEnd()
+    },
     updated () {
       this.scrollToEnd()
     },
