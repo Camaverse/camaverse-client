@@ -26,11 +26,11 @@
                  :show.sync="showSendMsgWarning">
         <p>You've hit your message limit!</p>
         <p>
-          <a href="#" v-b-modal.signupModal >Join Now For Free!</a> or
-          <a href="#" v-b-modal.loginModal >Login</a>
+          <a href="#" v-b-modal.signupModal @click.prevent="hideMsgQuota()">Join Now For Free!</a> or
+          <a href="#" v-b-modal.loginModal @click.prevent="hideMsgQuota()" >Login</a>
         </p>
         <p>
-          <button class="btn btn-danger btn-sm" @click="closeSendMsgWarning()">Close</button>
+          <button class="btn btn-danger btn-sm" @click="hideMsgQuota()">Close</button>
         </p>
       </b-popover>
     </form>
@@ -45,24 +45,38 @@
 </template>
 
 <script>
-  import { mapGetters, mapState } from 'vuex'
+  import { mapGetters, mapState, mapActions, mapMutations } from 'vuex'
   export default {
     computed: {
       ...mapState({
         chatRooms: state => state.chat.rooms,
+        guestMsgs: state => state.chat.guestMsgs,
         isLoggedIn: state => state.user.isLoggedIn,
         user: state => state.user,
         selectedRoom: state => state.chat.selected
       }),
+      showSendMsgDisabled: {
+        get: function () {
+          return this.$store.state.chat.showSendMsgDisabled
+        },
+        set: function (newValue) {
+          this.$store.commit('chat/showSendMsgDisabled', newValue)
+        }
+      },
+      showSendMsgWarning: {
+        get: function () {
+          return this.$store.state.chat.showSendMsgWarning
+        },
+        set: function (newValue) {
+          this.$store.commit('chat/showSendMsgWarning', newValue)
+        }
+      },
       ...mapGetters({
         currentMessages: 'chat/currentMessages',
         currentRoom: 'chat/currentRoom'
       }),
       hasMsg () {
         return this.message.length
-      },
-      isAllowed () {
-        return (!this.isLoggedIn && this.guestLimit) || this.isLoggedIn
       }
     },
     mounted () {
@@ -75,9 +89,6 @@
       return {
         assetBase: 'http://cwl-asset-bucket.s3-website-us-east-1.amazonaws.com/',
         message: '',
-        guestLimit: 5,
-        showSendMsgDisabled: true,
-        showSendMsgWarning: false,
         tipSounds: ['xs', 'sm', 'med', 'large', 'xl']
       }
     },
@@ -92,6 +103,13 @@
       }
     },
     methods: {
+      ...mapActions({
+        sendMsgAction: 'chat/sendMessage'
+      }),
+      ...mapMutations({
+        showMsgQuota: 'chat/showMsgQuota',
+        hideMsgQuota: 'chat/hideMsgQuota'
+      }),
       playTipSound (amount) {
         if (amount >= 1000) this.$refs.xlTip.play()
         else if (amount > 499) this.$refs.largeTip.play()
@@ -102,25 +120,6 @@
       displayName (username) {
         return (username === this.user.username) ? 'You' : username
       },
-      closeSendMsgWarning () {
-        this.showSendMsgDisabled = true
-        this.showSendMsgWarning = false
-      },
-      createMsg () {
-        return {
-          message: this.message,
-          clientTime: Date.now(),
-          from: {
-            type: 'user',
-            username: this.user.username,
-            slug: this.user.slug
-          },
-          to: this.currentRoom._id
-        }
-      },
-      decreaseLimit () {
-        this.guestLimit--
-      },
       resetMsg () {
         this.message = ''
       },
@@ -129,17 +128,10 @@
         if (container) container.scrollTop = container.scrollHeight
       },
       sendMessage () {
-        if (this.isAllowed) {
-          this.$socket.emit('sendMessage', this.createMsg(), (err) => {
-            if (!err) {
-              this.resetMsg()
-              if (!this.isLoggedIn) this.decreaseLimit()
-            }
-          })
-        } else if (!this.guestLimit) {
-          this.showSendMsgDisabled = false
-          this.showSendMsgWarning = true
-          console.log('You\'ve met your MSG Quota')
+        if (this.hasMsg) {
+          this.sendMsgAction(this.message)
+            .then(this.resetMsg)
+            .catch(this.showMsgQuota)
         }
       }
     }

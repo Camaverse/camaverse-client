@@ -9,6 +9,9 @@ const defaultVals = {
 export const chat = {
   namespaced: true,
   state: {
+    guestMsgs: 5,
+    showSendMsgDisabled: true,
+    showSendMsgWarning: false,
     selected: defaultVals.selected,
     roomsList: defaultVals.roomsList,
     rooms: defaultVals.rooms
@@ -100,6 +103,77 @@ export const chat = {
         let msgCount = room.messages.length
         Vue.set(room.messages, msgCount, msg)
       }
+    },
+    showSendMsgDisabled: (state, value) => {
+      Vue.set(state, 'showSendMsgDisabled', value)
+    },
+    showSendMsgWarning: (state, value) => {
+      Vue.set(state, 'showSendMsgDisabled', value)
+    },
+    decreaseGuestMsgs: (state) => {
+      Vue.set(state, 'guestMsgs', state.guestMsgs - 1)
+    },
+    hideMsgQuota: (state) => {
+      Vue.set(state, 'showSendMsgDisabled', true)
+      Vue.set(state, 'showSendMsgWarning', false)
+    },
+    showMsgQuota: (state) => {
+      Vue.set(state, 'showSendMsgDisabled', false)
+      Vue.set(state, 'showSendMsgWarning', true)
+    }
+  },
+  actions: {
+    sendMessage ({commit, dispatch, state, rootState}, message) {
+      return new Promise((resolve, reject) => {
+        if (!state.guestMsgs && !rootState.user.isLoggedIn) {
+          console.log('CANNOT SEND MSGS')
+          reject(new Error('CANNOT SEND MSGS'))
+        } else {
+          dispatch('createMsg', message)
+            .then((message) => dispatch('emitMessage', message))
+            .then(resolve)
+            .catch(reject)
+        }
+      })
+    },
+    emitMessage ({dispatch, commit}, message) {
+      return new Promise((resolve, reject) => {
+        this._vm.$socket.emit('sendMessage', message,
+          (message) => {
+            if (message.errors) reject(new Error(message.errors))
+            else {
+              dispatch('decreaseGuestMsgs')
+                .then(resolve)
+            }
+          })
+      })
+    },
+    decreaseGuestMsgs ({commit, rootState}) {
+      return new Promise((resolve, reject) => {
+        if (!rootState.user.isLoggedIn) {
+          commit('decreaseGuestMsgs')
+        }
+        resolve()
+      })
+    },
+    createMsg ({rootGetters, state}, message) {
+      const room = rootGetters['chat/currentRoom']
+      const user = rootGetters['user']
+
+      const ret = {
+        message,
+        from: {
+          type: 'user',
+          slug: user.slug,
+          username: user.username
+        },
+        to: (room) ? room._id : null,
+        clientTime: Date.now()
+      }
+
+      return new Promise((resolve, reject) => {
+        resolve(ret)
+      })
     }
   }
 }
