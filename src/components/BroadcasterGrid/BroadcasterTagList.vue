@@ -7,11 +7,21 @@
   export default {
     methods: {
       loadTag (tag) {
-        this.$emit('loadTag', tag)
+        if (this.loadPage) {
+          this.$router.push('/' + tag)
+        } else {
+          this.$emit('loadTag', tag)
+        }
       }
     },
     name: 'broadcaster-tag-list',
-    props: ['tags'],
+    props: {
+      tags: Array,
+      loadPage: {
+        default: false,
+        type: Boolean
+      }
+    },
     sockets: {
       updateTags (tags) {
         this.$store.commit('chat/updateTags', tags)

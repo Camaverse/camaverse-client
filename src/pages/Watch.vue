@@ -18,7 +18,7 @@
             <h3 class="text-warning">Away</h3>
           </div>
           <p>{{currentRoom.topic}}</p>
-          <broadcaster-tag-list :tags="currentRoom.tags"></broadcaster-tag-list>
+          <broadcaster-tag-list :tags="currentRoom.tags" :loadPage="true"></broadcaster-tag-list>
           <chat-box></chat-box>
         </div>
       </div>
