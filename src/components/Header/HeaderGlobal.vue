@@ -1,7 +1,9 @@
 <template>
   <header>
     <nav class="nav-primary navbar">
-      <router-link to="/">CWL</router-link>
+      <router-link to="/" class="brand text-white">
+        Camaverse<span class="text-brand-alt brand-small">.com</span>
+      </router-link>
       <guest-header-links></guest-header-links>
       <header-info-guest></header-info-guest>
       <header-info-user></header-info-user>
@@ -11,16 +13,21 @@
 </template>
 <style>
   .nav-primary {
-    background: #fff;
-    border-bottom: 1px solid #cbcbcb;
+    background: rgb(39,71,110);
+    border-bottom: 3px solid #EAF8BF;
+    color: #fff;
     display: flex;
-    height: 20px;
+    height: 45px;
     left: 0;
-    padding: 10px 0;
+    padding: 10px 1%;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 2;
+  }
+
+  .nav-primary a{
+    color: #fff;
   }
 </style>
 <script>

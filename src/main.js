@@ -28,5 +28,6 @@ new Vue({
   components: { App },
   created () {
     this.$store.dispatch('user/initClient')
+       .then(this.$store.commit('app/hideSplash'))
   }
 })

@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <splash></splash>
+
     <notifications group="foo" />
     <header-global id="header-global"></header-global>
     <main id="main">
@@ -26,6 +28,7 @@
 
 <script>
 import Vue from 'vue'
+import Splash from './components/Splash.vue'
 import FooterGlobal from './components/FooterGlobal.vue'
 import SignUpForm from './components/SignUpForm.vue'
 import LoginForm from './components/LoginForm.vue'
@@ -42,7 +45,8 @@ export default {
     FooterGlobal,
     HeaderGlobal,
     LoginForm,
-    SignUpForm
+    SignUpForm,
+    Splash
   }
 }
 </script>
@@ -56,6 +60,25 @@ export default {
     display: flex;
   }
 
+  .brand {
+    text-transform: uppercase;
+  }
+  .brand-small {
+    font-size: .7em;
+  }
+
+  .text-brand-alt {
+    color: #EAF8BF;
+  }
+
+  h3 {
+    color: #27476E;
+  }
+
+  h6 {
+    color: #555;
+  }
+
   #app {
     display: flex;
     min-height: 100vh;
@@ -63,8 +86,8 @@ export default {
   }
   #main {
     flex: 1;
-    padding-top: 40px;
-    width: 85%;
+    padding-top: 50px;
+    width: 98%;
     margin: auto;
   }
 </style>
