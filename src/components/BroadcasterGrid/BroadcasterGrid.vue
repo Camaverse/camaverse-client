@@ -1,6 +1,13 @@
 <template>
-  <div>
-    <h3>{{localTags || tags}}</h3>
+  <div class="broadcaster-grid-wrapper">
+    <header>
+      <h3>
+        {{localTags || tags}}
+      </h3>
+      <h6>
+        The quick brown fox jumps over the lazy dog
+      </h6>
+    </header>
     <div class="broadcaster-grid">
       <div class="broadcaster-grid-inner">
         <broadcaster-grid-item :item="item" :index="index" v-for="(item, index) in items" :key="item.slug" v-on:loadTag="loadBroadcasters"></broadcaster-grid-item>
@@ -154,6 +161,16 @@
     position: relative;
     width: 100%;
   }
+
+  .broadcaster-grid-wrapper header {
+    display: flex;
+    align-items: center;
+  }
+
+  .broadcaster-grid-wrapper h6 {
+    padding-left: 20px;
+  }
+
   .broadcaster-grid-inner {
     font-size: 0;
     height: 160px;
