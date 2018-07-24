@@ -26,8 +26,19 @@ new Vue({
   store,
   template: '<App/>',
   components: { App },
+  sockets: {
+    connect: function () {
+      console.log('socket connected')
+    },
+    connect_failed: function () {
+      console.log('socket connect failed')
+    }
+  },
   created () {
     this.$store.dispatch('user/initClient')
-       .then(this.$store.commit('app/hideSplash'))
+       .then(() => this.$store.commit('app/hideSplash'))
+       .catch((err) => {
+         console.log(err)
+       })
   }
 })
