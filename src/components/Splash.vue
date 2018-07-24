@@ -1,5 +1,5 @@
 <template>
-  <div class="splash" v-if="showing">
+  <div class="splash" v-if="isShowing">
     <div>
       <div class="brand">
         Camaverse<span class="text-brand-alt brand-small">.com</span>
@@ -15,12 +15,26 @@
 <script>
 import {mapState} from 'vuex'
 export default {
+  methods: {
+    setPhrase () {
+      if (!this.isShowing) this.stopTimer()
+      else {
+        this.currentPhraseIndex = Math.floor(Math.random() * this.phrases.length)
+      }
+    },
+    startTimer () {
+      this.interval = setInterval(this.setPhrase, 5000)
+    },
+    stopTimer () {
+      clearInterval(this.interval)
+    }
+  },
   created () {
-    this.currentPhraseIndex = Math.floor(Math.random() * this.phrases.length)
+    this.startTimer()
   },
   computed: {
     ...mapState({
-      showing: state => state.app.showSplash
+      isShowing: state => state.app.showSplash
     }),
     currentPhrase: function () {
       return this.phrases[this.currentPhraseIndex]
@@ -28,6 +42,7 @@ export default {
   },
   data () {
     return {
+      interval: null,
       currentPhraseIndex: 0,
       phrases: [
         'Ensuring that these are the droids you are looking for...',
