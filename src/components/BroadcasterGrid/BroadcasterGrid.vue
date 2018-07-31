@@ -1,14 +1,17 @@
 <template>
   <div class="broadcaster-grid-wrapper">
-    <header>
+    <header v-if="actualTags">
       <h3>
-        {{localTags || tags}}
+        {{actualTags}}
       </h3>
       <h6>
         The quick brown fox jumps over the lazy dog
       </h6>
     </header>
-    <div class="broadcaster-grid">
+    <h3 v-if="!items.length && actualTags">
+      There are no brodcasters tagged "{{actualTags}}".
+    </h3>
+    <div class="broadcaster-grid" :class="{hidden:!items.length}">
       <div class="broadcaster-grid-inner">
         <broadcaster-grid-item :item="item" :index="index" v-for="(item, index) in items" :key="item.slug" v-on:loadTag="loadBroadcasters"></broadcaster-grid-item>
       </div>
@@ -37,6 +40,9 @@
     },
     props: ['tags'],
     computed: {
+      actualTags () {
+        return this.localTags || this.tags
+      },
       leftHidden () {
         return this.scroll === 0
       },
@@ -131,9 +137,14 @@
         this.total = list.total
 
         this.itemsMap = []
-        if (list.docs && list.docs.length) {
-          for (let i = 0; i < list.docs.length; i++) {
-            this.itemsMap[list.docs[i].slug] = i
+        if (list.online.docs && list.online.docs.length) {
+          for (let i = 0; i < list.online.docs.length; i++) {
+            this.itemsMap[list.online.docs[i].slug] = i
+          }
+        }
+        if (list.offline && list.offline.docs && list.offline.docs.length) {
+          for (let i = 0; i < list.offline.docs.length; i++) {
+            this.itemsMap[list.offline.docs[i].slug] = i
           }
         }
 
@@ -155,11 +166,23 @@
   }
 </script>
 <style>
-
+  .hidden {
+    display: none;
+  }
   .broadcaster-grid {
     overflow: hidden;
     position: relative;
     width: 100%;
+  }
+
+  .broadcaster-grid-wrapper {
+    border-bottom: 3px solid #CA907E;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+
+  .broadcaster-grid-wrapper:last-child {
+    border: none;
   }
 
   .broadcaster-grid-wrapper header {
