@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import {app} from './app.store'
 import {broadcaster} from './broadcaster.store'
 import {chat} from './chat.store'
+import {chatrooms} from './chatrooms.store'
 import {coins} from './coins.store'
 import {dev} from './dev.store'
 import {user} from './user.store'
@@ -14,6 +15,7 @@ export const store = new Vuex.Store({
     app,
     broadcaster,
     chat,
+    chatrooms,
     coins,
     dev,
     user

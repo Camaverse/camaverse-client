@@ -34,6 +34,7 @@
 <script>
   import BroadcasterGridItem from './BroadcasterGridItem.vue'
   import Vue from 'vue'
+  import {mapMutations, mapActions} from 'vuex'
   export default {
     components: {
       BroadcasterGridItem
@@ -90,6 +91,12 @@
       }
     },
     methods: {
+      ...mapMutations({
+        createGrid2: 'chatrooms/newGrid'
+      }),
+      ...mapActions({
+        createGrid: 'chtarooms/createGrid'
+      }),
       getIndexBySlug (slug) {
         if (this.itemsMap[slug] || this.itemsMap[slug] === 0) {
           return this.itemsMap[slug]
@@ -129,22 +136,17 @@
         }
       },
       setData (list, tags) {
-        this.items = list.docs
-        this.limit = list.limit
-        this.offset = list.offset
-        this.page = list.page
-        this.pages = list.pages
-        this.total = list.total
+        this.items = list.body.docs
+        this.limit = list.body.limit
+        this.offset = list.body.offset
+        this.page = list.body.page
+        this.pages = list.body.pages
+        this.total = list.body.total
 
         this.itemsMap = []
-        if (list.online.docs && list.online.docs.length) {
-          for (let i = 0; i < list.online.docs.length; i++) {
-            this.itemsMap[list.online.docs[i].slug] = i
-          }
-        }
-        if (list.offline && list.offline.docs && list.offline.docs.length) {
-          for (let i = 0; i < list.offline.docs.length; i++) {
-            this.itemsMap[list.offline.docs[i].slug] = i
+        if (list.body.docs && list.body.docs.length) {
+          for (let i = 0; i < list.body.docs.length; i++) {
+            this.itemsMap[list.body.docs[i].slug] = i
           }
         }
 
@@ -156,12 +158,14 @@
       },
       loadBroadcasters (tags = this.tags) {
         this.localTags = tags
-        this.$socket.emit('broadcasterlist', {tags}, this.setData)
+        this.$http.get('http://localhost:3010/1.0/chatrooms', {tags})
+          .then(this.setData)
       }
     },
     mounted () {
-      this.loadBroadcasters()
+      console.log(this.createGrid())
       this.container = this.$el.querySelector('.broadcaster-grid-inner')
+      this.loadBroadcasters()
     }
   }
 </script>

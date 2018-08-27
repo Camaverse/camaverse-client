@@ -74,49 +74,21 @@ export const user = {
         })
       })
     },
-    initClient ({commit, state, dispatch}) {
+    init ({commit, state, dispatch}) {
       return new Promise((resolve, reject) => {
         const vue = this._vm
-        const guest = vue.$localStorage.get('guest')
-        const user = vue.$localStorage.get('user')
+        let payload = vue.$localStorage.get('user') || vue.$localStorage.get('guest')
 
-        if (!guest && !user) {
-          vue.$socket.emit('/guests/init', (err, guest) => {
-            dispatch('handleGuestInit', {err, guest})
+        vue.$socket.emit('/users/init', JSON.parse(payload), (err, user) => {
+          dispatch('handleInit', {err, user: user.data})
             .then(resolve)
             .catch(reject)
-          })
-        } else if (user) {
-          vue.$socket.emit('/users/init', JSON.parse(user), (err, user) => {
-            dispatch('handleUserInit', {err, user: user.data})
-            .then(resolve)
-            .catch(reject)
-          })
-        } else if (guest) {
-          dispatch('handleGuestInit', {err: null, guest: JSON.parse(guest)})
-            .then(resolve)
-            .catch(reject)
-        }
+        })
       })
     },
-    handleGuestInit ({commit, state, dispatch}, {err, guest}) {
+    handleInit ({commit, state, dispatch}, {err, user}) {
       return new Promise((resolve, reject) => {
-        if (err) {
-          console.log(err)
-          reject(new Error(err))
-        } else {
-          let userString = JSON.stringify(guest)
-          this._vm.$localStorage.remove('guest')
-          this._vm.$localStorage.set('guest', userString)
-          commit('guestIsLoaded')
-          dispatch('setUser')
-            .then(resolve)
-            .catch(reject)
-        }
-      })
-    },
-    handleUserInit ({commit, state, dispatch}, {err, user}) {
-      return new Promise((resolve, reject) => {
+        /*
         let userString = JSON.stringify(user)
         this._vm.$localStorage.remove('user')
         this._vm.$localStorage.set('user', userString)
@@ -124,6 +96,7 @@ export const user = {
         dispatch('setUser')
           .then(resolve)
           .catch(reject)
+          */
       })
     },
     setUser ({commit, state}) {

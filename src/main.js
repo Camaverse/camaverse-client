@@ -28,7 +28,7 @@ new Vue({
   components: { App },
   methods: {
     userConnect () {
-      this.$store.dispatch('user/initClient')
+      this.$store.dispatch('user/init')
         .then(() => this.$store.commit('app/hideSplash'))
         .catch((err) => {
           console.log(err)
