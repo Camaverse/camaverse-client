@@ -1,29 +1,35 @@
-<template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+<template lang="pug">
+  #app.hasHeaderTags
+    header-global
+    main
+        .route
+            router-view
+        broadcaster-grid
+    footer-global
 </template>
-
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+import BroadcasterGrid from './components/broadcaster-grid'
+import FooterGlobal from './components/footer-global'
+import HeaderGlobal from './components/header-global'
+export default {
+    components: {
+        BroadcasterGrid,
+        FooterGlobal,
+        HeaderGlobal
     }
-  }
 }
+</script>
+<style lang="scss">
+    main {
+        padding: 35px 10px 58px 10px;
+    }
+    .flex {
+        display: flex;
+    }
+    .flex-1 {
+        flex: 1;
+    }
+    .route {
+        padding-bottom: 10px;
+    }
 </style>

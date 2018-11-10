@@ -1,4 +1,4 @@
 <template lang="pug">
-  .about
-    h1 About
+  .search
+    h1 {{$route.name}}
 </template>

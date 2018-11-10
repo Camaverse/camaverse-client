@@ -1,25 +1,33 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Join from './views/Join.vue'
+import Login from './views/Login.vue'
+import Search from './views/Search.vue'
+import Watch from './views/Watch.vue'
+
+import searchRoutes from './config/searchRoutes'
 
 Vue.use(Router)
+
+const routes = [
+    { path: '/', name: 'Home', component: Home },
+    { path: '/join', name: 'Join', component: Join },
+    { path: '/login', name: 'Login', component: Login },
+    { path: '/watch/:slug', name: 'Watch', component: Watch }
+]
+
+for (let rt of searchRoutes) {
+  let _tmp = {
+    component: Search,
+    name: rt,
+    path: `/${rt.toLowerCase()}`
+  }
+  routes.push(_tmp);
+}
 
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    }
-  ]
+  routes
 })

@@ -1,6 +1,6 @@
 {
-  "name": "camaverse-client-test",
-  "short_name": "camaverse-client-test",
+  "name": "camaverse",
+  "short_name": "camaverse",
   "icons": [
     {
       "src": "/img/icons/android-chrome-192x192.png",
