@@ -12,7 +12,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './registerServiceWorker'
-import { faFacebookSquare } from '@fortawesome/fontawesome-free-brands';
+// import { faFacebookSquare } from '@fortawesome/fontawesome-free-brands';
 
 Vue.config.productionTip = false
 
