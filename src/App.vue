@@ -4,10 +4,12 @@
     main
         .route
             router-view
-        broadcaster-grid
+        broadcaster-grid(:items="items")
     footer-global
 </template>
 <script>
+import data from '@/config/data';
+
 import BroadcasterGrid from './components/broadcaster-grid'
 import FooterGlobal from './components/footer-global'
 import HeaderGlobal from './components/header-global'
@@ -16,6 +18,11 @@ export default {
         BroadcasterGrid,
         FooterGlobal,
         HeaderGlobal
+    },
+    data (){
+        return {
+            items: data.broadcasters
+        }
     }
 }
 </script>

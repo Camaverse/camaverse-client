@@ -25,16 +25,11 @@
 </style>
 <script>
 import BroadcasterGridItem from '@/components/broadcaster-grid-item';
-import data from '@/config/data';
 export default {
     name: 'broadcaster-grid',
     components: {
         BroadcasterGridItem
     },
-    data () {
-        return {
-            items: data.broadcasters
-        }
-    }
+    props: ['items']
 }
 </script>
