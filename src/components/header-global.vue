@@ -1,9 +1,6 @@
 <template lang="pug">
     header.header-global
-        b-navbar.nav-secondary.nav-tags-header.bg-dark(toggleable='md', type='dark')
-            b-collapse#nav_collapse(is-nav='')
-                b-navbar-nav
-                    b-nav-item(:to='`/${tag}`', v-for='(tag, index) in tags', :key='index') \#{{tag}}
+        tag-nav
         b-navbar.nav-primary.hasTagList(toggleable='lg', type='dark')
             b-navbar-toggle(target='nav_collapse')
             b-navbar-brand(to='/') Camaverse
@@ -24,13 +21,13 @@
 </template>
 <script>
 import searchRoutes from '@/config/searchRoutes'
-import tags from '@/config/tags'
+import TagNav from "./tag-nav";
 export default {
     name: 'header-global',
+    components: {TagNav},
     data () {
         return {
-            searchRoutes: searchRoutes,
-            tags: tags
+            searchRoutes: searchRoutes
         }
     }
 }
@@ -39,13 +36,5 @@ export default {
 .nav-primary {
     background-color: #006992;
     padding: 0 10px;
-}
-
-.nav-secondary {
-    font-size: .75em;
-    padding: 0 10px;
-    &.navbar-expand-md .navbar-nav .nav-link {
-        padding: 0;
-    }
 }
 </style>
