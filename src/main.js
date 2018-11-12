@@ -10,7 +10,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import App from './App.vue'
 import router from './router'
-import store from './store'
+import store from './stores'
 import './registerServiceWorker'
 // import { faFacebookSquare } from '@fortawesome/fontawesome-free-brands';
 

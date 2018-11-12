@@ -1,5 +1,6 @@
 <template lang="pug">
   #app.hasHeaderTags
+    splash
     header-global
     main
         .route
@@ -13,8 +14,10 @@ import data from '@/config/data';
 import BroadcasterGrid from './components/broadcaster-grid'
 import FooterGlobal from './components/footer-global'
 import HeaderGlobal from './components/header-global'
+import Splash from "./components/splash";
 export default {
     components: {
+        Splash,
         BroadcasterGrid,
         FooterGlobal,
         HeaderGlobal
