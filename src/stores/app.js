@@ -3,7 +3,7 @@ import Vue from 'vue'
 export const app = {
     namespaced: true,
     state: {
-        showSplash: true
+        showSplash: false
     },
     mutations: {
         hideSplash: state => {

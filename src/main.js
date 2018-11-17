@@ -13,7 +13,9 @@ import router from './router'
 import store from './stores'
 import './registerServiceWorker'
 // import { faFacebookSquare } from '@fortawesome/fontawesome-free-brands';
+import VueCarousel from 'vue-carousel';
 
+Vue.use(VueCarousel);
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)

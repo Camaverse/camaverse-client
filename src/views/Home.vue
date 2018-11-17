@@ -1,10 +1,30 @@
 <template lang="pug">
   .home
-    ul
-        li
-            a(href="") Join Now And Get A Free Show!
-        li
-            a(href="") Get Free Tokens!
-        li
-            a(href="") Remove Ads!
+      carousel(:perPage="1", :autoplay="true", :paginationEnabled="false", :autoplayTimeout="3000")
+          slide(v-for="item in slides" :key="item")
+            .slide-inner
+              div Slide {{item}}
 </template>
+<script>
+export default {
+    name: 'home',
+    data () {
+        return {
+            slides: [
+                1, 2, 3
+            ]
+        }
+    }
+}
+</script>
+<style>
+    .VueCarousel-slide {
+        height: 400px;
+    }
+    .slide-inner{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
