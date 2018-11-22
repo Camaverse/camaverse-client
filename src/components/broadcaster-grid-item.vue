@@ -3,9 +3,9 @@
         .broadcaster-thumb
             router-link(:to="`/watch/${item.slug}`")
                 img(src="//p-hold.com/300/100")
-        .broadcaster-topic {{item.topic}}
         .broadcaster-name
             router-link(:to="`/watch/${item.slug}`") {{item.username}}
+        .broadcaster-topic {{item.topic}}
 </template>
 <style lang="scss">
 </style>
