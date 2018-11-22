@@ -1,6 +1,6 @@
 <template lang="pug">
     .page-tags
-        h2 {{$route.params.tag}}
+        h2 Live {{$route.params.tag}} Web Cams
         .tag-grid
             broadcaster-grid(:items="items")
         hr
