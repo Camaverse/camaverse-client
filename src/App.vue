@@ -9,7 +9,7 @@
     footer-global
 </template>
 <script>
-import data from '@/config/data';
+import broadcasters from '@/config/broadcasters';
 
 import BroadcasterGrid from './components/broadcaster-grid'
 import FooterGlobal from './components/footer-global'
@@ -24,7 +24,7 @@ export default {
     },
     data (){
         return {
-            items: data.broadcasters
+            items: broadcasters .broadcasters
         }
     }
 }
