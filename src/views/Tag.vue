@@ -7,7 +7,7 @@
 </template>
 <script>
     import broadcasters from '@/config/broadcasters';
-    import BroadcasterGrid from "../components/broadcaster-grid";
+    import BroadcasterGrid from "../components/BroadcasterGrid/broadcaster-grid";
     export default {
         components: {BroadcasterGrid},
         data () {
