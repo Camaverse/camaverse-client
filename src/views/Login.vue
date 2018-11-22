@@ -4,8 +4,8 @@
     join-form.flex-1(:onSubmit="onSubmitJoin")
 </template>
 <script>
-    import LoginForm from "../components/forms/login.form";
-    import JoinForm from "../components/forms/join.form";
+    import LoginForm from "@/components/Forms/login.form";
+    import JoinForm from "@/components/Forms/join.form";
     export default {
         components: {JoinForm, LoginForm},
         methods: {

@@ -6,7 +6,7 @@
         b-button(type='submit', variant='primary') Submit
 </template>
 <script>
-import FormMixin from '@/mixins/forms.mixin'
+import FormMixin from '@/components/Forms/forms.mixin'
 export default {
     name: 'login-form',
     mixins: [FormMixin]
