@@ -1,13 +1,14 @@
 <template lang="pug">
     b-navbar.nav-secondary.nav-tags-header.bg-dark(toggleable='md', type='dark')
         b-collapse#nav_collapse(is-nav='')
-            b-navbar-nav
-                b-nav-item.pr-2(:to='`/tagged/${tag}`', v-for='(tag, index) in tags', :key='index') \#{{tag}}
+            tag-links(:tags="tags")
 </template>
 <script>
 import tags from '@/config/tags'
+import TagLinks from "./TagLinks";
 export default {
     name: 'tag-nav',
+    components: {TagLinks},
     data () {
         return {
             tags: tags
@@ -17,10 +18,6 @@ export default {
 </script>
 <style lang="scss">
 .nav-secondary {
-    font-size: .75em;
     padding: 0 10px;
-    &.navbar-expand-md .navbar-nav .nav-link {
-        padding: 0;
-    }
 }
 </style>
