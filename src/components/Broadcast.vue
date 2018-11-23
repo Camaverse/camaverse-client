@@ -1,7 +1,8 @@
 <template lang="pug">
     .broadcast
-        video-screen
-        chat-panel
+        .broadcast-inner
+            video-screen
+            chat-panel
 </template>
 
 <script>
@@ -13,7 +14,7 @@
     }
 </script>
 <style>
-    .broadcast {
+    .broadcast-inner {
         display: flex;
         height: 500px;
         position: relative;
