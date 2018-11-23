@@ -3,8 +3,17 @@ import genderList from './genders';
 import showList from './shows';
 import tagList from './tags';
 
-Array.prototype.getRandom = function () {
-    return this[Math.floor(Math.random() * this.length)]
+Array.prototype.getRandom = function (amt = null) {
+    let _tmpArr = this.join("|").split("|")
+    let ret = [];
+    for (let i = 0; i < Math.max(amt,1); i++){
+        let index = Math.floor(Math.random() * _tmpArr.length);
+        ret.push(_tmpArr[index])
+        _tmpArr.splice(index, 1);
+    }
+
+    if (amt === null) return ret[0];
+    return ret;
 }
 
 for (let i = 1; i <= 100; i++){
@@ -12,7 +21,7 @@ for (let i = 1; i <= 100; i++){
         gender: genderList.getRandom(),
         show: showList.getRandom(),
         slug: `username-${i}`,
-        tags: [tagList.getRandom()],
+        tags: tagList.getRandom(4),
         topic: `here is my topic ${i}`,
         username: `Username ${i}`
     }
