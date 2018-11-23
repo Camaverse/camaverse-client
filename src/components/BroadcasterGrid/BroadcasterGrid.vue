@@ -24,7 +24,7 @@
 }
 </style>
 <script>
-import BroadcasterGridItem from '@/components/BroadcasterGrid/broadcaster-grid-item';
+import BroadcasterGridItem from '@/components/BroadcasterGrid/BroadcasterGridItem';
 export default {
     name: 'broadcaster-grid',
     components: {
