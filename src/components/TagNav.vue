@@ -16,8 +16,3 @@ export default {
     }
 }
 </script>
-<style lang="scss">
-.nav-secondary {
-    padding: 0 10px;
-}
-</style>

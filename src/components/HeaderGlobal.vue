@@ -37,4 +37,7 @@ export default {
     background-color: #006992;
     padding: 0 10px;
 }
+.nav-secondary {
+    padding: 0 10px;
+}
 </style>
