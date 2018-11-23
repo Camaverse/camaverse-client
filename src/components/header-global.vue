@@ -21,7 +21,7 @@
 </template>
 <script>
 import searchRoutes from '@/config/searchRoutes'
-import TagNav from "./tag-nav";
+import TagNav from "@/components/TagNav";
 export default {
     name: 'header-global',
     components: {TagNav},
