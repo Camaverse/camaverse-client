@@ -20,7 +20,4 @@ for (let i = 1; i <= 100; i++){
     broadcasters.push(_tmp);
 }
 
-console.log(broadcasters)
-
-
 export default { broadcasters }
