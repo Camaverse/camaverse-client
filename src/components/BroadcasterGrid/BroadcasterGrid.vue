@@ -14,12 +14,16 @@
         background: #ccc;
         height: 100px;
     }
-    .broadcaster-name {
+    .broadcaster-info {
+        display: flex;
         font-size: .8em;
+        justify-content: space-between;
+        .broadcaster-name {
+            font-weight: bold;
+        }
     }
     .broadcaster-topic {
         font-size: .9em;
-        font-weight: bold;
     }
 }
 </style>
