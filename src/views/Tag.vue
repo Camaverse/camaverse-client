@@ -1,8 +1,11 @@
 <template lang="pug">
     .page-tags
         h2 Live {{$route.params.tag}} Web Cams
-        .tag-grid
+        div(v-if="items.length")
             broadcaster-grid(:items="items")
+        .tag-grid(v-else)
+            h3 OOPS! We couldn't find any broadcasters in that category.
+            p Checkout more below.
         hr
 </template>
 <script>
