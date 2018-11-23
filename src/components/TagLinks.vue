@@ -10,9 +10,16 @@ export default {
 </script>
 <style lang="scss">
 .tag-links {
-    font-size: .75em;
+    font-size: .65em;
+    &.navbar-nav {
+        display: block;
+    }
+    .nav-item {
+        display: inline;
+    }
     .nav-link {
-        padding: 0
+        display: inline;
+        padding: 0;
     }
 }
 </style>
