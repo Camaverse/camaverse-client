@@ -13,7 +13,7 @@ import broadcasters from '@/config/broadcasters';
 
 import BroadcasterGrid from '@/components/BroadcasterGrid/BroadcasterGrid'
 import FooterGlobal from '@/components/footer-global'
-import HeaderGlobal from '@/components/header-global'
+import HeaderGlobal from '@/components/HeaderGlobal'
 import Splash from "@/components/Splash";
 export default {
     components: {
