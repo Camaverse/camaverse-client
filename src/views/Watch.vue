@@ -7,11 +7,10 @@
         broadcast
 </template>
 <script>
-import ChatPanel from "../components/chat-panel";
-import Broadcast from "../components/broadcast";
+import Broadcast from "@/components/Broadcast";
 export default {
     name: 'watch',
-    components: {Broadcast, ChatPanel},
+    components: {Broadcast},
     data () {
         return {
             username: 'Username Here',
