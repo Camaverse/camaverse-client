@@ -12,7 +12,7 @@
 import broadcasters from '@/config/broadcasters';
 
 import BroadcasterGrid from '@/components/BroadcasterGrid/BroadcasterGrid'
-import FooterGlobal from '@/components/footer-global'
+import FooterGlobal from '@/components/FooterGlobal'
 import HeaderGlobal from '@/components/HeaderGlobal'
 import Splash from "@/components/Splash";
 export default {
