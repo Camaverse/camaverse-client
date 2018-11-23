@@ -11,10 +11,10 @@
 <script>
 import broadcasters from '@/config/broadcasters';
 
-import BroadcasterGrid from './components/BroadcasterGrid/BroadcasterGrid'
-import FooterGlobal from './components/footer-global'
-import HeaderGlobal from './components/header-global'
-import Splash from "./components/splash";
+import BroadcasterGrid from '@/components/BroadcasterGrid/BroadcasterGrid'
+import FooterGlobal from '@/components/footer-global'
+import HeaderGlobal from '@/components/header-global'
+import Splash from "@/components/Splash";
 export default {
     components: {
         Splash,
