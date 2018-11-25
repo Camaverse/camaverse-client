@@ -4,7 +4,7 @@ import showList from './shows';
 import tagList from './tags';
 
 const rando = () => Math.floor(Math.random() * 19) + 1
-const safeForWork = false;
+const safeForWork = process.env.VUE_APP_SAFE_FOR_WORK || false;
 
 Array.prototype.getRandom = function (amt = null) {
     let _tmpArr = this.join("|").split("|")

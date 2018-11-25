@@ -15,6 +15,8 @@ import './registerServiceWorker'
 // import { faFacebookSquare } from '@fortawesome/fontawesome-free-brands';
 import VueCarousel from 'vue-carousel';
 
+console.log(process.env.VUE_APP_TITLE)
+
 Vue.use(VueCarousel);
 Vue.config.productionTip = false
 
