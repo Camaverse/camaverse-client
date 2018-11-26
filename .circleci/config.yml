@@ -31,7 +31,14 @@ jobs:
     # the current branch
     - run:
         name: Building
-        command: npm run build
+        command: |
+          if [ "${CIRCLE_BRANCH}" == "staging" ]; then
+              npm run build --mode staging
+          elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
+              npm run build --mode development
+          elif [ "${CIRCLE_BRANCH}" == "master" ]; then
+              npm run build
+          fi
     # Cache the dist folder for the deploy job
     - save_cache:
         key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
@@ -60,7 +67,14 @@ jobs:
     # Deploy to the S3 bucket corresponding to the current branch
     - run:
         name: Deploy to S3
-        command: aws --region us-east-1 s3 sync dist s3://camaverse.com --delete
+        command: |
+          if [ "${CIRCLE_BRANCH}" == "develop" ]; then
+              aws --region us-east-1 s3 sync dist s3://develop.camaverse.com --delete
+          elif [ "${CIRCLE_BRANCH}" == "staging" ]; then
+              aws --region us-east-1 s3 sync dist s3://staging.camaverse.com --delete
+          elif [ "${CIRCLE_BRANCH}" == "master" ]; then
+              aws --region us-east-1 s3 sync dist s3://camaverse.com --delete
+          fi
 
 workflows:
   version: 2
