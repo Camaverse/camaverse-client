@@ -12,10 +12,10 @@
         tag-links(:tags="item.tags")
 </template>
 <script>
-import TagLinks from "../TagLinks";
+import TagLinks from '../TagLinks'
 export default {
-    name: 'broadcaster-grid',
-    components: {TagLinks},
-    props: ['item']
+  name: 'broadcaster-grid',
+  components: { TagLinks },
+  props: ['item']
 }
 </script>

@@ -28,12 +28,12 @@
 }
 </style>
 <script>
-import BroadcasterGridItem from '@/components/BroadcasterGrid/BroadcasterGridItem';
+import BroadcasterGridItem from '@/components/BroadcasterGrid/BroadcasterGridItem'
 export default {
-    name: 'broadcaster-grid',
-    components: {
-        BroadcasterGridItem
-    },
-    props: ['items']
+  name: 'broadcaster-grid',
+  components: {
+    BroadcasterGridItem
+  },
+  props: ['items']
 }
 </script>

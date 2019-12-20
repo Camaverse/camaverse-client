@@ -1,3 +1,3 @@
 export default [
-    'Females', 'Males', 'Trans', 'Couples'
+  'Females', 'Males', 'Trans', 'Couples'
 ]

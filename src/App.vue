@@ -9,24 +9,24 @@
     footer-global
 </template>
 <script>
-import broadcasters from '@/config/broadcasters';
+import broadcasters from '@/config/broadcasters'
 
 import BroadcasterGrid from '@/components/BroadcasterGrid/BroadcasterGrid'
 import FooterGlobal from '@/components/FooterGlobal'
 import HeaderGlobal from '@/components/HeaderGlobal'
-import Splash from "@/components/Splash";
+import Splash from '@/components/Splash'
 export default {
-    components: {
-        Splash,
-        BroadcasterGrid,
-        FooterGlobal,
-        HeaderGlobal
-    },
-    data (){
-        return {
-            items: broadcasters .broadcasters
-        }
+  components: {
+    Splash,
+    BroadcasterGrid,
+    FooterGlobal,
+    HeaderGlobal
+  },
+  data () {
+    return {
+      items: broadcasters.broadcasters
     }
+  }
 }
 </script>
 <style lang="scss">

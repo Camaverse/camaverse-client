@@ -21,15 +21,15 @@
 </template>
 <script>
 import searchRoutes from '@/config/searchRoutes'
-import TagNav from "@/components/TagNav";
+import TagNav from '@/components/TagNav'
 export default {
-    name: 'header-global',
-    components: {TagNav},
-    data () {
-        return {
-            searchRoutes: searchRoutes
-        }
+  name: 'header-global',
+  components: { TagNav },
+  data () {
+    return {
+      searchRoutes: searchRoutes
     }
+  }
 }
 </script>
 <style lang="scss">

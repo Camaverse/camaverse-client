@@ -1,1 +1,1 @@
-export default ['asian', 'indian', 'ebony', 'white', 'latina'];
+export default ['asian', 'indian', 'ebony', 'white', 'latina']

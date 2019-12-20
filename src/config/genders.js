@@ -1,3 +1,3 @@
 export default [
-    'f', 'm', 't', 'g'
+  'f', 'm', 't', 'g'
 ]

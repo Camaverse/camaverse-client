@@ -13,12 +13,12 @@ import searchRoutes from './config/searchRoutes'
 Vue.use(Router)
 
 const routes = [
-    { path: '/', name: 'Home', component: Home },
-    { path: '/join', name: 'Join', component: Join },
-    { path: '/login', name: 'Login', component: Login },
-    { path: '/tagged/:tag', name: 'Tag', component: Tag },
-    { path: '/watch/:slug', name: 'Watch', component: Watch },
-    { path: '*', name: 'Not Found', component: NotFound }
+  { path: '/', name: 'Home', component: Home },
+  { path: '/join', name: 'Join', component: Join },
+  { path: '/login', name: 'Login', component: Login },
+  { path: '/tagged/:tag', name: 'Tag', component: Tag },
+  { path: '/watch/:slug', name: 'Watch', component: Watch },
+  { path: '*', name: 'Not Found', component: NotFound }
 ]
 
 for (let rt of searchRoutes) {
@@ -27,7 +27,7 @@ for (let rt of searchRoutes) {
     name: rt,
     path: `/${rt.toLowerCase()}`
   }
-  routes.push(_tmp);
+  routes.push(_tmp)
 }
 
 export default new Router({

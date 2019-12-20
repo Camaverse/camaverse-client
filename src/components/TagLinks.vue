@@ -4,8 +4,8 @@ b-navbar-nav.tag-links
 </template>
 <script>
 export default {
-    name: 'tag-links',
-    props: ['tags']
+  name: 'tag-links',
+  props: ['tags']
 }
 </script>
 <style lang="scss">

@@ -10,47 +10,47 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
-    export default {
-        methods: {
-            setPhrase () {
-                if (!this.isShowing) this.stopTimer()
-                else {
-                    this.currentPhraseIndex = Math.floor(Math.random() * this.phrases.length)
-                }
-            },
-            startTimer () {
-                this.interval = setInterval(this.setPhrase, 5000)
-            },
-            stopTimer () {
-                clearInterval(this.interval)
-            }
-        },
-        created () {
-            this.startTimer()
-        },
-        computed: {
-            ...mapState({
-                isShowing: state => state.app.showSplash
-            }),
-            currentPhrase: function () {
-                return this.phrases[this.currentPhraseIndex]
-            }
-        },
-        data () {
-            return {
-                interval: null,
-                currentPhraseIndex: 0,
-                phrases: [
-                    'Ensuring that these are the droids you are looking for...',
-                    'Obfuscating quantum entaglement',
-                    'TODO: Insert elevator music',
-                    'Chuck Norris doesn’t wear a watch. HE decides what time it is.',
-                    'Deleting all your hidden porn...'
-                ]
-            }
-        }
+import { mapState } from 'vuex'
+export default {
+  methods: {
+    setPhrase () {
+      if (!this.isShowing) this.stopTimer()
+      else {
+        this.currentPhraseIndex = Math.floor(Math.random() * this.phrases.length)
+      }
+    },
+    startTimer () {
+      this.interval = setInterval(this.setPhrase, 5000)
+    },
+    stopTimer () {
+      clearInterval(this.interval)
     }
+  },
+  created () {
+    this.startTimer()
+  },
+  computed: {
+    ...mapState({
+      isShowing: state => state.app.showSplash
+    }),
+    currentPhrase: function () {
+      return this.phrases[this.currentPhraseIndex]
+    }
+  },
+  data () {
+    return {
+      interval: null,
+      currentPhraseIndex: 0,
+      phrases: [
+        'Ensuring that these are the droids you are looking for...',
+        'Obfuscating quantum entaglement',
+        'TODO: Insert elevator music',
+        'Chuck Norris doesn’t wear a watch. HE decides what time it is.',
+        'Deleting all your hidden porn...'
+      ]
+    }
+  }
+}
 </script>
 
 <style>

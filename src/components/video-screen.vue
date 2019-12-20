@@ -4,9 +4,9 @@
 </template>
 
 <script>
-    export default {
-        name: "video-screen"
-    }
+export default {
+  name: 'video-screen'
+}
 </script>
 
 <style>

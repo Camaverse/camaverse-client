@@ -1,1 +1,1 @@
-export default ['away', 'offline', 'private', 'public', 'ticket', 'vip'];
+export default ['away', 'offline', 'private', 'public', 'ticket', 'vip']

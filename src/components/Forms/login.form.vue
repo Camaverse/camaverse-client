@@ -8,7 +8,7 @@
 <script>
 import FormMixin from '@/components/Forms/forms.mixin'
 export default {
-    name: 'login-form',
-    mixins: [FormMixin]
+  name: 'login-form',
+  mixins: [FormMixin]
 }
 </script>

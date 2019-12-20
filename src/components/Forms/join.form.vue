@@ -10,7 +10,7 @@
 <script>
 import FormMixin from '@/components/Forms/forms.mixin'
 export default {
-    name: 'join-form',
-    mixins: [FormMixin]
+  name: 'join-form',
+  mixins: [FormMixin]
 }
 </script>

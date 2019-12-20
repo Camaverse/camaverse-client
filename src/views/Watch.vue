@@ -7,16 +7,16 @@
         broadcast
 </template>
 <script>
-import Broadcast from "@/components/Broadcast";
+import Broadcast from '@/components/Broadcast'
 export default {
-    name: 'watch',
-    components: {Broadcast},
-    data () {
-        return {
-            username: 'Username Here',
-            topic: 'The topic goes here'
-        }
+  name: 'watch',
+  components: { Broadcast },
+  data () {
+    return {
+      username: 'Username Here',
+      topic: 'The topic goes here'
     }
+  }
 }
 </script>
 <style>

@@ -9,21 +9,21 @@
         hr
 </template>
 <script>
-    import broadcasters from '@/config/broadcasters';
-    import BroadcasterGrid from "../components/BroadcasterGrid/BroadcasterGrid";
-    export default {
-        components: {BroadcasterGrid},
-        data () {
-            return {
-                items: broadcasters.broadcasters.filter(b => b.tags.indexOf(this.$route.params.tag) > -1)
-            }
-        },
-        filters: {
-            capitalize: function (value) {
-                if (!value) return ''
-                value = value.toString()
-                return value.charAt(0).toUpperCase() + value.slice(1)
-            }
-        }
+import broadcasters from '@/config/broadcasters'
+import BroadcasterGrid from '../components/BroadcasterGrid/BroadcasterGrid'
+export default {
+  components: { BroadcasterGrid },
+  data () {
+    return {
+      items: broadcasters.broadcasters.filter(b => b.tags.indexOf(this.$route.params.tag) > -1)
     }
+  },
+  filters: {
+    capitalize: function (value) {
+      if (!value) return ''
+      value = value.toString()
+      return value.charAt(0).toUpperCase() + value.slice(1)
+    }
+  }
+}
 </script>

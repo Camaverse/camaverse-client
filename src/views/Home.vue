@@ -7,14 +7,14 @@
 </template>
 <script>
 export default {
-    name: 'home',
-    data () {
-        return {
-            slides: [
-                1, 2, 3
-            ]
-        }
+  name: 'home',
+  data () {
+    return {
+      slides: [
+        1, 2, 3
+      ]
     }
+  }
 }
 </script>
 <style>

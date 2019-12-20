@@ -1,8 +1,8 @@
 export default {
-    data () {
-        return {
-            form: {}
-        }
-    },
-    props: ['onSubmit']
+  data () {
+    return {
+      form: {}
+    }
+  },
+  props: ['onSubmit']
 }

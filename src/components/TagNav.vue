@@ -5,14 +5,14 @@
 </template>
 <script>
 import tags from '@/config/tags'
-import TagLinks from "./TagLinks";
+import TagLinks from './TagLinks'
 export default {
-    name: 'tag-nav',
-    components: {TagLinks},
-    data () {
-        return {
-            tags: tags
-        }
+  name: 'tag-nav',
+  components: { TagLinks },
+  data () {
+    return {
+      tags: tags
     }
+  }
 }
 </script>
