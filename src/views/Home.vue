@@ -1,7 +1,7 @@
 <template lang="pug">
   .home
       carousel(:perPage="1", :autoplay="true", :paginationEnabled="false", :autoplayTimeout="3000")
-          slide(v-for="item in slides" :key="item")
+          slide(v-for="item in slides", :key="item")
             .slide-inner
               div Slide {{item}}
 </template>
