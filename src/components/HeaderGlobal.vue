@@ -14,20 +14,56 @@
                 b-navbar-nav.ml-auto
                     b-nav-item(to='/') Make $$$ Streaming!
             b-navbar-nav.ml-auto
-                b-nav-item.d-none.d-md-block(to='/join') Join For A Free Show!
-                b-nav-item.d-block.d-sm-none(to='/join') Join Free
+                b-nav-item.d-none.d-md-block(@click="openJoin()") Join For A Free Show!
+                b-nav-item.d-block.d-sm-none(@click="openJoin()") Join Free
             b-navbar-nav.ml-auto
-                b-nav-item(to='/login') Login
+                b-nav-item(@click="openLogin()") Login
+        div(v-if="showDrop")
+            .right
+                a(@click="hideDrop()") Close
+            login-form.flex-1.mr-2(:onSubmit="onSubmitLogin", v-if="showLogin")
+            join-form.flex-1(:onSubmit="onSubmitJoin", v-if="showJoin")
 </template>
 <script>
+import JoinForm from '@/components/Forms/join.form'
+import LoginForm from '@/components/Forms/login.form'
 import searchRoutes from '@/config/searchRoutes'
 import TagNav from '@/components/TagNav'
 export default {
   name: 'header-global',
-  components: { TagNav },
+  components: { JoinForm, LoginForm, TagNav },
   data () {
     return {
-      searchRoutes: searchRoutes
+      searchRoutes: searchRoutes,
+      dropContent: null
+    }
+  },
+  computed: {
+    showDrop: function () {
+      return this.dropContent !== null
+    },
+    showJoin: function () {
+      return this.dropContent === 'join'
+    },
+    showLogin: function () {
+      return this.dropContent === 'login'
+    }
+  },
+  methods: {
+    hideDrop () {
+      this.dropContent = null
+    },
+    onSubmitLogin () {
+      console.log('login submitted')
+    },
+    onSubmitJoin () {
+      console.log('join submitted')
+    },
+    openJoin () {
+      this.dropContent = 'join'
+    },
+    openLogin () {
+      this.dropContent = 'login'
     }
   }
 }

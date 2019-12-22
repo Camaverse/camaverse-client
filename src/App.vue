@@ -39,6 +39,9 @@ export default {
     .flex-1 {
         flex: 1;
     }
+    .right {
+        text-align: right;
+    }
     .route {
         padding-bottom: 10px;
     }
