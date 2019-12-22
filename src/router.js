@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import Join from './views/Join.vue'
-import Login from './views/Login.vue'
 import NotFound from './views/404.vue'
 import Search from './views/Search.vue'
 import Tag from '@/views/Tag'
@@ -14,8 +12,6 @@ Vue.use(Router)
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
-  { path: '/join', name: 'Join', component: Join },
-  { path: '/login', name: 'Login', component: Login },
   { path: '/tagged/:tag', name: 'Tag', component: Tag },
   { path: '/watch/:slug', name: 'Watch', component: Watch },
   { path: '*', name: 'Not Found', component: NotFound }
