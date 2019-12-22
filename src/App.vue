@@ -33,6 +33,9 @@ export default {
     main {
         padding: 65px 10px 58px 10px;
     }
+    .hasDrop + main {
+        padding-top: 225px;
+    }
     .flex {
         display: flex;
     }

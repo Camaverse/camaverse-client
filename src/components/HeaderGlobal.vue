@@ -1,5 +1,5 @@
 <template lang="pug">
-    header.header-global
+    header.header-global(:class="{hasDrop}")
         tag-nav
         b-navbar.nav-primary.hasTagList(toggleable='lg', type='dark')
             b-navbar-toggle(target='nav_collapse')
@@ -18,7 +18,7 @@
                 b-nav-item.d-block.d-sm-none(@click="openJoin()") Join Free
             b-navbar-nav.ml-auto
                 b-nav-item(@click="openLogin()") Login
-        div(v-if="showDrop")
+        .headerDrop(v-if="showDrop")
             .right
                 a(@click="hideDrop()") Close
             login-form.flex-1.mr-2(:onSubmit="onSubmitLogin", v-if="showLogin")
@@ -34,11 +34,14 @@ export default {
   components: { JoinForm, LoginForm, TagNav },
   data () {
     return {
-      searchRoutes: searchRoutes,
-      dropContent: null
+      dropContent: null,
+      searchRoutes: searchRoutes
     }
   },
   computed: {
+    hasDrop: function () {
+      return this.dropContent !== null
+    },
     showDrop: function () {
       return this.dropContent !== null
     },
