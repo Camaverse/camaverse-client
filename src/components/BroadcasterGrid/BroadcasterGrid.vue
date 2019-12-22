@@ -1,6 +1,10 @@
 <template lang="pug">
-    section.broadcaster-grid
-        broadcaster-grid-item(v-for="(item, index) in items", :item="item" :key="index")
+    div
+        div(v-if="!items.length")
+            h2 Oops! Nothing to see here!
+            p There seems to be no broadcasters available for this filter
+        section.broadcaster-grid(v-if="items.length")
+            broadcaster-grid-item(v-for="(item, index) in items", :item="item" :key="index")
 </template>
 <style lang="scss">
 .broadcaster-grid {
