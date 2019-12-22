@@ -25,8 +25,8 @@
             join-form.flex-1(:onSubmit="onSubmitJoin", v-if="showJoin")
 </template>
 <script>
-import JoinForm from '@/components/Forms/join.form'
-import LoginForm from '@/components/Forms/login.form'
+import JoinForm from '@/components/Forms/Join.Form'
+import LoginForm from '@/components/Forms/Login.Form'
 import searchRoutes from '@/config/searchRoutes'
 import TagNav from '@/components/TagNav'
 export default {

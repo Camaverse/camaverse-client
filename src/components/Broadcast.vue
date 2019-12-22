@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import ChatPanel from './chat-panel'
-import VideoScreen from './video-screen'
+import ChatPanel from './ChatPanel'
+import VideoScreen from './VideoScreen'
 export default {
   name: 'broadcast',
   components: { VideoScreen, ChatPanel }
