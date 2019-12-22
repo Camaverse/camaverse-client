@@ -31,7 +31,7 @@ export default {
 </script>
 <style lang="scss">
     main {
-        padding: 35px 10px 58px 10px;
+        padding: 65px 10px 58px 10px;
     }
     .flex {
         display: flex;
