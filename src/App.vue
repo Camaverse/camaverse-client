@@ -9,7 +9,7 @@
     footer-global
 </template>
 <script>
-import broadcasters from '@/config/broadcasters'
+import broadcasters from '@/mock/broadcasters'
 
 import BroadcasterGrid from '@/components/BroadcasterGrid/BroadcasterGrid'
 import FooterGlobal from '@/components/FooterGlobal'

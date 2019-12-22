@@ -1,4 +1,4 @@
-const broadcasters = [
+let broadcasters = [
   {
     'gender': 'f',
     'show': 'vip',
@@ -1400,5 +1400,7 @@ const broadcasters = [
     'username': 'Username 100'
   }
 ]
+
+broadcasters = []
 
 export default { broadcasters }

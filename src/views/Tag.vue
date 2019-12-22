@@ -9,7 +9,7 @@
         hr
 </template>
 <script>
-import broadcasters from '@/config/broadcasters'
+import broadcasters from '@/mock/broadcasters'
 import BroadcasterGrid from '../components/BroadcasterGrid/BroadcasterGrid'
 export default {
   components: { BroadcasterGrid },
