@@ -69,6 +69,12 @@ export default {
 }
 </script>
 <style lang="scss">
+.header-global {
+    background: #fff;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+}
 .nav-primary {
     background-color: #006992;
     padding: 0 10px;
