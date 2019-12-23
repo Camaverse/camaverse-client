@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-export const appStore = {
+export const app = {
   namespaced: true,
   state: {
     showSplash: true
