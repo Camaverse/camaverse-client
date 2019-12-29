@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { mapMutations } from 'vuex'
 import VueResource from 'vue-resource'
 import VueLocalStorage from 'vue-localstorage'
 // import VueSocketio from 'vue-socket.io'
@@ -15,8 +16,6 @@ import './registerServiceWorker'
 // import { faFacebookSquare } from '@fortawesome/fontawesome-free-brands';
 import VueCarousel from 'vue-carousel'
 
-console.log(process.env.VUE_APP_TITLE)
-
 Vue.use(VueCarousel)
 Vue.config.productionTip = false
 
@@ -29,5 +28,11 @@ Vue.component('v-icon', Icon)
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  created () {
+    this.hideSplash()
+  },
+  methods: {
+    ...mapMutations('app', { hideSplash: 'HIDE_SPLASH' })
+  }
 }).$mount('#app')

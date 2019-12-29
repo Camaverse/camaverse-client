@@ -6,7 +6,7 @@ export const app = {
     showSplash: true
   },
   mutations: {
-    hideSplash: state => {
+    HIDE_SPLASH: state => {
       Vue.set(state, 'showSplash', false)
     }
   }
