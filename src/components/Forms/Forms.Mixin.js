@@ -1,8 +1,13 @@
 export default {
   data () {
     return {
-      form: {}
+      form: {},
+      submitted: false
     }
   },
-  props: ['onSubmit']
+  methods: {
+    openForm () {
+      this.submitted = false
+    }
+  }
 }
