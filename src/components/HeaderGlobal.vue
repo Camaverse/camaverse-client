@@ -7,6 +7,7 @@
             b-collapse#nav_collapse(is-nav='')
                 b-navbar-nav
                     b-nav-item(v-if='searchRoutes' v-for='rt in searchRoutes', :key='rt' :to='"/" + rt.toLowerCase()') {{rt}}
+                    b-nav-item(:to='"/recent"', v-if="showRecent") Recent
                 b-navbar-nav.ml-auto
                     b-nav-form
                         b-form-input.mr-sm-2(size='sm', type='text', placeholder='Search')
@@ -29,6 +30,7 @@ import JoinForm from '@/components/Forms/Join.Form'
 import LoginForm from '@/components/Forms/Login.Form'
 import searchRoutes from '@/config/searchRoutes'
 import TagNav from '@/components/TagNav'
+import { mapState } from 'vuex'
 export default {
   name: 'header-global',
   components: { JoinForm, LoginForm, TagNav },
@@ -50,7 +52,11 @@ export default {
     },
     showLogin: function () {
       return this.dropContent === 'login'
-    }
+    },
+    ...mapState({
+      isLoggedIn: state => state.user.isLoggedIn,
+      showRecent: state => state.user.recent.rooms.length
+    })
   },
   methods: {
     hideDrop () {

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { mapMutations } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import VueResource from 'vue-resource'
 import VueLocalStorage from 'vue-localstorage'
 // import VueSocketio from 'vue-socket.io'
@@ -31,8 +31,10 @@ new Vue({
   render: h => h(App),
   created () {
     this.hideSplash()
+    this.initUser()
   },
   methods: {
-    ...mapMutations('app', { hideSplash: 'HIDE_SPLASH' })
+    ...mapMutations('app', { hideSplash: 'HIDE_SPLASH' }),
+    ...mapActions('user', { initUser: 'initUser' })
   }
 }).$mount('#app')

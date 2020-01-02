@@ -12,6 +12,7 @@ Vue.use(Router)
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
+  { path: '/:tag(recent)', name: 'Recent', component: Tag },
   { path: '/tagged/:tag', name: 'Tag', component: Tag },
   { path: '/watch/:slug', name: 'Watch', component: Watch },
   { path: '*', name: 'Not Found', component: NotFound }

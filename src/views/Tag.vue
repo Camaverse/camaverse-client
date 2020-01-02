@@ -1,8 +1,8 @@
 <template lang="pug">
     .page-tags
-        h2 Live {{$route.params.tag | capitalize }} Web Cams
-        div(v-if="items.length")
-            broadcaster-grid(:items="items")
+        h2 Live {{tag | capitalize }} Web Cams
+        div(v-if="list.length")
+            broadcaster-grid(:items="list")
         .tag-grid(v-else)
             h3 OOPS! We couldn't find any broadcasters in that category.
             p Checkout more below.
@@ -11,11 +11,29 @@
 <script>
 import broadcasters from '@/mock/broadcasters'
 import BroadcasterGrid from '../components/BroadcasterGrid/BroadcasterGrid'
+import { mapState } from 'vuex'
 export default {
   components: { BroadcasterGrid },
+  created () {
+    this.tag = this.$route.params.tag
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.tag = to.params.tag
+    next()
+  },
+  computed: {
+    list: state => {
+      if (state.tag === 'recent') {
+        return state.recent.rooms
+      } else {
+        return broadcasters.broadcasters.filter(b => b.tags.indexOf(state.tag) > -1)
+      }
+    },
+    ...mapState('user', ['slug', 'recent'])
+  },
   data () {
     return {
-      items: broadcasters.broadcasters.filter(b => b.tags.indexOf(this.$route.params.tag) > -1)
+      tag: ''
     }
   },
   filters: {
