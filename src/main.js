@@ -35,6 +35,6 @@ new Vue({
   },
   methods: {
     ...mapMutations('app', { hideSplash: 'HIDE_SPLASH' }),
-    ...mapActions('user', { initUser: 'initUser' })
+    ...mapActions('user', { initUser: 'init' })
   }
 }).$mount('#app')

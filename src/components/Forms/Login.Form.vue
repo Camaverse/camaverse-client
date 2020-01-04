@@ -13,13 +13,23 @@
 </template>
 <script>
 import FormMixin from '@/components/Forms/Forms.Mixin'
+import { mapActions } from 'vuex'
 export default {
   name: 'login-form',
   mixins: [FormMixin],
+  data () {
+    return {
+      form: {
+        email: 'larry.l.sharpe@gmail.com'
+      }
+    }
+  },
   methods: {
     onSubmit () {
       this.submitted = true
-    }
+      this.login(this.form.email)
+    },
+    ...mapActions('user', { login: 'login' })
   }
 }
 </script>

@@ -1,6 +1,5 @@
 // TODO: switch vue resource calls to fecth
 import Vue from 'vue'
-import router from '../router'
 
 const defaultVals = {
   isLoggedIn: false,
@@ -12,6 +11,16 @@ const defaultVals = {
   username: null
 }
 
+const setLocal = (state) => {
+  const stateStr = JSON.stringify(state)
+  const usrObj = state.roles.indexOf('user') === -1 ? 'guest' : 'user'
+  localStorage.setItem(usrObj, stateStr)
+}
+
+const removeLocalUser = () => {
+  localStorage.removeItem('user')
+}
+
 export const user = {
   namespaced: true,
   state: {
@@ -20,16 +29,14 @@ export const user = {
   mutations: {
     reset: (state) => {
       for (let k in defaultVals) Vue.set(state, k, defaultVals[k])
+      setLocal(state)
     },
     set: (state, obj) => {
-      for (let k in defaultVals) if (obj[k]) Vue.set(state, k, obj[k])
+      for (let k in defaultVals) if (obj[k] !== undefined) Vue.set(state, k, obj[k])
+      setLocal(state)
     }
   },
   actions: {
-    initUser: ({ commit, state }) => {
-      const _usr = JSON.parse(localStorage.getItem('user'))
-      commit('set', _usr)
-    },
     addRecent ({ commit, state, dispatch }, room) {
       const found = state.recent.rooms.findIndex(item => item.slug === room.slug)
       if (found !== -1) {
@@ -40,82 +47,71 @@ export const user = {
       if (state.recent.rooms.length > 10) {
         state.recent.rooms.pop()
       }
-      const userState = JSON.stringify(state)
-      localStorage.setItem('user', userState)
+      setLocal(state)
     },
-    register ({ commit, state, dispatch }, params) {
-      const url = process.env.API_PATH + 'users/signup'
-      return new Promise((resolve, reject) => {
-        this._vm.$http.post(url, params)
-          .then(resolve)
-          .catch(reject)
-      })
-    },
-    login ({ commit, state, dispatch }, params) {
-      const url = process.env.API_PATH + 'users/login'
-      return new Promise((resolve, reject) => {
-        this._vm.$http.post(url, params)
-          .then((user, err) => dispatch('handleUserInit', {err: null, user: user.body.data.user}))
-          .then(resolve)
-          .catch(reject)
-      })
-    },
-    logout ({ commit, state, rootGetters, dispatch }) {
-      return new Promise((resolve, reject) => {
-        const logoutURL = process.env.API_PATH + 'users/logout/' + state.username
-        this._vm.$http.get(logoutURL).then((res) => {
-          if (res.ok) {
-            if (rootGetters.currentRoom) {
-              let _id = rootGetters.currentRoom._id
-              let user = state.slug
-              const socketData = {_id, user}
-              this._vm.$socket.emit('leaveRoom', socketData)
-            }
-            commit('reset')
-            this._vm.$localStorage.remove('user')
-            dispatch('initClient')
-            resolve()
-            router.push('/')
-          } else {
-            reject(new Error('Error Logging Out'))
-          }
+    getGuest ({ commit, dispatch }) {
+      // console.log('GET NEW GUEST FROM SERVER')
+      fetch('http://localhost:3000/users/guest', { method: 'POST' })
+        .then(response => response.json())
+        .then(usr => {
+          usr.isLoggedIn = false
+          usr.roles = ['guest']
+          commit('set', usr)
         })
-      })
+        .catch(err => console.log(err))
     },
-    init ({commit, state, dispatch}) {
-      return new Promise((resolve, reject) => {
-        const vue = this._vm
-        let payload = vue.$localStorage.get('user') || vue.$localStorage.get('guest')
+    init: ({ commit, state, dispatch }) => {
+      let _usr;
 
-        vue.$socket.emit('/users/init', JSON.parse(payload), (err, user) => {
-          dispatch('handleInit', {err, user: user.data})
-            .then(resolve)
-            .catch(reject)
+      // CHECK FOR USER LOCAL
+      _usr = localStorage.getItem('guest')
+
+      // CHECK FOR GUEST LOCAL
+      if (!_usr) {
+        _usr = localStorage.getItem('user')
+      }
+
+      // CALL SERVER FOR NEW GUEST OBJECT
+      if (!_usr) {
+        dispatch('getGuest')
+      } else {
+        _usr = JSON.parse(_usr)
+        commit('set', _usr)
+      }
+    },
+    login: ({ commit, state }, email) => {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({ email })
+      }
+      fetch('http://localhost:3000/login', config)
+        .then(response => response.json())
+        .then(usr => {
+          usr.isLoggedIn = true
+          usr.roles = ['user']
+          commit('set', usr)
         })
-      })
+        .catch(err => console.log(err))
     },
-    handleInit ({commit, state, dispatch}, {err, user}) {
-      return new Promise((resolve, reject) => {
-        /*
-        let userString = JSON.stringify(user)
-        this._vm.$localStorage.remove('user')
-        this._vm.$localStorage.set('user', userString)
-        commit('userIsLoaded')
-        dispatch('setUser')
-          .then(resolve)
-          .catch(reject)
-          */
-      })
-    },
-    setUser ({commit, state}) {
-      return new Promise((resolve, reject) => {
-        let user
-        if (state.userLoaded) user = JSON.parse(this._vm.$localStorage.get('user'))
-        else if (state.guestLoaded) user = JSON.parse(this._vm.$localStorage.get('guest'))
-        commit('set', user)
-        if (user && (user.coins || user.coins === 0)) commit('coins/updateCoins', user.coins, {root: true})
-        resolve()
-      })
+
+    logout ({ commit, dispatch, state }) {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({ slug: state.slug })
+      }
+      fetch('http://localhost:3000/logout', config)
+        .then(response => response.json())
+        .then(usr => {
+          removeLocalUser()
+          dispatch('init')
+        })
+        .catch(err => console.log(err))
     }
   }
 }

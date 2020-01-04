@@ -13,12 +13,14 @@
                         b-form-input.mr-sm-2(size='sm', type='text', placeholder='Search')
                             b-button.my-2.my-sm-0(size='sm', type='submit') Search
                 b-navbar-nav.ml-auto
+                    b-nav-text {{username}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     b-nav-item(to='/') Make $$$ Streaming!
-            b-navbar-nav.ml-auto
+            b-navbar-nav.ml-auto(v-if='!isLoggedIn')
                 b-nav-item.d-none.d-md-block(@click="openJoin()") Join For A Free Show!
                 b-nav-item.d-block.d-sm-none(@click="openJoin()") Join Free
             b-navbar-nav.ml-auto
-                b-nav-item(@click="openLogin()") Login
+                b-nav-item(@click='openLogin()', v-if='!isLoggedIn') Login
+                b-nav-item(@click='logout()', v-if='isLoggedIn') Logout
         .headerDrop(v-if="showDrop")
             .right
                 a(@click="hideDrop()") Close
@@ -30,7 +32,7 @@ import JoinForm from '@/components/Forms/Join.Form'
 import LoginForm from '@/components/Forms/Login.Form'
 import searchRoutes from '@/config/searchRoutes'
 import TagNav from '@/components/TagNav'
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'header-global',
   components: { JoinForm, LoginForm, TagNav },
@@ -54,6 +56,7 @@ export default {
       return this.dropContent === 'login'
     },
     ...mapState({
+      username: state => state.user.username,
       isLoggedIn: state => state.user.isLoggedIn,
       showRecent: state => state.user.recent.rooms.length
     })
@@ -73,7 +76,8 @@ export default {
     },
     openLogin () {
       this.dropContent = 'login'
-    }
+    },
+    ...mapActions('user', { logout: 'logout' })
   }
 }
 </script>
