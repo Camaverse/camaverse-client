@@ -1,5 +1,5 @@
 <template lang="pug">
-  #app.hasHeaderTags
+  #app.hasHeaderTags(:class="pathClass")
     splash
     header-global
     main
@@ -22,6 +22,12 @@ export default {
     FooterGlobal,
     HeaderGlobal
   },
+  computed: {
+    pathClass: function () {
+      const path = this.$route.path
+      return path === '/' ? 'page-home' : 'page-' + path
+    }
+  },
   data () {
     return {
       items: broadcasters.broadcasters
@@ -33,8 +39,13 @@ export default {
     main {
         padding: 65px 10px 58px 10px;
     }
+    .page-home {
+        main {
+            padding: 15px 0 58px 0;
+        }
+    }
     .hasDrop + main {
-        padding-top: 225px;
+        /*padding-top: 225px;*/
     }
     .flex {
         display: flex;

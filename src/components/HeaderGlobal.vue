@@ -95,4 +95,16 @@ export default {
 .nav-secondary {
     padding: 0 10px;
 }
+
+.page-home {
+    .header-global, .nav-primary {
+        background-color: transparent;
+    }
+    .navbar-dark .navbar-nav .nav-link {
+        color: #fff;
+    }
+    .navbar-dark .navbar-text {
+        color: #fff;
+    }
+}
 </style>
