@@ -3,7 +3,7 @@
         tag-nav
         b-navbar.nav-primary.hasTagList(toggleable='lg', type='dark')
             b-navbar-toggle(target='nav_collapse')
-            b-navbar-brand(to='/') Camaverse
+            b-navbar-brand(to='/') {{appTitle}}
             b-collapse#nav_collapse(is-nav='')
                 b-navbar-nav
                     b-nav-item(v-if='searchRoutes' v-for='rt in searchRoutes', :key='rt' :to='"/" + rt.toLowerCase()') {{rt}}
@@ -38,6 +38,7 @@ export default {
   components: { JoinForm, LoginForm, TagNav },
   data () {
     return {
+      appTitle: process.env.VUE_APP_TITLE,
       dropContent: null,
       searchRoutes: searchRoutes
     }
