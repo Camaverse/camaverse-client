@@ -3,11 +3,13 @@
       carousel(:perPage="1", :autoplay="true", :paginationEnabled="false", :autoplayTimeout="3000")
           slide(v-for="item in slides", :key="item")
             .slide-inner
-              img(src="/img/0001.jpg" width="100%")
+              nsfw-img(url="/img/0001.jpg" width="100%")
 </template>
 <script>
+import NsfwImg from '../components/NSFWImg'
 export default {
   name: 'home',
+  components: { NsfwImg },
   data () {
     return {
       slides: [
@@ -22,9 +24,10 @@ export default {
         height: 400px;
     }
     .slide-inner{
-        height: 100%;
-        display: flex;
         align-items: center;
+        background-color: #ccc;
+        display: flex;
+        height: 100%;
         justify-content: center;
     }
 </style>

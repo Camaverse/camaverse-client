@@ -2,7 +2,7 @@
     article.broadcaster-grid-item
         .broadcaster-thumb
             router-link(:to="`/watch/${item.slug}`")
-                img(:src="item.thumb")
+                nsfw-img(:url="item.thumb")
         .broadcaster-info
             .broadcaster-name
                 router-link(:to="`/watch/${item.slug}`") {{item.username}}
@@ -13,9 +13,10 @@
 </template>
 <script>
 import TagLinks from '../TagLinks'
+import NsfwImg from '../NSFWImg'
 export default {
   name: 'broadcaster-grid',
-  components: { TagLinks },
+  components: { NsfwImg, TagLinks },
   props: ['item']
 }
 </script>
