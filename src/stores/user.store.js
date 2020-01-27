@@ -61,14 +61,14 @@ export const user = {
         .catch(err => console.log(err))
     },
     init: ({ commit, state, dispatch }) => {
-      let _usr;
+      let _usr
 
       // CHECK FOR USER LOCAL
-      _usr = localStorage.getItem('guest')
+      _usr = localStorage.getItem('user')
 
       // CHECK FOR GUEST LOCAL
       if (!_usr) {
-        _usr = localStorage.getItem('user')
+        _usr = localStorage.getItem('guest')
       }
 
       // CALL SERVER FOR NEW GUEST OBJECT
