@@ -1,5 +1,5 @@
 <template lang="pug">
-    header.header-global(:class="{hasDrop}")
+    header.header-global(:class="{hasDrop, hasBackground}")
         tag-nav
         b-navbar.nav-primary.hasTagList(toggleable='lg', type='dark')
             b-navbar-toggle(target='nav_collapse')
@@ -40,10 +40,14 @@ export default {
     return {
       appTitle: process.env.VUE_APP_TITLE,
       dropContent: null,
+      scrollPosition: null,
       searchRoutes: searchRoutes
     }
   },
   computed: {
+    hasBackground: function () {
+      return this.scrollPosition >= 360
+    },
     hasDrop: function () {
       return this.dropContent !== null
     },
@@ -62,6 +66,12 @@ export default {
       showRecent: state => state.user.recent.rooms.length
     })
   },
+  destroy () {
+    window.removeEventListener('scroll', this.updateScroll)
+  },
+  mounted () {
+    window.addEventListener('scroll', this.updateScroll)
+  },
   methods: {
     hideDrop () {
       this.dropContent = null
@@ -78,6 +88,9 @@ export default {
     openLogin () {
       this.dropContent = 'login'
     },
+    updateScroll () {
+      this.scrollPosition = window.scrollY
+    },
     ...mapActions('user', { logout: 'logout' })
   }
 }
@@ -88,6 +101,9 @@ export default {
     position: fixed;
     width: 100%;
     z-index: 10;
+    &.hasBackground {
+        background-color: #006992;
+    }
 }
 .nav-primary {
     background-color: #006992;
@@ -98,7 +114,13 @@ export default {
 }
 
 .page-home {
-    .header-global, .nav-primary {
+    .header-global {
+        background-color: transparent;
+        &.hasBackground {
+            background-color: #006992;
+        }
+    }
+    .nav-primary {
         background-color: transparent;
     }
     .navbar-dark .navbar-nav .nav-link {
