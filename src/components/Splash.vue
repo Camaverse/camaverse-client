@@ -5,7 +5,7 @@
                 | Camaverse
                 span.text-brand-alt.brand-small .com
                 .brand-slogan It's Your World To Share
-            span.funny
+            span.funny(:class="{isError}")
                 | {{currentPhrase}}
 </template>
 
@@ -14,7 +14,7 @@ import { mapState } from 'vuex'
 export default {
   methods: {
     setPhrase () {
-      if (!this.isShowing) this.stopTimer()
+      if (!this.isShowing || this.isError) this.stopTimer()
       else {
         this.currentPhraseIndex = Math.floor(Math.random() * this.phrases.length)
       }
@@ -31,16 +31,26 @@ export default {
   },
   computed: {
     ...mapState({
-      isShowing: state => state.app.showSplash
+      errorAttempts: state => state.app.errorAttempts,
+      isShowing: state => state.app.showSplash,
+      isError: state => state.app.isError
     }),
     currentPhrase: function () {
-      return this.phrases[this.currentPhraseIndex]
+      return this.isError ? this.errorMsg : this.phrases[this.currentPhraseIndex]
+    },
+    errorMsg: function () {
+      return this.errorAttempts > 3 ? this.errors[this.errors.length - 1] : this.errors[this.errorAttempts - 1]
     }
   },
   data () {
     return {
       interval: null,
       currentPhraseIndex: 0,
+      errors: [
+        'Our system is being naughty. Refresh your page please.',
+        'OK that didn\'t work, but give us one more refresh.',
+        'Uh Oh! We really screwed something up. Please try back later.'
+      ],
       phrases: [
         'Ensuring that these are the droids you are looking for...',
         'Obfuscating quantum entaglement',
@@ -53,7 +63,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
     .splash {
         background: rgb(39,71,110);
         background: radial-gradient(circle, rgba(39,71,110,1) 35%, rgba(0,29,74,1) 100%);
@@ -74,6 +84,9 @@ export default {
     .funny {
         color: #ccc;
         font-size: .4em;
+        &.isError {
+            color: #ff0000;
+        }
     }
 
     .brand-slogan {

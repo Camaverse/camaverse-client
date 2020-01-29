@@ -32,9 +32,19 @@ new Vue({
   created () {
     this.hideSplash()
     this.initUser()
+      .then(() => {
+        sessionStorage.removeItem('errorAttempts')
+        this.setErrorAttempts(0)
+      })
+      .catch(err => {
+        const errorAttempts = Number(sessionStorage.getItem('errorAttempts')) + 1
+        sessionStorage.setItem('errorAttempts', JSON.stringify(errorAttempts))
+        this.setErrorAttempts(errorAttempts)
+        this.showSplash(err)
+      })
   },
   methods: {
-    ...mapMutations('app', { hideSplash: 'HIDE_SPLASH' }),
+    ...mapMutations('app', { hideSplash: 'HIDE_SPLASH', showSplash: 'SHOW_SPLASH', setErrorAttempts: 'ERROR_ATTEMPTS' }),
     ...mapActions('user', { initUser: 'init' })
   }
 }).$mount('#app')
