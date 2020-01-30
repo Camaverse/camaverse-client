@@ -31,6 +31,7 @@ new Vue({
   render: h => h(App),
   created () {
     this.hideSplash()
+    this.setDeviceID()
     this.initUser()
       .then(() => {
         sessionStorage.removeItem('errorAttempts')
@@ -44,7 +45,7 @@ new Vue({
       })
   },
   methods: {
-    ...mapMutations('app', { hideSplash: 'HIDE_SPLASH', showSplash: 'SHOW_SPLASH', setErrorAttempts: 'ERROR_ATTEMPTS' }),
+    ...mapMutations('app', { hideSplash: 'HIDE_SPLASH', showSplash: 'SHOW_SPLASH', setErrorAttempts: 'ERROR_ATTEMPTS', setDeviceID: 'SET_DEVICE_ID' }),
     ...mapActions('user', { initUser: 'init' })
   }
 }).$mount('#app')
