@@ -1,5 +1,7 @@
 // TODO: switch vue resource calls to fecth
 import Vue from 'vue'
+import UserService from '../services/user.service'
+const userService = new UserService()
 
 const defaultVals = {
   isLoggedIn: false,
@@ -50,34 +52,35 @@ export const user = {
       setLocal(state)
     },
     getGuest ({ commit, dispatch }) {
-      // console.log('GET NEW GUEST FROM SERVER')
-      fetch('http://localhost:3000/users/guest', { method: 'POST' })
-        .then(response => response.json())
+      return userService.guestNew()
         .then(usr => {
           usr.isLoggedIn = false
           usr.roles = ['guest']
           commit('set', usr)
         })
-        .catch(err => console.log(err))
     },
     init: ({ commit, state, dispatch }) => {
-      let _usr
+      return new Promise((resolve, reject) => {
+        // CHECK FOR LOCAL GUEST OR USER
+        let _usr = localStorage.getItem('user') || localStorage.getItem('guest')
 
-      // CHECK FOR USER LOCAL
-      _usr = localStorage.getItem('user')
-
-      // CHECK FOR GUEST LOCAL
-      if (!_usr) {
-        _usr = localStorage.getItem('guest')
-      }
-
-      // CALL SERVER FOR NEW GUEST OBJECT
-      if (!_usr) {
-        dispatch('getGuest')
-      } else {
-        _usr = JSON.parse(_usr)
-        commit('set', _usr)
-      }
+        // CALL SERVER FOR NEW GUEST OBJECT
+        if (!_usr) {
+          dispatch('getGuest')
+            .then(resolve)
+            .catch(reject)
+        } else {
+          commit('set', JSON.parse(_usr))
+          resolve()
+        }
+      })
+    },
+    loginLink: ({ state }, { email, deviceID }) => {
+      return new Promise((resolve, reject) => {
+        userService.loginLink(email, deviceID)
+          .then(resolve)
+          .catch(reject)
+      })
     },
     login: ({ commit, state }, email) => {
       const config = {
@@ -96,19 +99,11 @@ export const user = {
         })
         .catch(err => console.log(err))
     },
-
     logout ({ commit, dispatch, state }) {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify({ slug: state.slug })
-      }
-      fetch('http://localhost:3000/logout', config)
-        .then(response => response.json())
+      removeLocalUser()
+      dispatch('init')
+      userService.logout(state.slug)
         .then(usr => {
-          removeLocalUser()
           dispatch('init')
         })
         .catch(err => console.log(err))
