@@ -1,5 +1,5 @@
 <template lang="pug">
-    .signup
+    .signup.header-form
         b-form(@submit='onSubmit', v-if='!submitted')
             h2 Join
             b-form-group#joinEmailGroup(description="We'll never share your email with anyone else.")

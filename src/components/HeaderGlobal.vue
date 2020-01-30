@@ -21,11 +21,11 @@
             b-navbar-nav.ml-auto
                 b-nav-item(@click='openLogin()', v-if='!isLoggedIn') Login
                 b-nav-item(@click='logout()', v-if='isLoggedIn') Logout
-        .headerDrop(v-if="showDrop")
-            .right
-                a(@click="hideDrop()") Close
-            login-form.flex-1.mr-2(:onSubmit="onSubmitLogin", v-if="showLogin")
-            join-form.flex-1(:onSubmit="onSubmitJoin", v-if="showJoin")
+        .header-drop(v-if="showDrop")
+            .header-drop-inner
+                a.header-drop-close(@click="hideDrop()") X
+                login-form.flex-1.mr-2(:onSubmit="onSubmitLogin", v-if="showLogin")
+                join-form.flex-1(:onSubmit="onSubmitJoin", v-if="showJoin")
 </template>
 <script>
 import JoinForm from '@/components/Forms/Join.Form'
@@ -101,14 +101,37 @@ export default {
     position: fixed;
     width: 100%;
     z-index: 10;
-    &.hasBackground {
-        background-color: #006992;
+}
+.header-drop {
+    display: flex;
+    justify-content: flex-end;
+    .header-drop-inner {
+        width: 40%;
     }
+    .header-drop-close {
+        background: #fff;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: bold;
+        height: 25px;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        width: 25px;
+    }
+}
+.header-form {
+    background: rgba(0, 105, 146, 1);
+    border-radius: 10px;
+    color: #fff;
+    margin-top: 5px;
+    padding: 20px;
 }
 .nav-primary {
     background-color: #006992;
     padding: 0 10px;
 }
+
 .nav-secondary {
     padding: 0 10px;
 }
@@ -116,7 +139,7 @@ export default {
 .page-home {
     .header-global {
         background-color: transparent;
-        &.hasBackground {
+        &.hasBackground .nav-primary {
             background-color: #006992;
         }
     }

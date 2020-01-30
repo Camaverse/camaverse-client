@@ -1,5 +1,5 @@
 <template lang="pug">
-    .login
+    .login.header-form
         b-form(@submit.prevent='onSubmit', v-if='!submitted')
             h2 Login
             b-form-group#loginEmailGroup
