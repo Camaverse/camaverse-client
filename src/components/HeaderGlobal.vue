@@ -121,11 +121,14 @@ export default {
     }
 }
 .header-form {
-    background: rgba(0, 105, 146, 1);
+    background: #006992;
     border-radius: 10px;
     color: #fff;
     margin-top: 5px;
     padding: 20px;
+    &.hasError {
+        background-color: #c41400;
+    }
 }
 .nav-primary {
     background-color: #006992;
