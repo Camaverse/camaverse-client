@@ -1,9 +1,9 @@
 <template lang="pug">
   .home
-      carousel(:perPage="1", :autoplay="true", :paginationEnabled="false", :autoplayTimeout="3000")
+      carousel(:perPage="1", :autoplay="true", :paginationEnabled="false", :autoplayTimeout="3000", :navigation-enabled="true", :loop="true")
           slide(v-for="item in slides", :key="item")
             .slide-inner
-              nsfw-img(url="/img/0001.jpg" width="100%")
+              nsfw-img(:url="`/img/000${item}.jpg`" width="100%")
 </template>
 <script>
 import NsfwImg from '../components/NSFWImg'
