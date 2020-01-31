@@ -97,7 +97,6 @@ export default {
 </script>
 <style lang="scss">
 .header-global {
-    background: #fff;
     position: fixed;
     width: 100%;
     z-index: 10;
@@ -109,7 +108,7 @@ export default {
         width: 40%;
     }
     .header-drop-close {
-        background: #fff;
+        background: #ccc;
         border-radius: 25px;
         cursor: pointer;
         font-weight: bold;
