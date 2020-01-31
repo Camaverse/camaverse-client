@@ -6,7 +6,7 @@ export default class UserService {
     return ServiceBase.post(`${apiUser}guest`)
   }
   join (email, username) {
-    return ServiceBase.post(`${apiUser}join`, {email, username})
+    return ServiceBase.post(`${apiUser}join`, { email, username })
   }
   login (token, deviceID) {
     return ServiceBase.get(`${apiUser}login?token=${token}&deviceID=${deviceID}`)
