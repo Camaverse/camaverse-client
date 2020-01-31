@@ -13,7 +13,7 @@ export default class UserService {
   }
   logout (slug) {
     return new Promise((resolve, reject) => {
-      ServiceBase.post(`${apiUser}logout`, { slug })
+      ServiceBase.get(`${apiUser}logout/${slug}`)
         .then(resolve)
         .catch(reject)
     })

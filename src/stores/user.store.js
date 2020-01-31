@@ -93,9 +93,10 @@ export const user = {
       })
     },
     logout ({ commit, dispatch, state }) {
+      const { slug } = state
       removeLocalUser()
       dispatch('init')
-      userService.logout(state.slug)
+      userService.logout(slug)
         .then(usr => {
           dispatch('init')
         })
