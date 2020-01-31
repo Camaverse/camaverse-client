@@ -3,9 +3,6 @@
         .container
             b-navbar(type='dark')
                 b-navbar-brand(to='/') Camaverse
-                b-navbar-nav
-                    b-nav-item(to='#')
-                        v-icon(name='beer')
             .row.block-links
                 .col-6.col-md-3
                     | Support
@@ -34,18 +31,32 @@
                     a(href="", target="_blank") Anti-Spam
                     a(href="", target="_blank") Refunds
 
-            .footer-legal.text-center
-                p Main Office: Virginia, USA
-                p This site contains sexually explicit material. Enter ONLY if you are at least 18 years old and agree to our cookie rules.
-                p
-                    a.text-light(href="", target="_blank") 18 U.S.C. 2257 Record Keeping Requirements Compliance Statement
-                p &copy; 2019 - {{new Date().getFullYear()}} Camaverse.com. All Rights Reseerved
+        .footer-legal.text-center
+            p Main Office: Virginia, USA
+            p This site contains sexually explicit material. Enter ONLY if you are at least 18 years old and agree to our cookie rules.
+            p
+                a.text-light(href="", target="_blank") 18 U.S.C. 2257 Record Keeping Requirements Compliance Statement
+            p &copy; 2019 - {{new Date().getFullYear()}} Camaverse.com. All Rights Reseerved
 </template>
-<style>
+<style lang="scss">
     .block-links a {
         display: block;
     }
     .footer-global {
-
+        a {
+            color: #3d9264;
+        }
+        .navbar {
+            padding: 10px 0;
+        }
+    }
+    .footer-legal {
+        background-color: #001016;
+        font-size: .8em;
+        margin-top: 20px;
+        padding: 20px 0;
+        p {
+            margin: 0;
+        }
     }
 </style>
