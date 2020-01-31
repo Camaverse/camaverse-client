@@ -15,7 +15,7 @@
                             b-button.my-2.my-sm-0(size='sm', type='submit') Search
                 b-navbar-nav.ml-auto
                     b-nav-text {{username}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    b-nav-item(to='/') Make $$$ Streaming!
+                    b-nav-item(to='/', v-if="!isLoggedIn") Make $$$ Streaming!
             b-navbar-nav.ml-auto(v-if='!isLoggedIn')
                 b-nav-item.d-none.d-md-block(@click="openJoin()") Join For A Free Show!
                 b-nav-item.d-block.d-sm-none(@click="openJoin()") Join Free
