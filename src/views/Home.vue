@@ -1,6 +1,6 @@
 <template lang="pug">
   .home
-      carousel(:perPage="1", :autoplay="true", :paginationEnabled="false", :autoplayTimeout="3000", :navigation-enabled="true", :loop="true")
+      carousel(:perPage="1", :autoplay="true", :paginationEnabled="false", :autoplayTimeout="3000", :loop="true")
           slide(v-for="item in slides", :key="item")
             .slide-inner
               nsfw-img(:url="`/img/000${item}.jpg`" width="100%")
