@@ -82,22 +82,15 @@ export const user = {
           .catch(reject)
       })
     },
-    login: ({ commit, state }, email) => {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify({ email })
-      }
-      fetch('http://localhost:3000/login', config)
-        .then(response => response.json())
-        .then(usr => {
-          usr.isLoggedIn = true
-          usr.roles = ['user']
-          commit('set', usr)
-        })
-        .catch(err => console.log(err))
+    login: ({ commit, state }, { token, deviceID }) => {
+      return new Promise((resolve, reject) => {
+        userService.login(token, deviceID)
+          .then(res => {
+            commit('set', res.user)
+            resolve()
+          })
+          .catch(reject)
+      })
     },
     logout ({ commit, dispatch, state }) {
       removeLocalUser()
