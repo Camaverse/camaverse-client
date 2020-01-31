@@ -33,7 +33,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
     .hasError {
         color: #c41400;
     }
