@@ -5,6 +5,7 @@ import Login from './views/Login.vue'
 import NotFound from './views/404.vue'
 import Search from './views/Search.vue'
 import Tag from '@/views/Tag'
+import Faves from '@/views/Faves'
 import Watch from './views/Watch.vue'
 
 import searchRoutes from './config/searchRoutes'
@@ -14,6 +15,7 @@ Vue.use(Router)
 const routes = [
   { path: '/', name: 'Home', component: Home },
   { path: '/login/:token', name: 'Login', component: Login },
+  { path: '/faves', name: 'Faves', component: Faves },
   { path: '/:tag(recent)', name: 'Recent', component: Tag },
   { path: '/tagged/:tag', name: 'Tag', component: Tag },
   { path: '/watch/:slug', name: 'Watch', component: Watch },

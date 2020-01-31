@@ -7,6 +7,7 @@
             b-collapse#nav_collapse(is-nav='')
                 b-navbar-nav
                     b-nav-item(v-if='searchRoutes' v-for='rt in searchRoutes', :key='rt' :to='"/" + rt.toLowerCase()') {{rt}}
+                    b-nav-item(:to='"/faves"', v-if="isLoggedIn") Faves
                     b-nav-item(:to='"/recent"', v-if="showRecent") Recent
                 b-navbar-nav.ml-auto
                     b-nav-form
