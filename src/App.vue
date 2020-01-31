@@ -36,6 +36,10 @@ export default {
 }
 </script>
 <style lang="scss">
+    #app {
+        display: flex;
+        flex-direction: column;
+    }
     main {
         padding: 65px 10px 58px 10px;
     }
