@@ -14,7 +14,10 @@
                         b-form-input.mr-sm-2(size='sm', type='text', placeholder='Search')
                             b-button.my-2.my-sm-0(size='sm', type='submit') Search
                 b-navbar-nav.ml-auto
-                    b-nav-text {{username}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    b-nav-text.coins-indicator(@click='openCoins()', v-if="isLoggedIn")
+                        span Coins:
+                        b-badge.amount(:class="creditColor") {{coins}}
+                    b-nav-text {{username}}
                     b-nav-item(to='/', v-if="!isLoggedIn") Make $$$ Streaming!
             b-navbar-nav.ml-auto(v-if='!isLoggedIn')
                 b-nav-item.d-none.d-md-block(@click="openJoin()") Join For A Free Show!
@@ -27,16 +30,18 @@
                 a.header-drop-close(@click="hideDrop()") X
                 login-form.flex-1.mr-2(:onSubmit="onSubmitLogin", v-if="showLogin")
                 join-form.flex-1(:onSubmit="onSubmitJoin", v-if="showJoin")
+                credit-form.flex-1(:onSubmit="onSubmitJoin", v-if="showCoins")
 </template>
 <script>
 import JoinForm from '@/components/Forms/Join.Form'
 import LoginForm from '@/components/Forms/Login.Form'
+import CreditForm from '@/components/Forms/Credit.Form'
 import searchRoutes from '@/config/searchRoutes'
 import TagNav from '@/components/TagNav'
 import { mapActions, mapState } from 'vuex'
 export default {
   name: 'header-global',
-  components: { JoinForm, LoginForm, TagNav },
+  components: { CreditForm, JoinForm, LoginForm, TagNav },
   data () {
     return {
       appTitle: process.env.VUE_APP_TITLE,
@@ -46,6 +51,12 @@ export default {
     }
   },
   computed: {
+    creditColor: function () {
+      if (!this.coins) return 'coins-none'
+      if (this.coins < 100) return 'coins-low'
+      if (this.coins < 500) return 'coins-medium'
+      return 'coins-high'
+    },
     hasBackground: function () {
       return this.scrollPosition >= 360
     },
@@ -54,6 +65,9 @@ export default {
     },
     showDrop: function () {
       return this.dropContent !== null
+    },
+    showCoins: function () {
+      return this.dropContent === 'coins'
     },
     showJoin: function () {
       return this.dropContent === 'join'
@@ -64,7 +78,8 @@ export default {
     ...mapState({
       username: state => state.user.username,
       isLoggedIn: state => state.user.isLoggedIn,
-      showRecent: state => state.user.recent.rooms.length
+      showRecent: state => state.user.recent.rooms.length,
+      coins: state => state.user.coins
     })
   },
   destroy () {
@@ -83,6 +98,9 @@ export default {
     onSubmitJoin () {
       console.log('join submitted')
     },
+    openCoins () {
+      this.dropContent = 'coins'
+    },
     openJoin () {
       this.dropContent = 'join'
     },
@@ -97,6 +115,31 @@ export default {
 }
 </script>
 <style lang="scss">
+.coins-indicator {
+    cursor: pointer;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    margin: 0 10px;
+    .amount {
+        margin: 0 5px;
+        padding: 5px;
+        color: #000;
+        font-weight: bold;
+        &.coins-high {
+            background-color: gold;
+        }
+        &.coins-medium {
+            background-color: silver;
+        }
+        &.coins-low {
+            background-color: rosybrown;
+        }
+        &.coins-none {
+            background-color: red;
+        }
+    }
+}
 .header-global {
     position: fixed;
     width: 100%;

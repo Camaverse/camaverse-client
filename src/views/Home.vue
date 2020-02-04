@@ -1,6 +1,6 @@
 <template lang="pug">
   .home
-      carousel(:perPage="1", :autoplay="true", :paginationEnabled="false", :autoplayTimeout="3000", :loop="true")
+      carousel.home-carousel(:perPage="1", :autoplay="true", :paginationEnabled="false", :autoplayTimeout="3000", :loop="true")
           slide(v-for="item in slides", :key="item")
             .slide-inner
               nsfw-img(:url="`/img/000${item}.jpg`" width="100%")
@@ -19,15 +19,17 @@ export default {
   }
 }
 </script>
-<style>
-    .VueCarousel-slide {
-        height: 400px;
-    }
-    .slide-inner{
-        align-items: center;
-        background-color: #ccc;
-        display: flex;
-        height: 100%;
-        justify-content: center;
+<style lang="scss">
+    .home-carousel {
+        .VueCarousel-slide {
+            height: 400px;
+        }
+        .slide-inner{
+            align-items: center;
+            background-color: #ccc;
+            display: flex;
+            height: 100%;
+            justify-content: center;
+        }
     }
 </style>

@@ -9,6 +9,7 @@ const defaultVals = {
     rooms: []
   },
   roles: ['guest'],
+  coins: 0,
   slug: null,
   username: null
 }
