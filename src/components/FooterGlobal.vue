@@ -1,5 +1,10 @@
 <template lang="pug">
     footer.footer-global.bg-dark.text-light
+        .footer-ad-container
+            .footer-ad-wrapper
+                span Ad
+                .footer-ad
+                a(href="#") Remove Ads
         .container
             b-navbar(type='dark')
                 b-navbar-brand(to='/') Camaverse
@@ -66,12 +71,27 @@ export default {
     .block-links a {
         display: block;
     }
+    .footer-ad {
+        background-color: #ccc;
+        cursor: pointer;
+        height: 125px;
+        margin: auto;
+        width: 700px;
+    }
+    .footer-ad-container {
+        background-color: #eeeeee;
+        padding: 20px 0;
+    }
+    .footer-ad-wrapper {
+        margin: auto;
+        width: 700px;
+    }
     .footer-global {
         a {
             color: #3d9264;
         }
         .navbar {
-            padding: 10px 0;
+            padding: 0 10px 0 0;
         }
     }
     .footer-legal {
