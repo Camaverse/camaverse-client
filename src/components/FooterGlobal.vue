@@ -37,7 +37,31 @@
             p
                 a.text-light(href="", target="_blank") 18 U.S.C. 2257 Record Keeping Requirements Compliance Statement
             p &copy; 2019 - {{new Date().getFullYear()}} Camaverse.com. All Rights Reseerved
+        cookie-law(@accept="cookieAccepted()")
+            div(slot="message")
+                div
+                | This website uses cookies, local storage and session storage to enhance your experience and collect
+                | statistical data.
+                br
+                | For more information please click on the following our cookie policy.
+                br
+                | By continuing to browse on this website, you accept the use of cookies for the above purposes.
 </template>
+<script>
+import CookieLaw from 'vue-cookie-law'
+import AppInit from '../mixins/appInit.mixin'
+export default {
+  components: {
+    CookieLaw
+  },
+  methods: {
+    cookieAccepted: function () {
+      this.storageDataInit()
+    }
+  },
+  mixins: [AppInit]
+}
+</script>
 <style lang="scss">
     .block-links a {
         display: block;

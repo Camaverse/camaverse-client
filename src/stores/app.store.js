@@ -7,7 +7,8 @@ export const app = {
     errorAttempts: 0,
     isError: false,
     deviceID: null,
-    showSplash: true
+    showSplash: true,
+    cookiePolicyAccepted: false
   },
   mutations: {
     ERROR_ATTEMPTS: (state, value) => {
@@ -15,6 +16,10 @@ export const app = {
     },
     HIDE_SPLASH: state => {
       Vue.set(state, 'showSplash', false)
+    },
+    CHECK_COOKIE_ACCEPTED: state => {
+      const hasAccepted = JSON.parse(localStorage.getItem('cookie:accepted')) || false
+      Vue.set(state, 'cookiePolicyAccepted', hasAccepted)
     },
     SET_DEVICE_ID: state => {
       let deviceID = localStorage.getItem('deviceID')
