@@ -3,14 +3,23 @@
         div(v-if="!items.length")
             h2 Oops! Nothing to see here!
             p There seems to be no broadcasters available for this filter
-        section.broadcaster-grid(v-if="items.length")
-            broadcaster-grid-item(v-for="(item, index) in items", :item="item" :key="index")
+        div.grid-wrapper
+            section.broadcaster-grid(v-if="items.length")
+                broadcaster-grid-item(v-for="(item, index) in items", :item="item" :key="index")
+            ad-space(orientation="vertical")
 </template>
 <style lang="scss">
+.grid-wrapper {
+    display: flex;
+}
 .broadcaster-grid {
     display: grid;
+    flex: 1;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     grid-gap: .2rem;
+}
+.broadcaster-grid-wrapper {
+    display: flex;
 }
 .broadcaster-grid-item {
     overflow: hidden;
@@ -30,12 +39,15 @@
         font-size: .9em;
     }
 }
+
 </style>
 <script>
 import BroadcasterGridItem from '@/components/BroadcasterGrid/BroadcasterGridItem'
+import AdSpace from '@/components/AdSpace'
 export default {
   name: 'broadcaster-grid',
   components: {
+    AdSpace,
     BroadcasterGridItem
   },
   props: ['items']

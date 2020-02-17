@@ -1,10 +1,6 @@
 <template lang="pug">
     footer.footer-global.bg-dark.text-light
-        .footer-ad-container
-            .footer-ad-wrapper
-                span Ad
-                .footer-ad
-                a(href="#") Remove Ads
+        ad-space
         .container
             b-navbar(type='dark')
                 b-navbar-brand(to='/') Camaverse
@@ -53,10 +49,12 @@
                 | By continuing to browse on this website, you accept the use of cookies for the above purposes.
 </template>
 <script>
-import CookieLaw from 'vue-cookie-law'
+import AdSpace from '@/components/AdSpace'
 import AppInit from '../mixins/appInit.mixin'
+import CookieLaw from 'vue-cookie-law'
 export default {
   components: {
+    AdSpace,
     CookieLaw
   },
   methods: {
@@ -70,21 +68,6 @@ export default {
 <style lang="scss">
     .block-links a {
         display: block;
-    }
-    .footer-ad {
-        background-color: #ccc;
-        cursor: pointer;
-        height: 125px;
-        margin: auto;
-        width: 700px;
-    }
-    .footer-ad-container {
-        background-color: #eeeeee;
-        padding: 20px 0;
-    }
-    .footer-ad-wrapper {
-        margin: auto;
-        width: 700px;
     }
     .footer-global {
         a {
