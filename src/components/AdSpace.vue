@@ -1,6 +1,6 @@
 <template lang="pug">
     div
-        .ad-container(:class="orientClass")
+        .ad-container(:class="orientClass", v-if="!removeAds")
             .ad-wrapper
                 span Ad
                 .ad-space
@@ -27,9 +27,8 @@
     }
     .ad-wrapper {
         margin: auto;
-        width: 700px;
+        width: 900px;
     }
-
     .vertical {
         .ad-wrapper {
             height: 100%;
@@ -43,13 +42,18 @@
     }
 </style>
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'ad-space',
   props: ['orientation'],
   computed: {
     orientClass: function () {
       return this.orientation === 'vertical' ? 'vertical' : 'horizontal'
-    }
+    },
+    ...mapState({
+      removeAds: state => state.app.removeAds
+    })
   }
 }
 </script>
