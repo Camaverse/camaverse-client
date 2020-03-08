@@ -8,6 +8,7 @@ export const app = {
     isError: false,
     deviceID: null,
     showSplash: true,
+    removeAds: false,
     cookiePolicyAccepted: false
   },
   mutations: {
