@@ -1,12 +1,44 @@
 <template lang="pug">
     .chat-container
+        .chat-advisories
+            carousel( :perPage="1", :autoplay="false", :paginationEnabled="false")
+                slide.slide
+                    .slide-inner
+                        h1 Since this is your first time chatting here.
+                        p We are gonna lay down the law.
+                slide.slide
+                    .slide-inner
+                        h1 #1
+                        h2 Don't Be Demanding
+                        p There is a time and place for it. But free chat ain't it.
+                slide.slide
+                    .slide-inner
+                        h1 #2
+                        h2 Don't Be Disruptive
+                        p No spamming the chat room.
+                            br
+                            | No Arguing.
+                            br
+                            | No Heckling The Broadcasters.
+                            br
+                            | Don't Be Rude
+                slide.slide
+                    .slide-inner
+                        h1 #3
+                        h2 Don't Give Out Personal Info
+                        p We can't protect your privacy if you're giving out your info.
+                slide.slide
+                    .slide-inner
+                        h1 That's It!
+                        h2 Ok You're Ready to Chat.
+                        b-btn.btn-primary Start Chatting
         beautiful-chat#chat(
         :participants="participants",
         :titleImageUrl="titleImageUrl",
         :onMessageWasSent="onMessageWasSent",
         :messageList="messageList",
         :newMessagesCount="newMessagesCount",
-        :isOpen="isChatOpen",
+        :isOpen="false",
         :close="blank",
         :open="blank",
         :showEmoji="true",
@@ -26,8 +58,8 @@ export default {
     return {
       participants: [
         {
-          id: 'user1',
-          name: 'Matteo'
+          id: 'system',
+          name: 'Camaverse System'
         },
         {
           id: 'user2',
@@ -73,6 +105,7 @@ export default {
     }
   },
   methods: {
+    openChat () {},
     sendMessage (text) {
       if (text.length > 0) {
         this.newMessagesCount = this.isChatOpen ? this.newMessagesCount : this.newMessagesCount + 1
@@ -108,6 +141,31 @@ export default {
     }
     .sc-message-list {
         flex: 1
+    }
+}
+.chat-container {
+    position: relative;
+    .chat-advisories {
+        background-color: #005f85;
+        color: #fff;
+        height: 500px;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 2;
+        .slide {
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+        .slide-inner {
+            width: 100%;
+        }
+        .VueCarousel, .VueCarousel-wrapper, .VueCarousel-inner {
+            height: 100% !important;
+        }
     }
 }
 
