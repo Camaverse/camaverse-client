@@ -11,6 +11,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import errors from '../config/error-phrases'
 import phrases from '../config/splash-phrases'
 export default {
   methods: {
@@ -47,11 +48,7 @@ export default {
     return {
       interval: null,
       currentPhraseIndex: 0,
-      errors: [
-        'Our system is being naughty. Refresh your page please.',
-        'OK that didn\'t work, but give us one more refresh.',
-        'Uh Oh! We really screwed something up. Please try back later.'
-      ],
+      errors,
       phrases
     }
   }
