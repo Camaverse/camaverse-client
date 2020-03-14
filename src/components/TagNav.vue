@@ -1,7 +1,6 @@
 <template lang="pug">
     b-navbar.nav-secondary.nav-tags-header.bg-dark(toggleable='md', type='dark')
-        b-collapse#nav_collapse(is-nav='')
-            tag-links(:tags="tags")
+        tag-links(:tags="tags")
 </template>
 <script>
 import tags from '@/config/tags'
