@@ -11,6 +11,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import phrases from '../config/splash-phrases'
 export default {
   methods: {
     setPhrase () {
@@ -51,13 +52,7 @@ export default {
         'OK that didn\'t work, but give us one more refresh.',
         'Uh Oh! We really screwed something up. Please try back later.'
       ],
-      phrases: [
-        'Ensuring that these are the droids you are looking for...',
-        'Obfuscating quantum entaglement',
-        'TODO: Insert elevator music',
-        'Chuck Norris doesn’t wear a watch. HE decides what time it is.',
-        'Deleting all your hidden porn...'
-      ]
+      phrases
     }
   }
 }
