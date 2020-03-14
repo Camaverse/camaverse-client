@@ -44,13 +44,19 @@ export default {
   components: { CreditForm, JoinForm, LoginForm, TagNav },
   data () {
     return {
-      appTitle: process.env.VUE_APP_TITLE,
       dropContent: null,
       scrollPosition: null,
       searchRoutes: searchRoutes
     }
   },
   computed: {
+    appTitle: function () {
+        if (process.env.VUE_APP_NSFW === "false") {
+            return process.env.VUE_APP_TITLE_SFW;
+        } else {
+            return process.env.VUE_APP_TITLE;
+        }
+    },
     creditColor: function () {
       if (!this.coins) return 'coins-none'
       if (this.coins < 100) return 'coins-low'
