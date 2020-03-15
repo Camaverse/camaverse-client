@@ -6,12 +6,19 @@
         div.grid-wrapper
             section.broadcaster-grid(v-if="items.length")
                 broadcaster-grid-item(v-for="(item, index) in items", :item="item" :key="index")
-            ad-space(orientation="vertical")
+            ad-space.d-none.d-lg-block(orientation="vertical")
 </template>
 <style lang="scss">
 .grid-wrapper {
     display: flex;
 }
+
+@media (max-width: 599px) {
+    .grid-wrapper {
+        padding: 0 10px;
+    }
+}
+
 .broadcaster-grid {
     display: grid;
     flex: 1;

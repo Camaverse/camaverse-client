@@ -28,6 +28,7 @@
     .ad-wrapper {
         margin: auto;
         width: 900px;
+        max-width: 80%;
     }
     .vertical {
         .ad-wrapper {

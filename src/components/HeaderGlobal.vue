@@ -2,7 +2,6 @@
     header.header-global(:class="{hasDrop, hasBackground}")
         tag-nav
         b-navbar.nav-primary.hasTagList(toggleable='lg', type='dark')
-            b-navbar-toggle(target='nav_collapse')
             b-navbar-brand(to='/') {{appTitle}}
             b-collapse#nav_collapse(is-nav='')
                 b-navbar-nav
@@ -20,9 +19,8 @@
                     b-nav-text {{username}}
                     b-nav-item(to='/', v-if="!isLoggedIn") Make $$$ Streaming!
             b-navbar-nav.ml-auto(v-if='!isLoggedIn')
-                b-nav-item.d-none.d-md-block(@click="openJoin()") Join For A Free Show!
-                b-nav-item.d-block.d-sm-none(@click="openJoin()") Join Free
-            b-navbar-nav.ml-auto
+                b-nav-item(@click="openJoin()") Join For A Free Show!
+            b-navbar-nav.ml-2
                 b-nav-item(@click='openLogin()', v-if='!isLoggedIn') Login
                 b-nav-item(@click='logout()', v-if='isLoggedIn') Logout
         .header-drop(v-if="showDrop")
@@ -114,6 +112,7 @@ export default {
       this.dropContent = 'login'
     },
     updateScroll () {
+        console.log(window.scrollY)
       this.scrollPosition = window.scrollY
     },
     ...mapActions('user', { logout: 'logout' })
@@ -150,6 +149,7 @@ export default {
     position: fixed;
     width: 100%;
     z-index: 10;
+    -webkit-backface-visibility: hidden;
 }
 .header-drop {
     display: flex;
