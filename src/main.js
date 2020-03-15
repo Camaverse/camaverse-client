@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { mapActions, mapMutations, mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import VueResource from 'vue-resource'
 import VueLocalStorage from 'vue-localstorage'
 // import VueSocketio from 'vue-socket.io'
@@ -9,7 +9,7 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import AppInit from './mixins/appInit.mixin';
+import AppInit from './mixins/appInit.mixin'
 
 import App from './App.vue'
 import router from './router'

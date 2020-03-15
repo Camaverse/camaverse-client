@@ -49,11 +49,11 @@ export default {
   },
   computed: {
     appTitle: function () {
-        if (process.env.VUE_APP_NSFW === "false") {
-            return process.env.VUE_APP_TITLE_SFW;
-        } else {
-            return process.env.VUE_APP_TITLE;
-        }
+      if (process.env.VUE_APP_NSFW === 'false') {
+        return process.env.VUE_APP_TITLE_SFW
+      } else {
+        return process.env.VUE_APP_TITLE
+      }
     },
     creditColor: function () {
       if (!this.coins) return 'coins-none'
@@ -112,7 +112,7 @@ export default {
       this.dropContent = 'login'
     },
     updateScroll () {
-        console.log(window.scrollY)
+      console.log(window.scrollY)
       this.scrollPosition = window.scrollY
     },
     ...mapActions('user', { logout: 'logout' })
