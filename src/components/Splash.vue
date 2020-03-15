@@ -69,13 +69,13 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 75px;
+        font-size: 10vw;
         text-align: center;
     }
 
     .funny {
         color: #ccc;
-        font-size: .4em;
+        font-size: 3vw;
         &.isError {
             color: #ff0000;
         }
