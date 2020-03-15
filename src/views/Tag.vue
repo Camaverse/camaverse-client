@@ -1,7 +1,7 @@
 <template lang="pug">
     .page-tags
-        h2 Live {{tag | capitalize }} Web Cams
-        div(v-if="list.length")
+        h2.page-title Live {{tag | capitalize }} Web Cams
+        .content-main(v-if="list.length")
             broadcaster-grid(:items="list")
         .tag-grid(v-else)
             h3 OOPS! We couldn't find any broadcasters in that category.
@@ -45,3 +45,14 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+    .page-title {
+        background: #fff;
+        position: fixed;
+        top: 55px;
+        width: 100%;
+    }
+    .content-main {
+        padding-top: 50px;
+    }
+</style>

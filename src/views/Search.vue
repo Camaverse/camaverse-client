@@ -1,4 +1,5 @@
 <template lang="pug">
-  .search
-    h1 {{$route.name}}
+  .page-search
+    h1.page-title {{$route.name}}
+    .content-main
 </template>

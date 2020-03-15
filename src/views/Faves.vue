@@ -1,7 +1,7 @@
 <template lang="pug">
-    .page-tags
-        h2 Your Favorite Cams
-        div(v-if="list.length")
+    .page-faves
+        h2.page-title Your Favorite Cams
+        .content-main(v-if="list.length")
             broadcaster-grid(:items="list")
         .tag-grid(v-else)
             h3 OOPS! You don't have any favorites!
