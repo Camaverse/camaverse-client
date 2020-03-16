@@ -3,34 +3,13 @@
         ad-space
         .container
             b-navbar(type='dark')
-                b-navbar-brand(to='/') Camaverse
+                b-navbar-brand(to='/') {{appTitle}}
             .row.block-links
-                .col-6.col-md-3
-                    | Support
-                    a(href="", target="_blank") Billing
-                    a(href="", target="_blank") Contact Us
-                    a(href="", target="_blank") Feedback
-                .col-6.col-md-3
-                    | Partners
-                    a(href="", target="_blank") Make Money
-                    a(href="", target="_blank") Streamers
-                    a(href="", target="_blank") Studios
-                    a(href="", target="_blank") Affiliates
-                    a(href="", target="_blank") Buy Traffic
-                    a(href="", target="_blank") Contributors
-                .col-md-3.col-sm-6
-                    | Business
-                    a(href="", target="_blank") Events
-                    a(href="", target="_blank") Media
-                    a(href="", target="_blank") Jobs
-                .col-md-3.col-sm-6
-                    | Legal
-                    a(href="", target="_blank") Law Enforcement
-                    a(href="", target="_blank") Terms & Conditions
-                    a(href="", target="_blank") Privacy Policy
-                    a(href="", target="_blank") Cookies
-                    a(href="", target="_blank") Anti-Spam
-                    a(href="", target="_blank") Refunds
+                .col-6.col-md-3(v-for="(group, title) in footerLinks", :key="title")
+                    | {{title}}
+                    span(v-for="(link, index) in group", :key="index")
+                        b-link(:href="link.url", target="_blank" v-if="link.url") {{link.title}}
+                        b-link(:to="link.path", v-if="link.path") {{link.title}}
 
         .footer-legal.text-center
             p Main Office: Virginia, USA
@@ -56,6 +35,47 @@ export default {
   components: {
     AdSpace,
     CookieLaw
+  },
+  computed: {
+        appTitle: function () {
+            if (process.env.VUE_APP_NSFW === 'false') {
+                return process.env.VUE_APP_TITLE_SFW
+            } else {
+                return process.env.VUE_APP_TITLE
+            }
+        },
+    },
+  data () {
+      return {
+          footerLinks: {
+              Support: [
+                  {title: "Billing", url: `${process.env.VUE_APP_SITE_SUPPORT}billing`},
+                  {title: "Contact Us", path: "/contact-us"},
+                  {title: "Feedback", url: `${process.env.VUE_APP_SITE_SUPPORT}feedback`}
+              ],
+              Partners:[
+                  {title: "Make Money", url: `${process.env.VUE_APP_SITE_BROADCASTERS}`},
+                  {title: "Streamers", url: `${process.env.VUE_APP_SITE_BROADCASTERS}`},
+                  {title: "Studios", url: `${process.env.VUE_APP_SITE_PARTNERS}studios`},
+                  {title: "Affiliates", url: `${process.env.VUE_APP_SITE_PARTNERS}affiliates`},
+                  {title: "Buy Traffic", url: `${process.env.VUE_APP_SITE_PARTNERS}traffic`},
+                  {title: "Contributors", url: `${process.env.VUE_APP_SITE_PARTNERS}contributors`}
+              ],
+              Business: [
+                  {title: "Events", url: `${process.env.VUE_APP_SITE_BUSINESS}events`},
+                  {title: "Media", url: `${process.env.VUE_APP_SITE_BUSINESS}media`},
+                  {title: "Jobs", url: `${process.env.VUE_APP_SITE_BUSINESS}jobs`}
+              ],
+              Legal: [
+                  {title: "Law Enforcement", url: `${process.env.VUE_APP_SITE_LEGAL}law-enforcement`},
+                  {title: "Terms & Conditions", url: `${process.env.VUE_APP_SITE_LEGAL}terms`},
+                  {title: "Privacy Policy", url: `${process.env.VUE_APP_SITE_LEGAL}privacy`},
+                  {title: "Cookies", url: `${process.env.VUE_APP_SITE_LEGAL}cookies`},
+                  {title: "Anti-Spam", url: `${process.env.VUE_APP_SITE_LEGAL}anti-spam`},
+                  {title: "Refunds", url: `${process.env.VUE_APP_SITE_LEGAL}refunds`}
+              ]
+          }
+      }
   },
   methods: {
     cookieAccepted: function () {
