@@ -1,5 +1,5 @@
 <template lang="pug">
-    .signup.header-form(:class="{hasError}")
+    .signup.header-form(:class="{hasError, submitted}")
         b-form(@submit='onSubmit', v-if='!submitted')
             h2 Join
             b-form-group#joinEmailGroup(description="We'll never share your email with anyone else.")
@@ -12,11 +12,14 @@
                 h2 There was an error.
                 p
                     a(href="#", @click.prevent="openForm()") Please try again.
-            div(v-if='!hasError')
+            div(v-else-if='hasSuccess')
                 h2 Please Check Your Inbox.
                 p A login link has been sent to the email.
                 p
                     a(href="#", @click.prevent="openForm()") Resend
+            div(v-else)
+                h2 Signing You Up
+                p Hitting the backend!
 </template>
 <script>
 import FormMixin from '@/components/Forms/Forms.Mixin'
@@ -42,7 +45,10 @@ export default {
       this.submitted = true
       const { form: { email, username }, deviceID } = this
       this.join({ email, username })
-        .then(() => this.loginLink({ email, deviceID }))
+        .then(() => {
+            this.hasSuccess = true
+            return this.loginLink({ email, deviceID })
+        })
         .catch(() => {
           this.hasError = true
         })

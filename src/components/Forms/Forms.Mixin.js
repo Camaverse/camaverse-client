@@ -4,6 +4,7 @@ export default {
       form: {},
       errors: [],
       hasError: false,
+      hasSuccess: false,
       submitted: false
     }
   },
@@ -11,6 +12,7 @@ export default {
     openForm () {
       this.submitted = false
       this.hasError = false
+      this.hasSuccess = false
     }
   }
 }

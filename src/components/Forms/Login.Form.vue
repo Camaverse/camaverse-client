@@ -1,5 +1,5 @@
 <template lang="pug">
-    .login.header-form(:class="{hasError}")
+    .login.header-form(:class="{hasError, submitted}")
         b-form(@submit.prevent='onSubmit', v-if='!submitted')
             h2 Login
             b-form-group#loginEmailGroup
@@ -10,11 +10,14 @@
                 h2 There was an error.
                 p
                     a(href="#", @click.prevent="openForm()") Please try again.
-            div(v-if='!hasError')
+            div(v-else-if='hasSuccess')
                 h2 Please Check Your Inbox.
                 p A login link has been sent to the email.
                 p
                     a(href="#", @click.prevent="openForm()") Resend
+            div(v-else)
+                h2 Logging In
+                p Hitting the backend!
 </template>
 <script>
 import FormMixin from '@/components/Forms/Forms.Mixin'
@@ -39,6 +42,9 @@ export default {
       this.submitted = true
       const { form: { email }, deviceID } = this
       this.loginLink({ email, deviceID })
+        .then( () => {
+          this.hasSuccess = true;
+        })
         .catch(() => {
           this.hasError = true
         })

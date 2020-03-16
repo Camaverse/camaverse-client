@@ -181,6 +181,9 @@ export default {
     color: #fff;
     margin-top: 5px;
     padding: 20px;
+    &.submitted {
+        background-color: #c47800;
+    }
     &.hasError {
         background-color: #c41400;
     }
