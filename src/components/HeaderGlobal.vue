@@ -157,6 +157,12 @@ export default {
     .header-drop-inner {
         width: 40%;
     }
+
+    @media (max-width: 599px) {
+        .header-drop-inner {
+            width: 80%;
+        }
+    }
     .header-drop-close {
         background: #ccc;
         border-radius: 25px;
