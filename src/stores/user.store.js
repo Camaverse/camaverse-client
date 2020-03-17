@@ -83,9 +83,9 @@ export const user = {
           .catch(reject)
       })
     },
-    join: ({ commit, state }, { email, username }) => {
+    join: ({ commit, state }, { email, username, deviceID }) => {
       return new Promise((resolve, reject) => {
-        userService.join(email, username)
+        userService.join(email, username, deviceID)
           .then(resolve)
           .catch(reject)
       })

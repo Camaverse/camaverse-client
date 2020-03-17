@@ -44,7 +44,7 @@ export default {
     onSubmit () {
       this.submitted = true
       const { form: { email, username }, deviceID } = this
-      this.join({ email, username })
+      this.join({ email, username, deviceID })
         .then(() => {
             this.hasSuccess = true
             return this.loginLink({ email, deviceID })

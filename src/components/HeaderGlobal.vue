@@ -17,7 +17,7 @@
                         span Coins:
                         b-badge.amount(:class="creditColor") {{coins}}
                     b-nav-text {{username}}
-                    b-nav-item(to='/', v-if="!isLoggedIn") Make $$$ Streaming!
+                    b-nav-item(:href='broadcastersURL', v-if="!isLoggedIn") Make $$$ Streaming!
             b-navbar-nav.ml-auto(v-if='!isLoggedIn')
                 b-nav-item(@click="openJoin()") Join For A Free Show!
             b-navbar-nav.ml-2
@@ -42,6 +42,7 @@ export default {
   components: { CreditForm, JoinForm, LoginForm, TagNav },
   data () {
     return {
+      broadcastersURL: process.env.VUE_APP_SITE_BROADCASTERS,
       dropContent: null,
       scrollPosition: null,
       searchRoutes: searchRoutes
