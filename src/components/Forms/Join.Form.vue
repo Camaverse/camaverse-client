@@ -47,13 +47,12 @@ export default {
       this.join({ email, username, deviceID })
         .then(() => {
             this.hasSuccess = true
-            return this.loginLink({ email, deviceID })
         })
         .catch(() => {
           this.hasError = true
         })
     },
-    ...mapActions('user', { join: 'join', loginLink: 'loginLink' })
+    ...mapActions('user', { join: 'join'})
   }
 }
 </script>
